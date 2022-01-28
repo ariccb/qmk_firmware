@@ -43,9 +43,9 @@
 //#define MIDI_TONE_KEYCODE_OCTAVES 2
 
 #define TAPPING_TERM 150
-#define PERMISSIVE_HOLD
+#define IGNORE_MOD_TAP_INTERRUPT
 // #define IGNORE_MOD_TAP_INTERRUPT
-// #define HOLD_ON_OTHER_KEY_PRESS 
+// #define HOLD_ON_OTHER_KEY_PRESS
 
 #define COMBO_TERM 20
 
@@ -57,5 +57,3 @@
 #define MOUSEKEY_TIME_TO_MAX 50     //Time until maximum scroll speed is reached
 #define MOUSEKEY_DELAY 100          //Delay between pressing a movement key and cursor movement
 #define MOUSEKEY_MOVE_DELTA 8       //Step size
-
-
