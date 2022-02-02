@@ -1,34 +1,34 @@
- /* Copyright 2021 Aric Crosson Bouwers 
-  * 
-  * This program is free software: you can redistribute it and/or modify 
-  * it under the terms of the GNU General Public License as published by 
-  * the Free Software Foundation, either version 2 of the License, or 
-  * (at your option) any later version. 
-  * 
-  * This program is distributed in the hope that it will be useful, 
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of 
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
-  * GNU General Public License for more details. 
-  * 
-  * You should have received a copy of the GNU General Public License 
-  * along with this program.  If not, see <http://www.gnu.org/licenses/>. 
-  */ 
+ /* Copyright 2021 Aric Crosson Bouwers
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
 
 #include QMK_KEYBOARD_H
 #include "muse.h"
 #include "features/select_word.h"
 #include "features/caps_word.h"
 
-// using the Word Selection QMK Macro by Pascal Getreuer, found here: https://getreuer.info/posts/keyboards/select-word/index.html 
+// using the Word Selection QMK Macro by Pascal Getreuer, found here: https://getreuer.info/posts/keyboards/select-word/index.html
 // THANKS Pascal for such amazing functionality!!
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
-// entirely and just use numbers. 
+// entirely and just use numbers.
 #define _QWERTY 0
 #define _COLEMAK 1
-#define _LOWER 2  
+#define _LOWER 2
 #define _RAISE 3
 #define _NUMPAD 4
 #define _FN 5
@@ -36,7 +36,6 @@
 #define _GAMING 7
 
 #define MICMUTE LCTL(LALT(KC_M))
-#define ALTTAB LALT(KC_TAB)
 #define DESKTR LGUI(LCTL(KC_RGHT))  // move one virtual desktop to the right
 #define DESKTL LGUI(LCTL(KC_LEFT))  // move one virtual desktop to the left
 #define MTLCTL_F9 MT(MOD_LCTL, KC_F9)
@@ -73,8 +72,9 @@ enum planck_keycodes {
   SELWORD,
   BRACES,
   BRACES2,
-  ARROW
-}; 
+  ARROW,
+  ALT_TAB
+};
 
 // Define a type for as many tap dance states as you need
 typedef enum {
@@ -90,7 +90,7 @@ typedef struct {
     td_state_t state;
 } td_tap_t;
 
- // Our custom tap dance keys; add any other tap dance keys to this enum 
+ // Our custom tap dance keys; add any other tap dance keys to this enum
 enum {
     UNDS_LOWER,
     PLAY_RAISE
@@ -111,7 +111,7 @@ void usl_reset(qk_tap_dance_state_t *state, void *user_data);
 // added layer switch on hold functionality for each key. Enter has moved to the key beside LOWER, to allow usage while still having
 // the right hand on the mouse.
 
-// Lower incorporates a numpad on the right side, and all of the symbols included on the left. There is logic for the symbols needed for 
+// Lower incorporates a numpad on the right side, and all of the symbols included on the left. There is logic for the symbols needed for
 // calculators and math are located around the numpad, and coding symbols are placed in easy to remember spots.
 
 // CAPS has moved to the Fn layer, and a few additional shortcut modifiers like CTRL_ALT_UP and DOWN for adding additional cursors in VSCode.
@@ -132,8 +132,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_QWERTY] = LAYOUT_planck_grid( /* QWERTY */
     LTESC,   KC_Q,      KC_W,     KC_E,    KC_R,           KC_T,   KC_Y,   KC_U,   KC_I,      KC_O,   KC_P,    KC_BSPC,
-    MTTAB,   KC_A,      KC_S,     KC_D,    KC_F,           KC_G,   KC_H,   KC_J,   KC_K,      KC_L,   KC_SCLN, MTRCTLQUO, 
-    KC_LSFT, MTLGUI_Z,  KC_X,     KC_C,    KC_V,           KC_B,   KC_N,   KC_M,   KC_COMM,   KC_DOT, KC_SLSH, MTRSFTBSLS, 
+    MTTAB,   KC_A,      KC_S,     KC_D,    KC_F,           KC_G,   KC_H,   KC_J,   KC_K,      KC_L,   KC_SCLN, MTRCTLQUO,
+    KC_LSFT, MTLGUI_Z,  KC_X,     KC_C,    KC_V,           KC_B,   KC_N,   KC_M,   KC_COMM,   KC_DOT, KC_SLSH, MTRSFTBSLS,
     KC_NO,   KC_NO,     KC_NO,    MTENTER, TD(UNDS_LOWER), KC_SPC, KC_SPC, MO(3),  MTLALT_PL, KC_NO,  KC_NO,   KC_NO
  ),
 
@@ -151,15 +151,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_COLEMAK] = LAYOUT_planck_grid( /* COLEMAK */
     LTESC,   KC_Q,     KC_W,     KC_F,    KC_P,           KC_B,   KC_J,   KC_L,   KC_U,      KC_Y,   KC_SCLN, KC_BSPC,
-    MTTAB,   KC_A,     KC_R,     KC_S,    KC_T,           KC_G,   KC_M,   KC_N,   KC_E,      KC_I,   KC_O,    MTRCTLQUO, 
-    KC_LSFT, MTLGUI_Z, KC_X,     KC_C,    KC_D,           KC_V,   KC_K,   KC_H,   KC_COMM,   KC_DOT, KC_SLSH, MTRSFTBSLS, 
+    MTTAB,   KC_A,     KC_R,     KC_S,    KC_T,           KC_G,   KC_M,   KC_N,   KC_E,      KC_I,   KC_O,    MTRCTLQUO,
+    KC_LSFT, MTLGUI_Z, KC_X,     KC_C,    KC_D,           KC_V,   KC_K,   KC_H,   KC_COMM,   KC_DOT, KC_SLSH, MTRSFTBSLS,
     KC_NO,   KC_NO,    KC_NO,    MTENTER, TD(UNDS_LOWER), KC_SPC, KC_SPC, MO(3),  MTLALT_PL, KC_NO,  KC_NO,   KC_NO
  ),
 
 /* MIT Layout (RAISE)
  *
  * ,-----------------------------------------------------------------------------.
- * |  ~  |  !  |     |     |      |      |ARROW  |  Cut  | Undo| Redo|P2TXT| Bsp |  
+ * |  ~  |  !  |     |     |      |      |ARROW  |  Cut  | Undo| Redo|P2TXT| Bsp |
  * |-----------------------------------------------------------------------------|
  * |     |Menu |     |     |      |      |SELLINE|SELWORD|Copy|Paste|WinPst|  "  |
  * |-----------------------------------------------------------------------------|
@@ -169,9 +169,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------'
  */
 [_RAISE] = LAYOUT_planck_grid( /* RAISE */
-  KC_TILD, KC_EXLM, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, ARROW,         KC_CUT,  KC_UNDO, KC_REDO,  KC_PTXT,     KC_BSPC, 
-  KC_TRNS, KC_APP,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, LSFT(SELWORD), SELWORD, KC_COPY, KC_PASTE, KC_WINPASTE, KC_DQUO, 
-  KC_TRNS, KC_VOLU, KC_VOLD, KC_MUTE, KC_TRNS, KC_TRNS, BRACES,        BRACES2, KC_LABK, KC_RABK,  KC_QUES,     KC_EXLM,  
+  KC_TILD, KC_EXLM, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, ARROW,         KC_CUT,  KC_UNDO, KC_REDO,  KC_PTXT,     KC_BSPC,
+  KC_TRNS, KC_APP,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, LSFT(SELWORD), SELWORD, KC_COPY, KC_PASTE, KC_WINPASTE, KC_DQUO,
+  KC_TRNS, KC_VOLU, KC_VOLD, KC_MUTE, KC_TRNS, KC_TRNS, BRACES,        BRACES2, KC_LABK, KC_RABK,  KC_QUES,     KC_EXLM,
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, MO(6),   KC_TRNS, KC_TRNS,       KC_TRNS, KC_TRNS, KC_TRNS,  KC_NO,       KC_NO
 ),
 
@@ -188,9 +188,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------'
  */
 [_LOWER] = LAYOUT_planck_grid( /* LOWER */
-  KC_GRV,  KC_EXLM, KC_HASH, KC_DLR,  KC_LABK, KC_RABK, KC_COLN, KC_P7, KC_P8,   KC_P9,  KC_EQL,  KC_BSPC, 
-  KC_LALT, KC_UNDS, KC_CIRC, KC_PERC, KC_LPRN, KC_RPRN, KC_M,    KC_P4, KC_P5,   KC_P6,  KC_PMNS, KC_PPLS, 
-  KC_TRNS, KC_PIPE, KC_AMPR, KC_DQUO, KC_LCBR, KC_RCBR, KC_AT,   KC_P1, KC_P2,   KC_P3,  KC_PSLS, KC_PAST, 
+  KC_GRV,  KC_EXLM, KC_HASH, KC_DLR,  KC_LABK, KC_RABK, KC_COLN, KC_P7, KC_P8,   KC_P9,  KC_EQL,  KC_BSPC,
+  KC_LALT, KC_UNDS, KC_CIRC, KC_PERC, KC_LPRN, KC_RPRN, KC_M,    KC_P4, KC_P5,   KC_P6,  KC_PMNS, KC_PPLS,
+  KC_TRNS, KC_PIPE, KC_AMPR, KC_DQUO, KC_LCBR, KC_RCBR, KC_AT,   KC_P1, KC_P2,   KC_P3,  KC_PSLS, KC_PAST,
   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P0, KC_PDOT, KC_NO,  KC_NO,   KC_NO
 ),
 
@@ -207,28 +207,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------'
  */
 [_GAMING] = LAYOUT_planck_grid( /* GAMING */
-  KC_GESC, KC_1,  KC_2,  KC_3,    KC_4,    KC_5,   KC_6,   KC_7,  KC_P8,   KC_9,  KC_0,    EXT_GAMING, 
-  KC_TAB,  KC_Q,  KC_W,  KC_E,    KC_R,    KC_T,   KC_I,   KC_P4, KC_P5,   KC_P6, KC_PMNS, KC_PPLS, 
-  KC_LSFT, KC_A,  KC_S,  KC_D,    KC_F,    KC_G,   KC_K,   KC_P1, KC_P2,   KC_P3, KC_PSLS, KC_PAST, 
+  KC_GESC, KC_1,  KC_2,  KC_3,    KC_4,    KC_5,   KC_6,   KC_7,  KC_P8,   KC_9,  KC_0,    EXT_GAMING,
+  KC_TAB,  KC_Q,  KC_W,  KC_E,    KC_R,    KC_T,   KC_I,   KC_P4, KC_P5,   KC_P6, KC_PMNS, KC_PPLS,
+  KC_LSFT, KC_A,  KC_S,  KC_D,    KC_F,    KC_G,   KC_K,   KC_P1, KC_P2,   KC_P3, KC_PSLS, KC_PAST,
   KC_NO,   KC_NO, KC_NO, KC_LCTL, KC_LALT, KC_SPC, KC_SPC, KC_P0, KC_PDOT, KC_NO, KC_NO,   KC_NO
 ),
 
 /* MIT Layout (FN)
  *
- * ,----------------------------------------------------------------------------. 
+ * ,----------------------------------------------------------------------------.
  * | |Ctl,F9 |Sft,F10|Alt,F11| F12 |MyComp|Calc  |home |  up  | end |PrtScr| Del |
  * |-----------------------------------------------------------------------------|
  * |    | F5 |   F6  |   F7  | F8  |DeskL |DeskR |left | down |right|ScrLck| CAPS|
  * |-----------------------------------------------------------------------------|
- * |    | F1 |   F2  |   F3  | F4  |ALTTAB| MicM |pgup |LCA_dn| pgdn|Pse/Brk| Ins|
+ * |    | F1 |   F2  |   F3  | F4  |ALT_TAB| MicM |pgup |LCA_dn| pgdn|Pse/Brk| Ins|
  * |-----------------------------------------------------------------------------|
  * |    |    |       |       |     |             |     |Alt,MNext|  |      |     |
  * `-----------------------------------------------------------------------------'
  */
 [_FN] = LAYOUT_planck_grid( /* FUNCTION */
   KC_TRNS, MTLCTL_F9, MTLSFT_F10, MTLALT_F11, KC_F12,  KC_MYCM, KC_CALC, KC_HOME, KC_UP,        KC_END,  KC_PSCR,   KC_DEL,
-  KC_TRNS, KC_F5,     KC_F6,      KC_F7,      KC_F8,   DESKTL,  DESKTR,  KC_LEFT, KC_DOWN,      KC_RGHT, KC_SLCK,   KC_CAPS, 
-  KC_TRNS, KC_F1,     KC_F2,      KC_F3,      KC_F4,   ALTTAB,  MICMUTE, KC_PGUP, LCA(KC_DOWN), KC_PGDN, KC_PAUSE, KC_INS, 
+  KC_TRNS, KC_F5,     KC_F6,      KC_F7,      KC_F8,   DESKTL,  DESKTR,  KC_LEFT, KC_DOWN,      KC_RGHT, KC_SLCK,   KC_CAPS,
+  KC_TRNS, KC_F1,     KC_F2,      KC_F3,      KC_F4,   ALT_TAB,  MICMUTE, KC_PGUP, LCA(KC_DOWN), KC_PGDN, KC_PAUSE, KC_INS,
   KC_NO,   KC_NO,     KC_NO,      KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, MTLALT_NXT,   KC_NO,   KC_NO,    KC_NO
 ),
 
@@ -245,15 +245,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_planck_grid( /* ADJUST LAYER */
-  RGB_TOG, KC_BTN3, KC_BTN2, KC_MS_U, KC_BTN1, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, RESET, 
-  RGB_MOD, KC_NO,   KC_MS_L, KC_MS_D, KC_MS_R, GAMING,  KC_NO,   AU_ON,   AU_OFF,  MU_ON,   MU_OFF,  DEBUG, 
+  RGB_TOG, KC_BTN3, KC_BTN2, KC_MS_U, KC_BTN1, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, RESET,
+  RGB_MOD, KC_NO,   KC_MS_L, KC_MS_D, KC_MS_R, GAMING,  KC_NO,   AU_ON,   AU_OFF,  MU_ON,   MU_OFF,  DEBUG,
   KC_TRNS, KC_WH_L, KC_WH_U, KC_WH_D, KC_WH_R, QWERTY,  COLEMAK, MI_ON,   MI_OFF,  KC_TRNS, KC_TRNS, MU_MOD,
   KC_NO,   KC_NO,   KC_NO,   KC_SLEP, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO,   KC_NO
 )
 };
 
 #ifdef AUDIO_ENABLE
-float layerswitch_song[][2] = SONG(PLANCK_SOUND);   
+float layerswitch_song[][2] = SONG(PLANCK_SOUND);
 float tone_startup[][2]     = SONG(STARTUP_SOUND);
 float tone_qwerty[][2]      = SONG(QWERTY_SOUND);
 float tone_colemak[][2]     = SONG(COLEMAK_SOUND);
@@ -261,9 +261,10 @@ float music_scale[][2]      = SONG(MUSIC_SCALE_SOUND);
 float tone_goodbye[][2]     = SONG(GOODBYE_SOUND);
 
 #endif
- 
+
+bool is_alt_tab_active = false;
 layer_state_t layer_state_set_user(layer_state_t state) {
- 
+
 	static bool is_this_layer_on = false;
 	if (layer_state_cmp(state, 4) != is_this_layer_on) {
 		is_this_layer_on = layer_state_cmp(state, 4);
@@ -274,7 +275,12 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 			stop_all_notes();
 		}
 	}
- 
+  if (is_alt_tab_active) {
+        unregister_code(KC_LALT);
+        is_alt_tab_active = false;
+    }
+    return state;
+
 	switch (get_highest_layer(state)) {
 		case _ADJUST:
 			rgblight_setrgb (0xFF,  0x00, 0x00);
@@ -322,9 +328,9 @@ void persistant_default_layer_set(uint16_t default_layer) {
 // Determine the current tap dance state
 td_state_t cur_dance(qk_tap_dance_state_t *state) {
     if (state->interrupted) return TD_SINGLE_HOLD;
-    if (state->count == 1) {        
+    if (state->count == 1) {
         if (!state->pressed) return TD_SINGLE_TAP;
-        else return TD_SINGLE_HOLD;        
+        else return TD_SINGLE_HOLD;
     } else if (state->count == 2) return TD_DOUBLE_TAP;
     else return TD_UNKNOWN;
 }
@@ -436,13 +442,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         persistant_default_layer_set(1UL<<_COLEMAK);
       }
       return false;
-      break;    
+      break;
     case BRACES:  // Types (), or {}, and puts cursor between braces.
       if (record->event.pressed) {
         clear_mods();  // Temporarily disable mods.
         clear_oneshot_mods();
         if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-          SEND_STRING("()");
+          SEND_STRING("{}");
         } else {
           SEND_STRING("<>");
         }
@@ -455,7 +461,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         clear_mods();  // Temporarily disable mods.
         clear_oneshot_mods();
         if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-          SEND_STRING("{}");
+          SEND_STRING("()");
         } else {
           SEND_STRING("[]");
         }
@@ -464,17 +470,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
     case ARROW:  // Arrow macro, types -> or =>.
-    if (record->event.pressed) {
-      if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {  // Is shift held?
-        del_mods(MOD_MASK_SHIFT);  // Temporarily delete shift.
-        del_oneshot_mods(MOD_MASK_SHIFT);
-        SEND_STRING("=>");
-        set_mods(mods);            // Restore mods.
-      } else {
-        SEND_STRING("->");
+      if (record->event.pressed) {
+        if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {  // Is shift held?
+          del_mods(MOD_MASK_SHIFT);  // Temporarily delete shift.
+          del_oneshot_mods(MOD_MASK_SHIFT);
+          SEND_STRING("->");
+          set_mods(mods);            // Restore mods.
+        } else {
+          SEND_STRING("=>");
+        }
       }
-    }
-    return false;
+      return false;
+    case ALT_TAB: // super alt tab macro
+      if (record->event.pressed) {
+          if (!is_alt_tab_active) {
+              is_alt_tab_active = true;
+              register_code(KC_LALT);
+          }
+          register_code(KC_TAB);
+      } else {
+          unregister_code(KC_TAB);
+      }
+      return false;
+      break;
   }
   return true;
 }
@@ -502,17 +520,17 @@ uint16_t COMBO_LEN = COMBO_LENGTH; // remove the COMBO_COUNT define and use this
 
 const uint16_t PROGMEM email_combo[] = {KC_E, KC_M, COMBO_END};
 const uint16_t PROGMEM email_work_combo[] = {KC_E, KC_K, COMBO_END};
-const uint16_t PROGMEM html_p_combo[] = {KC_P, KC_H, COMBO_END};
-const uint16_t PROGMEM html_title_combo[] = {KC_T, KC_H, COMBO_END};
-const uint16_t PROGMEM html_div_combo[] = {KC_D, KC_H, COMBO_END};
-const uint16_t PROGMEM html_html_combo[] = {KC_Q, KC_H, COMBO_END};
-const uint16_t PROGMEM html_head_combo[] = {KC_W, KC_H, COMBO_END};
-const uint16_t PROGMEM html_body_combo[] = {KC_R, KC_H, COMBO_END};
-const uint16_t PROGMEM html_footer_combo[] = {KC_X, KC_H, COMBO_END};
-const uint16_t PROGMEM html_a_href_combo[] = {KC_A, KC_H, COMBO_END};
-const uint16_t PROGMEM html_img_combo[] = {KC_I, KC_H, COMBO_END};
-const uint16_t PROGMEM css_style_combo[] = {KC_S, KC_H, COMBO_END};
-const uint16_t PROGMEM html_generic_tag_combo[] = {KC_COMMA, KC_H, COMBO_END};
+const uint16_t PROGMEM html_p_combo[] = {KC_P, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_title_combo[] = {KC_T, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_div_combo[] = {KC_D, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_html_combo[] = {KC_Q, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_head_combo[] = {KC_W, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_body_combo[] = {KC_R, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_footer_combo[] = {KC_X, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_a_href_combo[] = {KC_A, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_img_combo[] = {KC_F, KC_DOT, COMBO_END};
+const uint16_t PROGMEM css_style_combo[] = {KC_S, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_generic_tag_combo[] = {KC_G, KC_DOT, COMBO_END};
 const uint16_t PROGMEM ctrrght_combo[] = {KC_RGHT, KC_DOWN, COMBO_END};
 const uint16_t PROGMEM ctrleft_combo[] = {KC_LEFT, KC_DOWN, COMBO_END};
 // const uint8_t combo_mods = get_mods();
@@ -551,26 +569,18 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       break;
     case HTML_DIV:
       if (pressed) {
-        SEND_STRING("<div>");
-        tap_code16(KC_ESC);
-        tap_code16(KC_ENT);
-        SEND_STRING("</div>");
-        tap_code16(KC_UP);
-        tap_code16(KC_END);
-        tap_code16(KC_ENT);
-        tap_code16(KC_TAB);
+        SEND_STRING("<div></div>");
+        for (int i = 0; i < 6; i++) {
+          tap_code16(KC_LEFT);
+        }
       }
       break;
     case HTML_P:
       if (pressed) {
-        SEND_STRING("<p>");
-        tap_code16(KC_ESC);
-        tap_code16(KC_ENT);
-        SEND_STRING("</p>");
-        tap_code16(KC_UP);
-        tap_code16(KC_END);
-        tap_code16(KC_ENT);
-        tap_code16(KC_TAB);
+        SEND_STRING("<p></p>");
+        for (int i = 0; i < 4; i++) {
+          tap_code16(KC_LEFT);
+        }
       }
       break;
     case HTML_TITLE:
@@ -578,7 +588,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         SEND_STRING("<title></title>");
         for (int i = 0; i < 8; i++) {
           tap_code16(KC_LEFT);
-        }               
+        }
       }
       break;
       case CSS_STYLE:
@@ -586,62 +596,46 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         SEND_STRING("<style></style>");
          for (int i = 0; i < 8; i++) {
           tap_code16(KC_LEFT);
-        }        
+        }
       }
       break;
     case HTML_HTML:
       if (pressed) {
-        SEND_STRING("<html lang=\"en\">");
-        tap_code16(KC_ESC);
-        tap_code16(KC_ENT);
-        SEND_STRING("</html>");
-        tap_code16(KC_UP);
-        tap_code16(KC_END);
-        tap_code16(KC_ENT);
-        tap_code16(KC_TAB);
+        SEND_STRING("<html lang=\"en\"></html>");
+        for (int i = 0; i < 7; i++) {
+          tap_code16(KC_LEFT);
+        }
       }
       break;
     case HTML_HEAD:
       if (pressed) {
-        SEND_STRING("<head>");
-        tap_code16(KC_ESC);
-        tap_code16(KC_ENT);
-        SEND_STRING("</head>");
-        tap_code16(KC_UP);
-        tap_code16(KC_END);
-        tap_code16(KC_ENT);
-        tap_code16(KC_TAB);
+        SEND_STRING("<head></head>");
+        for (int i = 0; i < 7; i++) {
+          tap_code16(KC_LEFT);
+        }
       }
       break;
     case HTML_BODY:
       if (pressed) {
-        SEND_STRING("<body>");
-        tap_code16(KC_ESC);
-        tap_code16(KC_ENT);
-        SEND_STRING("</body>");
-        tap_code16(KC_UP);
-        tap_code16(KC_END);
-        tap_code16(KC_ENT);
-        tap_code16(KC_TAB);
+        SEND_STRING("<body></body>");
+        for (int i = 0; i < 7; i++) {
+          tap_code16(KC_LEFT);
+        }
       }
       break;
     case HTML_FOOTER:
       if (pressed) {
-        SEND_STRING("<footer>");
-        tap_code16(KC_ESC);
-        tap_code16(KC_ENT);
-        SEND_STRING("</footer>");
-        tap_code16(KC_UP);
-        tap_code16(KC_END);
-        tap_code16(KC_ENT);
-        tap_code16(KC_TAB);
+        SEND_STRING("<footer></footer>");
+        for (int i = 0; i < 9; i++) {
+          tap_code16(KC_LEFT);
+        }
       }
       break;
     case HTML_A_HREF:
       if (pressed) {
         SEND_STRING("<a href=\"link_goes_here\">name_of_link_goes_here</a>");
         tap_code16(KC_HOME);
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 10; i++) {
           tap_code16(KC_RGHT);
         }
       }
@@ -650,7 +644,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       if (pressed) {
         SEND_STRING("<img src=\"image_source_or_link_goes_here\" alt=\"name_if_cant_load\" width=\"num_pixels\" height=\"num_pixels\">");
         tap_code16(KC_HOME);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 11; i++) {
           tap_code16(KC_RGHT);
         }
       }
@@ -661,21 +655,21 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         tap_code16(KC_ESC);
         for (int i = 0; i < 9; i++) {
           tap_code16(KC_LEFT);
-        }      
+        }
         tap_code16(LCTL(KC_D));
         tap_code16(LCTL(KC_D));
         tap_code16(KC_BSPC);
       }
       break;
     case CTLLEFT:
-      if (pressed) {        
-        tap_code16(C(KC_LEFT));   
-      }      
+      if (pressed) {
+        tap_code16(C(KC_LEFT));
+      }
       break;
     case CTLRGHT:
-      if (pressed) {        
-        tap_code16(C(KC_RGHT));   
-      }      
+      if (pressed) {
+        tap_code16(C(KC_RGHT));
+      }
       break;
   }
 }
