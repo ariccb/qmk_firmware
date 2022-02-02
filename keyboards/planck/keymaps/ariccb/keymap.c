@@ -575,7 +575,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         }
       }
       break;
-      <title></title>
     case HTML_P:
       if (pressed) {
         SEND_STRING("<p></p>");
