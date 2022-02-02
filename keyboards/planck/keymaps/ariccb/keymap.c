@@ -36,7 +36,6 @@
 #define _GAMING 7
 
 #define MICMUTE LCTL(LALT(KC_M))
-#define ALTTAB LALT(KC_TAB)
 #define DESKTR LGUI(LCTL(KC_RGHT))  // move one virtual desktop to the right
 #define DESKTL LGUI(LCTL(KC_LEFT))  // move one virtual desktop to the left
 #define MTLCTL_F9 MT(MOD_LCTL, KC_F9)
@@ -73,7 +72,8 @@ enum planck_keycodes {
   SELWORD,
   BRACES,
   BRACES2,
-  ARROW
+  ARROW,
+  ALT_TAB
 };
 
 // Define a type for as many tap dance states as you need
@@ -220,7 +220,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |-----------------------------------------------------------------------------|
  * |    | F5 |   F6  |   F7  | F8  |DeskL |DeskR |left | down |right|ScrLck| CAPS|
  * |-----------------------------------------------------------------------------|
- * |    | F1 |   F2  |   F3  | F4  |ALTTAB| MicM |pgup |LCA_dn| pgdn|Pse/Brk| Ins|
+ * |    | F1 |   F2  |   F3  | F4  |ALT_TAB| MicM |pgup |LCA_dn| pgdn|Pse/Brk| Ins|
  * |-----------------------------------------------------------------------------|
  * |    |    |       |       |     |             |     |Alt,MNext|  |      |     |
  * `-----------------------------------------------------------------------------'
@@ -228,7 +228,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_FN] = LAYOUT_planck_grid( /* FUNCTION */
   KC_TRNS, MTLCTL_F9, MTLSFT_F10, MTLALT_F11, KC_F12,  KC_MYCM, KC_CALC, KC_HOME, KC_UP,        KC_END,  KC_PSCR,   KC_DEL,
   KC_TRNS, KC_F5,     KC_F6,      KC_F7,      KC_F8,   DESKTL,  DESKTR,  KC_LEFT, KC_DOWN,      KC_RGHT, KC_SLCK,   KC_CAPS,
-  KC_TRNS, KC_F1,     KC_F2,      KC_F3,      KC_F4,   ALTTAB,  MICMUTE, KC_PGUP, LCA(KC_DOWN), KC_PGDN, KC_PAUSE, KC_INS,
+  KC_TRNS, KC_F1,     KC_F2,      KC_F3,      KC_F4,   ALT_TAB,  MICMUTE, KC_PGUP, LCA(KC_DOWN), KC_PGDN, KC_PAUSE, KC_INS,
   KC_NO,   KC_NO,     KC_NO,      KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, MTLALT_NXT,   KC_NO,   KC_NO,    KC_NO
 ),
 
@@ -262,6 +262,7 @@ float tone_goodbye[][2]     = SONG(GOODBYE_SOUND);
 
 #endif
 
+bool is_alt_tab_active = false;
 layer_state_t layer_state_set_user(layer_state_t state) {
 
 	static bool is_this_layer_on = false;
@@ -274,6 +275,11 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 			stop_all_notes();
 		}
 	}
+  if (is_alt_tab_active) {
+        unregister_code(KC_LALT);
+        is_alt_tab_active = false;
+    }
+    return state;
 
 	switch (get_highest_layer(state)) {
 		case _ADJUST:
@@ -442,7 +448,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         clear_mods();  // Temporarily disable mods.
         clear_oneshot_mods();
         if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-          SEND_STRING("()");
+          SEND_STRING("{}");
         } else {
           SEND_STRING("<>");
         }
@@ -455,7 +461,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         clear_mods();  // Temporarily disable mods.
         clear_oneshot_mods();
         if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-          SEND_STRING("{}");
+          SEND_STRING("()");
         } else {
           SEND_STRING("[]");
         }
@@ -464,17 +470,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
     case ARROW:  // Arrow macro, types -> or =>.
-    if (record->event.pressed) {
-      if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {  // Is shift held?
-        del_mods(MOD_MASK_SHIFT);  // Temporarily delete shift.
-        del_oneshot_mods(MOD_MASK_SHIFT);
-        SEND_STRING("=>");
-        set_mods(mods);            // Restore mods.
-      } else {
-        SEND_STRING("->");
+      if (record->event.pressed) {
+        if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {  // Is shift held?
+          del_mods(MOD_MASK_SHIFT);  // Temporarily delete shift.
+          del_oneshot_mods(MOD_MASK_SHIFT);
+          SEND_STRING("->");
+          set_mods(mods);            // Restore mods.
+        } else {
+          SEND_STRING("=>");
+        }
       }
-    }
-    return false;
+      return false;
+    case ALT_TAB: // super alt tab macro
+      if (record->event.pressed) {
+          if (!is_alt_tab_active) {
+              is_alt_tab_active = true;
+              register_code(KC_LALT);
+          }
+          register_code(KC_TAB);
+      } else {
+          unregister_code(KC_TAB);
+      }
+      return false;
+      break;
   }
   return true;
 }
@@ -502,17 +520,17 @@ uint16_t COMBO_LEN = COMBO_LENGTH; // remove the COMBO_COUNT define and use this
 
 const uint16_t PROGMEM email_combo[] = {KC_E, KC_M, COMBO_END};
 const uint16_t PROGMEM email_work_combo[] = {KC_E, KC_K, COMBO_END};
-const uint16_t PROGMEM html_p_combo[] = {KC_P, KC_H, COMBO_END};
-const uint16_t PROGMEM html_title_combo[] = {KC_T, KC_H, COMBO_END};
-const uint16_t PROGMEM html_div_combo[] = {KC_D, KC_H, COMBO_END};
-const uint16_t PROGMEM html_html_combo[] = {KC_Q, KC_H, COMBO_END};
-const uint16_t PROGMEM html_head_combo[] = {KC_W, KC_H, COMBO_END};
-const uint16_t PROGMEM html_body_combo[] = {KC_R, KC_H, COMBO_END};
-const uint16_t PROGMEM html_footer_combo[] = {KC_X, KC_H, COMBO_END};
-const uint16_t PROGMEM html_a_href_combo[] = {KC_A, KC_H, COMBO_END};
-const uint16_t PROGMEM html_img_combo[] = {KC_I, KC_H, COMBO_END};
-const uint16_t PROGMEM css_style_combo[] = {KC_S, KC_H, COMBO_END};
-const uint16_t PROGMEM html_generic_tag_combo[] = {KC_COMMA, KC_H, COMBO_END};
+const uint16_t PROGMEM html_p_combo[] = {KC_P, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_title_combo[] = {KC_T, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_div_combo[] = {KC_D, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_html_combo[] = {KC_Q, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_head_combo[] = {KC_W, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_body_combo[] = {KC_R, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_footer_combo[] = {KC_X, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_a_href_combo[] = {KC_A, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_img_combo[] = {KC_I, KC_DOT, COMBO_END};
+const uint16_t PROGMEM css_style_combo[] = {KC_S, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_generic_tag_combo[] = {KC_COMMA, KC_DOT, COMBO_END};
 const uint16_t PROGMEM ctrrght_combo[] = {KC_RGHT, KC_DOWN, COMBO_END};
 const uint16_t PROGMEM ctrleft_combo[] = {KC_LEFT, KC_DOWN, COMBO_END};
 // const uint8_t combo_mods = get_mods();
@@ -551,26 +569,19 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       break;
     case HTML_DIV:
       if (pressed) {
-        SEND_STRING("<div>");
-        tap_code16(KC_ESC);
-        tap_code16(KC_ENT);
-        SEND_STRING("</div>");
-        tap_code16(KC_UP);
-        tap_code16(KC_END);
-        tap_code16(KC_ENT);
-        tap_code16(KC_TAB);
+        SEND_STRING("<div></div>");
+        for (int i = 0; i < 6; i++) {
+          tap_code16(KC_LEFT);
+        }
       }
       break;
+      <title></title>
     case HTML_P:
       if (pressed) {
-        SEND_STRING("<p>");
-        tap_code16(KC_ESC);
-        tap_code16(KC_ENT);
-        SEND_STRING("</p>");
-        tap_code16(KC_UP);
-        tap_code16(KC_END);
-        tap_code16(KC_ENT);
-        tap_code16(KC_TAB);
+        SEND_STRING("<p></p>");
+        for (int i = 0; i < 4; i++) {
+          tap_code16(KC_LEFT);
+        }
       }
       break;
     case HTML_TITLE:
@@ -591,50 +602,34 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       break;
     case HTML_HTML:
       if (pressed) {
-        SEND_STRING("<html lang=\"en\">");
-        tap_code16(KC_ESC);
-        tap_code16(KC_ENT);
-        SEND_STRING("</html>");
-        tap_code16(KC_UP);
-        tap_code16(KC_END);
-        tap_code16(KC_ENT);
-        tap_code16(KC_TAB);
+        SEND_STRING("<html lang=\"en\"></html>");
+        for (int i = 0; i < 7; i++) {
+          tap_code16(KC_LEFT);
+        }
       }
       break;
     case HTML_HEAD:
       if (pressed) {
-        SEND_STRING("<head>");
-        tap_code16(KC_ESC);
-        tap_code16(KC_ENT);
-        SEND_STRING("</head>");
-        tap_code16(KC_UP);
-        tap_code16(KC_END);
-        tap_code16(KC_ENT);
-        tap_code16(KC_TAB);
+        SEND_STRING("<head></head>");
+        for (int i = 0; i < 7; i++) {
+          tap_code16(KC_LEFT);
+        }
       }
       break;
     case HTML_BODY:
       if (pressed) {
-        SEND_STRING("<body>");
-        tap_code16(KC_ESC);
-        tap_code16(KC_ENT);
-        SEND_STRING("</body>");
-        tap_code16(KC_UP);
-        tap_code16(KC_END);
-        tap_code16(KC_ENT);
-        tap_code16(KC_TAB);
+        SEND_STRING("<body></body>");
+        for (int i = 0; i < 7; i++) {
+          tap_code16(KC_LEFT);
+        }
       }
       break;
     case HTML_FOOTER:
       if (pressed) {
-        SEND_STRING("<footer>");
-        tap_code16(KC_ESC);
-        tap_code16(KC_ENT);
-        SEND_STRING("</footer>");
-        tap_code16(KC_UP);
-        tap_code16(KC_END);
-        tap_code16(KC_ENT);
-        tap_code16(KC_TAB);
+        SEND_STRING("<footer></footer>");
+        for (int i = 0; i < 9; i++) {
+          tap_code16(KC_LEFT);
+        }
       }
       break;
     case HTML_A_HREF:
