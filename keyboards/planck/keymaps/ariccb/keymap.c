@@ -528,9 +528,9 @@ const uint16_t PROGMEM html_head_combo[] = {KC_W, KC_DOT, COMBO_END};
 const uint16_t PROGMEM html_body_combo[] = {KC_R, KC_DOT, COMBO_END};
 const uint16_t PROGMEM html_footer_combo[] = {KC_X, KC_DOT, COMBO_END};
 const uint16_t PROGMEM html_a_href_combo[] = {KC_A, KC_DOT, COMBO_END};
-const uint16_t PROGMEM html_img_combo[] = {KC_I, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_img_combo[] = {KC_Z, KC_DOT, COMBO_END};
 const uint16_t PROGMEM css_style_combo[] = {KC_S, KC_DOT, COMBO_END};
-const uint16_t PROGMEM html_generic_tag_combo[] = {KC_COMMA, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_generic_tag_combo[] = {KC_G, KC_DOT, COMBO_END};
 const uint16_t PROGMEM ctrrght_combo[] = {KC_RGHT, KC_DOWN, COMBO_END};
 const uint16_t PROGMEM ctrleft_combo[] = {KC_LEFT, KC_DOWN, COMBO_END};
 // const uint8_t combo_mods = get_mods();
@@ -635,7 +635,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       if (pressed) {
         SEND_STRING("<a href=\"link_goes_here\">name_of_link_goes_here</a>");
         tap_code16(KC_HOME);
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 10; i++) {
           tap_code16(KC_RGHT);
         }
       }
@@ -644,7 +644,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       if (pressed) {
         SEND_STRING("<img src=\"image_source_or_link_goes_here\" alt=\"name_if_cant_load\" width=\"num_pixels\" height=\"num_pixels\">");
         tap_code16(KC_HOME);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 11; i++) {
           tap_code16(KC_RGHT);
         }
       }
