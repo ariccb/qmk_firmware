@@ -31,27 +31,34 @@
 // entirely and just use numbers.
 #define _QWERTY 0
 #define _HANDSDOWN 1
-#define _COLEMAK 2
+#define _COLEMAKDH 2
 #define _LOWER 3
 #define _RAISE 4
 #define _NUMPAD 5
 #define _FN 6
 #define _ADJUST 7
-
+//windows shortcuts
 #define MICMUTE LALT(KC_M)
 #define LOW_OSS LT(_LOWER, KC_F24)
 #define DESKTR LGUI(LCTL(KC_RGHT))  // move one virtual desktop to the right
 #define DESKTL LGUI(LCTL(KC_LEFT))  // move one virtual desktop to the left
 #define BWSRLEFT A(KC_LEFT)
-#define MTLCTL_F5 MT(MOD_LCTL, KC_F5)
+
+#define MTLALT_F5 MT(MOD_LALT, KC_F5)
 #define MTLSFT_F6 MT(MOD_LSFT, KC_F6)
-#define MTLALT_F7 MT(MOD_LALT, KC_F7)
+#define MTLCMD_F7 MT(MOD_LGUI, KC_F7)
+#define MTLCTL_F8 MT(MOD_LCTL, KC_F8)
+// #define MTLALT_F5 MT(MOD_LCTL, KC_F5)
+// #define MTLSFT_F6 MT(MOD_LSFT, KC_F6)
+// #define MTLALT_F7 MT(MOD_LALT, KC_F7)
+
 #define MTLALT_DOT MT(MOD_LALT, KC_DOT)
 #define MTLGUI_Z MT(MOD_LGUI, KC_Z)
 #define MTLGUI_X MT(MOD_LGUI, KC_X)
 #define MTLALT_PL MT(MOD_LALT, KC_MPLY)
 #define MTLALT_NXT MT(MOD_LALT, KC_MNXT)
 #define MTENTER MT(MOD_LCTL, KC_ENT)
+#define LWR_SP LT(_LOWER, KC_SPC)
 #define MTRSFTBSLS MT(MOD_RSFT, KC_BSLS)
 #define MTRCTLQUO MT(MOD_RCTL, KC_QUOT)
 #define MTTAB MT(MOD_LCTL | MOD_LGUI | MOD_LALT, KC_TAB)
@@ -67,6 +74,7 @@
 #define KC_PTXT LCTL(LSFT(KC_V))
 #define KC_UNDO LCTL(KC_Z)
 #define KC_REDO LCTL(KC_Y)
+
 
 enum planck_keycodes {
   QWERTY = SAFE_RANGE,
@@ -155,29 +163,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     MTESC,   KC_Q,     KC_W,     KC_E,    KC_R,    KC_T,   KC_Y,   KC_U,     KC_I,      KC_O,   KC_P,    KC_BSPC,
     MTTAB,   FN_A,     KC_S,     KC_D,    KC_F,    KC_G,   KC_H,   KC_J,     KC_K,      KC_L,   KC_SCLN, MTRCTLQUO,
     KC_LSFT, MTLGUI_Z, KC_X,     KC_C,    KC_V,    KC_B,   KC_N,   KC_M,     KC_COMM,   KC_DOT, KC_SLSH, MTRSFTBSLS,
-    KC_NO,   KC_NO,    KC_NO,    MTENTER, LOW_OSS, KC_SPC, KC_SPC, RSE_DEL,  MTLALT_PL, KC_NO,  KC_NO,   KC_NO
+    KC_NO,   KC_NO,    KC_NO,    MTENTER, LOW_OSS, LWR_SP, LWR_SP, RSE_DEL,  MTLALT_PL, KC_NO,  KC_NO,   KC_NO
   ),
 
- /* MIT Layout (HANDSDOWNNEU Modded)
- *
- * ,------------------------------------------------------------------------.
- * |HYP,Esc| w  |  f  |  m  |  p  |  v  |  /  |  .  |  q  |  ,  |  ;  |Bsp  |
- * |------------------------------------------------------------------------|
-   |GCA,Tab| r  |  s  |  n  |  t  |  g  |  k  |  a  |  e  |  i  |  h  |Ctl,'|
- * |------------------------------------------------------------------------|
- * |Shift |Win,x|  c  |  l  |  d  |  b  |  j  |  u  |  o  |  y  |  z  |Sft,\|
- * |------------------------------------------------------------------------|
- * |      |  |  |Ctl,Ent|LWR,OSSft|   Space   |RAISE|Alt,Play|  |     |     |
- * `------------------------------------------------------------------------'
- */
-[_HANDSDOWN] = LAYOUT_planck_grid( /* HANDS DOWN GOLD */
-    MTESC,   KC_W,     KC_F,     KC_M,    KC_P,    KC_V,   KC_SLSH,  KC_DOT,   KC_Q,      KC_COMMA, KC_SCLN, KC_BSPC,
-    MTTAB,   FN_R,     KC_S,     KC_N,    KC_T,    KC_G,   KC_K,     KC_A,     KC_E,      KC_I,     KC_H,    MTRCTLQUO,
-    KC_LSFT, MTLGUI_X, KC_C,     KC_L,    KC_D,    KC_B,   KC_J,     KC_U,     KC_O,      KC_Y,     KC_Z,    MTRSFTBSLS,
-    KC_NO,   KC_NO,    KC_NO,    MTENTER, LOW_OSS, KC_SPC, KC_SPC,   RSE_DEL,  MTLALT_PL, KC_NO,    KC_NO,   KC_NO
- ),
+//  /* MIT Layout (HANDSDOWNNEU Modded)
+//  *
+//  * ,------------------------------------------------------------------------.
+//  * |HYP,Esc| w  |  f  |  m  |  p  |  v  |  /  |  .  |  q  |  ,  |  ;  |Bsp  |
+//  * |------------------------------------------------------------------------|
+//    |GCA,Tab| r  |  s  |  n  |  t  |  g  |  k  |  a  |  e  |  i  |  h  |Ctl,'|
+//  * |------------------------------------------------------------------------|
+//  * |Shift |Win,x|  c  |  l  |  d  |  b  |  j  |  u  |  o  |  y  |  z  |Sft,\|
+//  * |------------------------------------------------------------------------|
+//  * |      |  |  |Ctl,Ent|LWR,OSSft|   Space   |RAISE|Alt,Play|  |     |     |
+//  * `------------------------------------------------------------------------'
+//  */
+// [_HANDSDOWN] = LAYOUT_planck_grid( /* HANDS DOWN GOLD */
+//     MTESC,   KC_W,     KC_F,     KC_M,    KC_P,    KC_V,   KC_SLSH,  KC_DOT,   KC_Q,      KC_COMMA, KC_SCLN, KC_BSPC,
+//     MTTAB,   FN_R,     KC_S,     KC_N,    KC_T,    KC_G,   KC_K,     KC_A,     KC_E,      KC_I,     KC_H,    MTRCTLQUO,
+//     KC_LSFT, MTLGUI_X, KC_C,     KC_L,    KC_D,    KC_B,   KC_J,     KC_U,     KC_O,      KC_Y,     KC_Z,    MTRSFTBSLS,
+//     KC_NO,   KC_NO,    KC_NO,    MTENTER, LOW_OSS, LWR_SP, LWR_SP,   RSE_DEL,  MTLALT_PL, KC_NO,    KC_NO,   KC_NO
+//  ),
 
- /* MIT Layout (COLEMAK-DH)
+ /* MIT Layout (COLEMAK-DH)d
  *
  * ,------------------------------------------------------------------------.
  * |HYP,Esc| q  |  w  |  f  |  d  |  b  |  j  |  l  |  u  |  y  |  ;  | Bsp |
@@ -189,11 +197,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |  |  |Ctl,Ent|LWR,OSSft|   Space   |RAISE|Alt,Play|  |     |     |
  * `------------------------------------------------------------------------'
  */
-[_COLEMAK] = LAYOUT_planck_grid( /* COLEMAK */
+[_COLEMAKDH] = LAYOUT_planck_grid( /* COLEMAK */
     MTESC,   KC_Q,     KC_W,     KC_F,    KC_P,    KC_B,   KC_J,   KC_L,    KC_U,      KC_Y,   KC_SCLN, KC_BSPC,
     MTTAB,   FN_A,     KC_R,     KC_S,    KC_T,    KC_G,   KC_M,   KC_N,    KC_E,      KC_I,   KC_O,    MTRCTLQUO,
     KC_LSFT, MTLGUI_Z, KC_X,     KC_C,    KC_D,    KC_V,   KC_K,   KC_H,    KC_COMM,   KC_DOT, KC_SLSH, MTRSFTBSLS,
-    KC_NO,   KC_NO,    KC_NO,    MTENTER, LOW_OSS, KC_SPC, KC_SPC, RSE_DEL, MTLALT_PL, KC_NO,  KC_NO,   KC_NO
+    KC_NO,   KC_NO,    KC_NO,    MTENTER, LOW_OSS, LWR_SP, LWR_SP, RSE_DEL, MTLALT_PL, KC_NO,  KC_NO,   KC_NO
  ),
 
 /* MIT Layout (RAISE)
@@ -205,7 +213,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |-----------------------------------------------------------------------------|
  * |     |MWLft|MWUp |NWDn |NWRght| Vol- | ()<> | []{} |  <  |   >   |  ?  |  |  |
  * |-----------------------------------------------------------------------------|
- * |     |     |     |Menu |Adjust|             |      |       |     |     |     |
+ * |     |     |     |Menu |Adjust|             |§§§§§ |       |     |     |     |
  * `-----------------------------------------------------------------------------'
  */
 [_RAISE] = LAYOUT_planck_grid( /* RAISE */
@@ -218,19 +226,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* MIT Layout (LOWER)
  *
  * ,-----------------------------------------------------------------------.
- * |  `  |  !  |  <  |  >  |  [  |  ?  |  ^  |  7  |  8  |  9  |  :  | Bsp |
+ * |  `  |  !  |  <  |  >  |  [  |  *  |  ^  |  7  |  8  |  9  |  :  | Bsp |
  * |-----------------------------------------------------------------------|
  * |S(TAB)| #  |  $  |  (  |  )  |  ]  |  =  |  4  |  5  |  6  |  -  |  +  |
  * |-----------------------------------------------------------------------|
- * |Shift|  ~  |  %  |  {  |  }  |  &  |  @  |  1  |  2  |  3  |  /  |  *  |
+ * |Shift|  ~  |  %  |  {  |  }  |  &  | '|' |  1  |  2  |  3  |  /  |  *  |
  * |-----------------------------------------------------------------------|
- * |     |     |    |Ctl,Ent|****|           |  0  |  .  |     |     |     |
+ * |     |     |    |Ctl,Ent|§§§§|           |  0  |  .  |     |     |     |
  * `-----------------------------------------------------------------------'
  */
 [_LOWER] = LAYOUT_planck_grid( /* LOWER */
-  KC_GRV,    KC_EXLM, KC_LABK, KC_RABK, KC_LBRC, KC_QUES, KC_CIRC, KC_7,  KC_8,       KC_9,   KC_COLN, KC_BSPC,
+  KC_GRV,    KC_EXLM, KC_LABK, KC_RABK, KC_LBRC, KC_PAST, KC_CIRC, KC_7,  KC_8,       KC_9,   KC_COLN, KC_BSPC,
   S(KC_TAB), KC_HASH, KC_DLR,  KC_LPRN, KC_RPRN, KC_RBRC, KC_EQL,  KC_4,  KC_5,       KC_6,   KC_PMNS, KC_PPLS,
-  KC_TRNS,   KC_TILD, KC_PERC, KC_LCBR, KC_RCBR, KC_AMPR, KC_AT,   KC_1,  KC_2,       KC_3,   KC_PSLS, KC_PAST,
+  KC_TRNS,   KC_TILD, KC_PERC, KC_LCBR, KC_RCBR, KC_AMPR, KC_PIPE, KC_1,  KC_2,       KC_3,   KC_PSLS, KC_PAST,
   KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_0,  MTLALT_DOT, KC_NO,  KC_NO,   KC_NO
 ),
 
@@ -239,7 +247,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,----------------------------------------------------------------------------.
  * |    | F9 |  F10 |  F11  | F12 |MyComp |Back |home |  up  | end |PrtScr| Del |
  * |----------------------------------------------------------------------------|
- * |  |Ctl,F5|Sft,F6|Alt,F7 | F8  |DeskL  |DeskR|left | down |right|ScrLck| CAPS|
+ * |    |§§§§|Alt,F5|Sft,F6|Cmd,F7|Ctl,F8 |     |left | down |right|ScrLck| CAPS|
  * |----------------------------------------------------------------------------|
  * |    | F1 |  F2  |  F3   | F4  |ALT_TAB|Calc |pgup |LCA_dn| pgdn|Pse/Brk| Ins|
  * |----------------------------------------------------------------------------|
@@ -247,10 +255,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `----------------------------------------------------------------------------'
  */
 [_FN] = LAYOUT_planck_grid( /* FUNCTION */
-  KC_TRNS, KC_F8, KC_F9,     KC_F10,    KC_F11,    KC_F12,  BWSRLEFT, KC_HOME, KC_UP,        KC_END,  KC_PSCR,  KC_DEL,
-  KC_TRNS, KC_F5, MTLCTL_F5, MTLSFT_F6, MTLALT_F7, DESKTL,  DESKTR,   KC_LEFT, KC_DOWN,      KC_RGHT, KC_SCRL,  KC_CAPS,
-  KC_TRNS, KC_F1, KC_F2,     KC_F3,     KC_F4,     ALT_TAB, KC_CALC,  KC_PGUP, LCA(KC_DOWN), KC_PGDN, KC_PAUSE, KC_INS,
-  KC_NO,   KC_NO, KC_NO,     KC_TRNS,   ALT_TAB,   CTL_TAB, CTL_TAB,  KC_TRNS, MTLALT_NXT,   KC_NO,   KC_NO,    KC_NO
+  KC_TRNS, KC_F8,   KC_F9,     KC_F10,    KC_F11,    KC_F12,     BWSRLEFT, KC_HOME, KC_UP,        KC_END,  KC_PSCR,  KC_DEL,
+  KC_TRNS, KC_TRNS, MTLALT_F5, MTLSFT_F6, MTLCMD_F7, MTLCTL_F8,  KC_NO,    KC_LEFT, KC_DOWN,      KC_RGHT, KC_SCRL,  KC_CAPS,
+  KC_TRNS, KC_F1,   KC_F2,     KC_F3,     KC_F4,     ALT_TAB,    KC_CALC,  KC_PGUP, LCA(KC_DOWN), KC_PGDN, KC_PAUSE, KC_INS,
+  KC_NO,   KC_NO,   KC_NO,     KC_TRNS,   ALT_TAB,   CTL_TAB,    CTL_TAB,  KC_TRNS, MTLALT_NXT,   KC_NO,   KC_NO,    KC_NO
 ),
 
 /* MIT Layout (ADJUST)
@@ -262,7 +270,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------------------------------------------------------------------------------|
  * |Debug |MWLft|MWUp |NWDn |NWRght|QWERTY|COLEMAK|     |      |     |     |AU_OFF|
  * |------------------------------------------------------------------------------|
- * |      |     |     |     |      |              |     |      |     |     |      |
+ * |      |     |     |     |2-§§§§|             |1-§§§§|      |     |     |      |
  * `------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_planck_grid( /* ADJUST LAYER */
@@ -277,7 +285,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 float layerswitch_song[][2] = SONG(PLANCK_SOUND);
 float tone_startup[][2]     = SONG(STARTUP_SOUND);
 float tone_qwerty[][2]      = SONG(QWERTY_SOUND);
-float tone_colemak[][2]     = SONG(COLEMAK_SOUND);
+float tone_colemakdh[][2]     = SONG(COLEMAK_SOUND);
 float music_scale[][2]      = SONG(MUSIC_SCALE_SOUND);
 float tone_goodbye[][2]     = SONG(GOODBYE_SOUND);
 float short_tone_on[][2]    = SONG(AUDIO_ON_SOUND);
@@ -371,7 +379,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return true;
     case COLEMAK:
       if (record->event.pressed) {
-        set_single_persistent_default_layer(_COLEMAK);
+        set_single_persistent_default_layer(_COLEMAKDH);
         #ifdef AUDIO_ENABLE
           PLAY_SONG(layerswitch_song);
         #endif
