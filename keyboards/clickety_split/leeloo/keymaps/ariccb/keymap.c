@@ -24,6 +24,7 @@
 #include "features/select_word.h"
 #include "features/adaptive_keys.h"
 #include "features/layer_lock.h"
+#include "guess_os.h"
 
 //#include "features/caps_word.h"
 //#include "features/autocorrection.h"
@@ -74,7 +75,12 @@ enum layer_names {
 #define BWSRLEFT A(KC_LEFT)
 #define BWSRRHGT A(KC_RGHT)
 #define ALT_TAB LALT(KC_TAB)
+
+#ifdef MAC_HOTKEYS
 #define TERMINAL LCTL(KC_GRV)
+#else
+#define TERMINAL LCTL(KC_GRV)
+#endif  // MAC_HOTKEYS
 
 
 enum planck_keycodes {
