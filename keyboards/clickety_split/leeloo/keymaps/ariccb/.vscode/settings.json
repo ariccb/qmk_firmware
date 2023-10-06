@@ -1,6 +1,8 @@
 {
     "files.associations": {
+        "*.jsx": "javascriptreact",
         "*.def": "c",
-        "caps_word.h": "c"
+        "caps_word.h": "c",
+        "select_word.h": "c"
     }
 }
