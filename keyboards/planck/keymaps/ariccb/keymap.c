@@ -21,6 +21,11 @@
 #include "features/adaptive_keys.h"
 #include "features/autocorrection.h"
 #include "features/layer_lock.h"
+#include "guess_os.h"
+
+#if (host_os == OS_MACOS || host_os == OS_IOS)// if the os is iOS or MacOS
+  #define MAC_HOTKEYS
+#endif
 
 // using the Word Selection QMK Macro by Pascal Getreuer, found here: https://getreuer.info/posts/keyboards/select-word/index.html
 // THANKS Pascal for such amazing functionality!!
@@ -29,68 +34,73 @@
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
-#define _QWERTY 0
-#define _HANDSDOWN 1
-#define _COLEMAKDH 2
-#define _LOWER 3
-#define _RAISE 4
-#define _NUMPAD 5
-#define _FN 6
-#define _ADJUST 7
-//windows shortcuts
-#define MICMUTE LALT(KC_M)
-#define LOW_OSS LT(_LOWER, KC_F24)
-#define DESKTR LGUI(LCTL(KC_RGHT))  // move one virtual desktop to the right
-#define DESKTL LGUI(LCTL(KC_LEFT))  // move one virtual desktop to the left
-#define BWSRLEFT A(KC_LEFT)
+#define _COLEMAKDH 0
+#define _QWERTY 1
+#define _LOWER 2
+#define _RAISE 3
+#define _FN 4
+#define _ADJUST 5
 
-#define MTLALT_F5 MT(MOD_LALT, KC_F5)
-#define MTLSFT_F6 MT(MOD_LSFT, KC_F6)
-#define MTLCMD_F7 MT(MOD_LGUI, KC_F7)
-#define MTLCTL_F8 MT(MOD_LCTL, KC_F8)
-// #define MTLALT_F5 MT(MOD_LCTL, KC_F5)
-// #define MTLSFT_F6 MT(MOD_LSFT, KC_F6)
-// #define MTLALT_F7 MT(MOD_LALT, KC_F7)
+#ifdef MAC_HOTKEYS // if the os is iOS or MacOS
+  #define MTLOPT_F4 MT(MOD_LALT, KC_F4)
+  #define MTLSFT_F6 MT(MOD_LSFT, KC_F6)
+  #define MTLCMD_F7 MT(MOD_LGUI, KC_F7)
+  #define MTLCTL_F8 MT(MOD_LCTL, KC_F8)
+  #define MTLCTL_DOT MT(MOD_LCTL, KC_DOT)
+  #define MTLCTL_Z MT(MOD_LCTL, KC_Z)
+  #define MTLCTL_X MT(MOD_LCTL, KC_X)
+  #define MTLOPT_NXT MT(MOD_LALT, KC_MNXT)
+  #define MTENTER MT(MOD_LGUI, KC_ENT)
+  #define MTRCMDQUO MT(MOD_RGUI, KC_QUOT)
+  #define LWR_SP LT(_LOWER, KC_SPC)
+  #define MTRSFTBSLS MT(MOD_RSFT, KC_BSLS)
+  #define LTFN_PL LT(_FN, KC_MPLY)
+  #define FN_A LT(_FN, KC_A)
+  #define MTTAB MT(MOD_LCTL | MOD_LGUI | MOD_LALT, KC_TAB)
+  #define MTESC MT(MOD_LCTL | MOD_LGUI | MOD_LALT | MOD_LSFT, KC_ESC)
+  #define RSE_DEL LT(_RAISE, KC_DEL)
+  #define OPT_OSS MT(MOD_LALT, KC_F24)
+  #define DESKTR LCTL(KC_RGHT)  // move one virtual desktop to the right
+  #define DESKTL LCTL(KC_LEFT)  // move one virtual desktop to the left
+  #define BWSRLEFT LGUI(KC_LEFT)
 
-#define MTLALT_DOT MT(MOD_LALT, KC_DOT)
-#define MTLGUI_Z MT(MOD_LGUI, KC_Z)
-#define MTLGUI_X MT(MOD_LGUI, KC_X)
-#define MTLALT_PL MT(MOD_LALT, KC_MPLY)
-#define MTLALT_NXT MT(MOD_LALT, KC_MNXT)
-#define MTENTER MT(MOD_LCTL, KC_ENT)
-#define LWR_SP LT(_LOWER, KC_SPC)
-#define MTRSFTBSLS MT(MOD_RSFT, KC_BSLS)
-#define MTRCTLQUO MT(MOD_RCTL, KC_QUOT)
-#define MTTAB MT(MOD_LCTL | MOD_LGUI | MOD_LALT, KC_TAB)
-#define MTESC MT(MOD_LCTL | MOD_LGUI | MOD_LALT | MOD_LSFT, KC_ESC)
-#define RSE_DEL LT(_RAISE, KC_DEL)
-#define FN_A LT(_FN, KC_A)
-#define FN_R LT(_FN, KC_R)
-#define MTPLAY MT(MOD_RALT, KC_MPLY)
-#define KC_COPY LCTL(KC_C)
-#define KC_CUT LCTL(KC_X)
-#define KC_PASTE LCTL(KC_V)
-#define KC_WINPASTE LGUI(KC_V)
-#define KC_PTXT LCTL(LSFT(KC_V))
-#define KC_UNDO LCTL(KC_Z)
-#define KC_REDO LCTL(KC_Y)
+#else // if the os is Windows or Linux
+  #define MTLOPT_F4 MT(MOD_LCTL, KC_F4)
+  #define MTLSFT_F6 MT(MOD_LSFT, KC_F6)
+  #define MTLCMD_F7 MT(MOD_LALT, KC_F7)
+  #define MTLCTL_F8 MT(MOD_LGUI, KC_F8)
+  #define MTLCTL_DOT MT(MOD_LALT, KC_DOT)
+  #define MTLCTL_Z MT(MOD_LGUI, KC_Z)
+  #define MTLCTL_X MT(MOD_LGUI, KC_X)
+  #define MTLOPT_NXT MT(MOD_LALT, KC_MNXT)
+  #define MTENTER MT(MOD_LCTL, KC_ENT)
+  #define MTRCMDQUO MT(MOD_RCTL, KC_QUOT)
+  #define LWR_SP LT(_LOWER, KC_SPC)
+  #define MTRSFTBSLS MT(MOD_RSFT, KC_BSLS)
+  #define LTFN_PL LT(_FN, KC_MPLY)
+  #define FN_A LT(_FN, KC_A)
+  #define MTTAB MT(MOD_LCTL | MOD_LGUI | MOD_LALT, KC_TAB)
+  #define MTESC MT(MOD_LCTL | MOD_LGUI | MOD_LALT | MOD_LSFT, KC_ESC)
+  #define RSE_DEL LT(_RAISE, KC_DEL)
+  #define DESKTR LGUI(LCTL(KC_RGHT))  // move one virtual desktop to the right
+  #define DESKTL LGUI(LCTL(KC_LEFT))  // move one virtual desktop to the left
+  #define BWSRLEFT A(KC_LEFT)
 
+#endif
 
 enum planck_keycodes {
   QWERTY = SAFE_RANGE,
-  HANDSDOWN,
   COLEMAK,
   LOWER,
   RAISE,
   FN,
   ADJUST,
-  NUMPAD,
   EXT_NUM,
   SELWORD,
   BRACES,
   BRACES2,
   ARROW,
-  ALT_TAB,
+  OPT_TAB,
   CTL_TAB,
   LLOCK,
   SELWRIGHT,
@@ -147,62 +157,45 @@ enum planck_keycodes {
 
 // Play/Pause has a prime spot on the base layer, and the Fn version skips to next track
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+
+/* MIT Layout (COLEMAK-DH)
+ *
+ * ,------------------------------------------------------------------------.
+ * |HYP,Esc| q  |  w  |  f  |  d  |  b  |  j  |  l  |  u  |  y  |  ;  | Bsp |
+ * |------------------------------------------------------------------------|
+ * |FN,Tab|  a  |  r  |  s  |  t  |  g  |  m  |  n  |  e  |  i  |  o  |Ctl,'|
+ * |------------------------------------------------------------------------|
+ * |Shift |Win,z|  x  |  v  |  c  |  p  |  k  |  h  |  ,  |  .  |  /  |Sft,\|
+ * |------------------------------------------------------------------------|
+ * |      |  |  |Opt,OSSft|Cmd,Ent|   Space   |RAISE| FN,Play|  |     |     |
+ * `------------------------------------------------------------------------'
+ */
+[_COLEMAKDH] = LAYOUT_planck_grid( /* COLEMAK-DH */
+    MTESC,   KC_Q,     KC_W,     KC_F,    KC_P,    KC_B,   KC_J,   KC_L,    KC_U,      KC_Y,   KC_SCLN, KC_BSPC,
+    MTTAB,   FN_A,     KC_R,     KC_S,    KC_T,    KC_G,   KC_M,   KC_N,    KC_E,      KC_I,   KC_O,    MTRCMDQUO,
+    KC_LSFT, MTLCTL_Z, KC_X,     KC_C,    KC_D,    KC_V,   KC_K,   KC_H,    KC_COMM,   KC_DOT, KC_SLSH, MTRSFTBSLS,
+    KC_NO,   KC_NO,    KC_NO,    OPT_OSS, MTENTER, LWR_SP, LWR_SP, RSE_DEL, LTFN_PL,   KC_NO,  KC_NO,   KC_NO
+),
+
 /* MIT Layout (QWERTY)
  *
  * ,------------------------------------------------------------------------.
  * |HYP,Esc| q  |  w  |  e  |  r  |  t  |  y  |  u  |  i  |  o  |  p  |Bsp  |
  * |------------------------------------------------------------------------|
-   |GCA,Tab| a  |  s  |  d  |  f  |  g  |  h  |  j  |  k  |  l  |  ;  |Ctl,'|
+ * |GCA,Tab| a  |  s  |  d  |  f  |  g  |  h  |  j  |  k  |  l  |  ;  |Ctl,'|
  * |------------------------------------------------------------------------|
  * |Shift |Win,z|  x  |  c  |  v  |  b  |  n  |  m  |  ,  |  .  |  /  |Sft,\|
  * |------------------------------------------------------------------------|
- * |      |  |  |Ctl,Ent|LWR,OSSft|   Space   |RAISE|Alt,Play|  |     |     |
+ * |      |  |  |Opt,OSSft|Cmd,Ent|   Space   |RAISE| FN,Play|  |     |     |
  * `------------------------------------------------------------------------'
  */
 [_QWERTY] = LAYOUT_planck_grid( /* QWERTY */
     MTESC,   KC_Q,     KC_W,     KC_E,    KC_R,    KC_T,   KC_Y,   KC_U,     KC_I,      KC_O,   KC_P,    KC_BSPC,
-    MTTAB,   FN_A,     KC_S,     KC_D,    KC_F,    KC_G,   KC_H,   KC_J,     KC_K,      KC_L,   KC_SCLN, MTRCTLQUO,
-    KC_LSFT, MTLGUI_Z, KC_X,     KC_C,    KC_V,    KC_B,   KC_N,   KC_M,     KC_COMM,   KC_DOT, KC_SLSH, MTRSFTBSLS,
-    KC_NO,   KC_NO,    KC_NO,    MTENTER, LOW_OSS, LWR_SP, LWR_SP, RSE_DEL,  MTLALT_PL, KC_NO,  KC_NO,   KC_NO
+    MTTAB,   FN_A,     KC_S,     KC_D,    KC_F,    KC_G,   KC_H,   KC_J,     KC_K,      KC_L,   KC_SCLN, MTRCMDQUO,
+    KC_LSFT, MTLCTL_Z, KC_X,     KC_C,    KC_V,    KC_B,   KC_N,   KC_M,     KC_COMM,   KC_DOT, KC_SLSH, MTRSFTBSLS,
+    KC_NO,   KC_NO,    KC_NO,    OPT_OSS, MTENTER, LWR_SP, LWR_SP, RSE_DEL,  LTFN_PL,   KC_NO,  KC_NO,   KC_NO
   ),
 
-//  /* MIT Layout (HANDSDOWNNEU Modded)
-//  *
-//  * ,------------------------------------------------------------------------.
-//  * |HYP,Esc| w  |  f  |  m  |  p  |  v  |  /  |  .  |  q  |  ,  |  ;  |Bsp  |
-//  * |------------------------------------------------------------------------|
-//    |GCA,Tab| r  |  s  |  n  |  t  |  g  |  k  |  a  |  e  |  i  |  h  |Ctl,'|
-//  * |------------------------------------------------------------------------|
-//  * |Shift |Win,x|  c  |  l  |  d  |  b  |  j  |  u  |  o  |  y  |  z  |Sft,\|
-//  * |------------------------------------------------------------------------|
-//  * |      |  |  |Ctl,Ent|LWR,OSSft|   Space   |RAISE|Alt,Play|  |     |     |
-//  * `------------------------------------------------------------------------'
-//  */
-// [_HANDSDOWN] = LAYOUT_planck_grid( /* HANDS DOWN GOLD */
-//     MTESC,   KC_W,     KC_F,     KC_M,    KC_P,    KC_V,   KC_SLSH,  KC_DOT,   KC_Q,      KC_COMMA, KC_SCLN, KC_BSPC,
-//     MTTAB,   FN_R,     KC_S,     KC_N,    KC_T,    KC_G,   KC_K,     KC_A,     KC_E,      KC_I,     KC_H,    MTRCTLQUO,
-//     KC_LSFT, MTLGUI_X, KC_C,     KC_L,    KC_D,    KC_B,   KC_J,     KC_U,     KC_O,      KC_Y,     KC_Z,    MTRSFTBSLS,
-//     KC_NO,   KC_NO,    KC_NO,    MTENTER, LOW_OSS, LWR_SP, LWR_SP,   RSE_DEL,  MTLALT_PL, KC_NO,    KC_NO,   KC_NO
-//  ),
-
- /* MIT Layout (COLEMAK-DH)d
- *
- * ,------------------------------------------------------------------------.
- * |HYP,Esc| q  |  w  |  f  |  d  |  b  |  j  |  l  |  u  |  y  |  ;  | Bsp |
- * |------------------------------------------------------------------------|
-   |FN,Tab|  a  |  r  |  s  |  t  |  g  |  m  |  n  |  e  |  i  |  o  |Ctl,'|
- * |------------------------------------------------------------------------|
- * |Shift |Win,z|  x  |  v  |  c  |  p  |  k  |  h  |  ,  |  .  |  /  |Sft,\|
- * |------------------------------------------------------------------------|
- * |      |  |  |Ctl,Ent|LWR,OSSft|   Space   |RAISE|Alt,Play|  |     |     |
- * `------------------------------------------------------------------------'
- */
-[_COLEMAKDH] = LAYOUT_planck_grid( /* COLEMAK */
-    MTESC,   KC_Q,     KC_W,     KC_F,    KC_P,    KC_B,   KC_J,   KC_L,    KC_U,      KC_Y,   KC_SCLN, KC_BSPC,
-    MTTAB,   FN_A,     KC_R,     KC_S,    KC_T,    KC_G,   KC_M,   KC_N,    KC_E,      KC_I,   KC_O,    MTRCTLQUO,
-    KC_LSFT, MTLGUI_Z, KC_X,     KC_C,    KC_D,    KC_V,   KC_K,   KC_H,    KC_COMM,   KC_DOT, KC_SLSH, MTRSFTBSLS,
-    KC_NO,   KC_NO,    KC_NO,    MTENTER, LOW_OSS, LWR_SP, LWR_SP, RSE_DEL, MTLALT_PL, KC_NO,  KC_NO,   KC_NO
- ),
 
 /* MIT Layout (RAISE)
  *
@@ -220,7 +213,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TRNS, KC_BTN3, KC_BTN2, KC_MS_U, KC_BTN1, KC_MUTE, KC_TRNS, KC_TRNS, KC_BTN3, KC_TRNS, KC_COLN, KC_BSPC,
   KC_TRNS, KC_APP,  KC_MS_L, KC_MS_D, KC_MS_R, KC_VOLU, ARROW,   KC_BTN1, SELWORD, KC_BTN2, KC_TRNS, KC_EXLM,
   KC_TRNS, KC_WH_L, KC_WH_U, KC_WH_D, KC_WH_R, KC_VOLD, BRACES,  BRACES2, KC_LABK, KC_RABK, KC_QUES, KC_PIPE,
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_APP,  MO(7),   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO,   KC_NO
+  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, MO(5),   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO,   KC_NO
 ),
 
 /* MIT Layout (LOWER)
@@ -228,37 +221,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------------------------------------.
  * |  `  |  !  |  <  |  >  |  [  |  *  |  ^  |  7  |  8  |  9  |  :  | Bsp |
  * |-----------------------------------------------------------------------|
- * |S(TAB)| #  |  $  |  (  |  )  |  ]  |  =  |  4  |  5  |  6  |  -  |  +  |
+ * |S(TAB)| #  |  $  |  (  |  )  |  ]  |  =  |  4  |  4  |  6  |  -  |  +  |
  * |-----------------------------------------------------------------------|
  * |Shift|  ~  |  %  |  {  |  }  |  &  | '|' |  1  |  2  |  3  |  /  |  *  |
  * |-----------------------------------------------------------------------|
- * |     |     |    |Ctl,Ent|§§§§|           |  0  |  .  |     |     |     |
+ * |   |   |   |Opt,OSSft|Cmd,Ent|§§§§§§§§§§§|  0  | .,Ctl|     |     |    |
  * `-----------------------------------------------------------------------'
  */
 [_LOWER] = LAYOUT_planck_grid( /* LOWER */
   KC_GRV,    KC_EXLM, KC_LABK, KC_RABK, KC_LBRC, KC_PAST, KC_CIRC, KC_7,  KC_8,       KC_9,   KC_COLN, KC_BSPC,
-  S(KC_TAB), KC_HASH, KC_DLR,  KC_LPRN, KC_RPRN, KC_RBRC, KC_EQL,  KC_4,  KC_5,       KC_6,   KC_PMNS, KC_PPLS,
+  S(KC_TAB), KC_HASH, KC_DLR,  KC_LPRN, KC_RPRN, KC_RBRC, KC_EQL,  KC_4,  KC_4,       KC_6,   KC_PMNS, KC_PPLS,
   KC_TRNS,   KC_TILD, KC_PERC, KC_LCBR, KC_RCBR, KC_AMPR, KC_PIPE, KC_1,  KC_2,       KC_3,   KC_PSLS, KC_PAST,
-  KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_0,  MTLALT_DOT, KC_NO,  KC_NO,   KC_NO
+  KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_0,  MTLCTL_DOT, KC_NO,  KC_NO,   KC_NO
 ),
 
 /* MIT Layout (FN)
  *
  * ,----------------------------------------------------------------------------.
- * |    | F9 |  F10 |  F11  | F12 |MyComp |Back |home |  up  | end |PrtScr| Del |
+ * |    | F8  |  F9 |  F10 |  F11 |  F12 | Back |home |  up  | end |PrtScr| Del |
  * |----------------------------------------------------------------------------|
- * |    |§§§§|Alt,F5|Sft,F6|Cmd,F7|Ctl,F8 |     |left | down |right|ScrLck| CAPS|
+ * |    |§§§§|Opt,F4|Sft,F6|Cmd,F7|Ctl,F8 |SelWL|left | down |right|SelWR | CAPS|
  * |----------------------------------------------------------------------------|
- * |    | F1 |  F2  |  F3   | F4  |ALT_TAB|Calc |pgup |LCA_dn| pgdn|Pse/Brk| Ins|
+ * |    | F1 |  F2  |  F3   | F4  |OPT_TAB|Calc |pgup |LCA_dn| pgdn|Pse/Brk| Ins|
  * |----------------------------------------------------------------------------|
- * |    |    |      |       |ALT_TAB| CTL_TAB   |     |Alt,MNext|  |      |     |
+ * |    |    |      |       |OPT_TAB| CTL_TAB   | OPT |Opt,MNext|  |      |     |
  * `----------------------------------------------------------------------------'
  */
 [_FN] = LAYOUT_planck_grid( /* FUNCTION */
-  KC_TRNS, KC_F8,   KC_F9,     KC_F10,    KC_F11,    KC_F12,     BWSRLEFT, KC_HOME, KC_UP,        KC_END,  KC_PSCR,  KC_DEL,
-  KC_TRNS, KC_TRNS, MTLALT_F5, MTLSFT_F6, MTLCMD_F7, MTLCTL_F8,  KC_NO,    KC_LEFT, KC_DOWN,      KC_RGHT, KC_SCRL,  KC_CAPS,
-  KC_TRNS, KC_F1,   KC_F2,     KC_F3,     KC_F4,     ALT_TAB,    KC_CALC,  KC_PGUP, LCA(KC_DOWN), KC_PGDN, KC_PAUSE, KC_INS,
-  KC_NO,   KC_NO,   KC_NO,     KC_TRNS,   ALT_TAB,   CTL_TAB,    CTL_TAB,  KC_TRNS, MTLALT_NXT,   KC_NO,   KC_NO,    KC_NO
+  KC_TRNS, KC_F8,   KC_F9,     KC_F10,    KC_F11,    KC_F12,     BWSRLEFT, KC_HOME, KC_UP,        KC_END,  KC_PSCR,   KC_DEL,
+  KC_TRNS, KC_TRNS, MTLOPT_F4, MTLSFT_F6, MTLCMD_F7, MTLCTL_F8,  SELWLEFT, KC_LEFT, KC_DOWN,      KC_RGHT, SELWRIGHT, KC_CAPS,
+  KC_TRNS, KC_F1,   KC_F2,     KC_F3,     KC_F4,     OPT_TAB,    KC_CALC,  KC_PGUP, LCA(KC_DOWN), KC_PGDN, KC_PAUSE,  KC_INS,
+  KC_NO,   KC_NO,   KC_NO,     KC_TRNS,   OPT_TAB,   CTL_TAB,    CTL_TAB,  KC_LALT, MTLOPT_NXT,   KC_NO,   KC_NO,     KC_NO
 ),
 
 /* MIT Layout (ADJUST)
@@ -266,7 +259,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,------------------------------------------------------------------------------.
  * |      | Ms3 | Ms2 |MsUp | Ms1  |      | LLOCK |     |MsMid|      | Hue+|RGBTog|
  * |------------------------------------------------------------------------------|
- * |      | Menu| MsL |MDn  | MsR  |      |HANDSDN|MsLft|     |MsRhgt| Hue-|AU_ON |
+ * |      | Menu| MsL |MDn  | MsR  |      |       |MsLft|     |MsRhgt| Hue-|AU_ON |
  * |------------------------------------------------------------------------------|
  * |Debug |MWLft|MWUp |NWDn |NWRght|QWERTY|COLEMAK|     |      |     |     |AU_OFF|
  * |------------------------------------------------------------------------------|
@@ -274,10 +267,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_planck_grid( /* ADJUST LAYER */
-  KC_TRNS, KC_BTN3, KC_BTN2, KC_MS_U, KC_BTN1, KC_NO,   LLOCK,     KC_NO,   KC_BTN3, KC_TRNS, RGB_HUI, RGB_TOG,   // RGB_VAD, RGB_VAI, RGB_SAD, RGB_SAI,
-  KC_TRNS, KC_APP,  KC_MS_L, KC_MS_D, KC_MS_R, KC_NO,   HANDSDOWN, KC_BTN1, KC_TRNS, KC_BTN2, RGB_HUD, AU_ON,
-  KC_NO,   KC_WH_L, KC_WH_U, KC_WH_D, KC_WH_R, QWERTY,  COLEMAK,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, AU_OFF,
-  KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS, KC_NO,   KC_NO
+  KC_TRNS, KC_BTN3, KC_BTN2, KC_MS_U, KC_BTN1, KC_NO,   LLOCK,   KC_NO,   KC_BTN3, KC_TRNS, RGB_HUI, RGB_TOG,   // RGB_VAD, RGB_VAI, RGB_SAD, RGB_SAI,
+  KC_TRNS, KC_APP,  KC_MS_L, KC_MS_D, KC_MS_R, KC_NO,   KC_NO,   KC_BTN1, KC_TRNS, KC_BTN2, RGB_HUD, AU_ON,
+  KC_NO,   KC_WH_L, KC_WH_U, KC_WH_D, KC_WH_R, QWERTY,  COLEMAK, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, AU_OFF,
+  KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO,   KC_NO
 )
 };
 
@@ -296,16 +289,16 @@ bool is_alt_tab_active = false;
 bool is_ctl_tab_active = false;
 layer_state_t layer_state_set_user(layer_state_t state) {
 
-	static bool is_this_layer_on = false;
-	if (layer_state_cmp(state, 5) != is_this_layer_on) {
-		is_this_layer_on = layer_state_cmp(state, 5);
-		if (is_this_layer_on) {
-			PLAY_SONG(layerswitch_song);
-		}
-		else {
-			stop_all_notes();
-		}
-	}
+	// static bool is_this_layer_on = false;
+	// if (layer_state_cmp(state, 4) != is_this_layer_on) {
+	// 	is_this_layer_on = layer_state_cmp(state, 4);
+	// 	if (is_this_layer_on) {
+	// 		PLAY_SONG(layerswitch_song);
+	// 	}
+	// 	else {
+	// 		stop_all_notes();
+	// 	}
+	// }
   if (is_alt_tab_active) {
         unregister_code(KC_LALT);
         is_alt_tab_active = false;
@@ -340,6 +333,10 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 	//   return state;
 }
 
+void matrix_init_user(void) {
+  default_layer_set(1UL<<_COLEMAKDH);
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (!process_select_word(keycode, record, SELWORD)) { return false; }
   //if (!process_caps_word(keycode, record)) { return false; }
@@ -354,15 +351,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case QWERTY:
       if (record->event.pressed) {
         set_single_persistent_default_layer(_QWERTY);
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(layerswitch_song);
-        #endif
-      }
-      return false;
-      break;
-    case HANDSDOWN:
-      if (record->event.pressed) {
-        set_single_persistent_default_layer(_HANDSDOWN);
         #ifdef AUDIO_ENABLE
           PLAY_SONG(layerswitch_song);
         #endif
@@ -427,11 +415,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
-    case ALT_TAB:
+    case OPT_TAB:
         if (record->event.pressed) {
           alt_tabtimer = timer_read_fast();
           if(!alt_tabbing) {
+          #ifdef MAC_HOTKEYS
+          register_code(KC_LGUI);
+          #else
           register_code(KC_LALT);
+          #endif
             alt_tabbing = true;
           }
           tap_code(KC_TAB);
@@ -449,7 +441,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return false;
         break;
-    case LT(_LOWER, KC_F24):
+    case MT(MOD_LALT, KC_F24):
         if (record->tap.count > 0) {
           if (record->event.pressed) {
             //register_code16(KC_LPRN);
@@ -463,12 +455,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case SELWLEFT:
         if (record->event.pressed){
-          tap_code16(LCTL(LSFT(KC_LEFT)));
+          #ifdef MAC_HOTKEYS
+            tap_code16(LALT(LSFT(KC_LEFT)));
+          #else
+            tap_code16(LCTL(LSFT(KC_LEFT)));
+          #endif
+
         }
         break;
     case SELWRIGHT:
         if (record->event.pressed){
-          tap_code16(LCTL(LSFT(KC_RGHT)));
+          #ifdef MAC_HOTKEYS
+            tap_code16(LALT(LSFT(KC_RGHT)));
+          #else
+            tap_code16(LCTL(LSFT(KC_RGHT)));
+          #endif
         }
         break;
   }
@@ -535,21 +536,21 @@ const uint16_t PROGMEM css_style_combo[]            = {KC_S, KC_DOT, COMBO_END};
 const uint16_t PROGMEM html_generic_tag_combo[]     = {KC_G, KC_DOT, COMBO_END};
 const uint16_t PROGMEM undo_combo[]                 = {KC_W, KC_F, COMBO_END};
 const uint16_t PROGMEM redo_combo[]                 = {KC_F, KC_P, COMBO_END};
-const uint16_t PROGMEM cut_combo[]                  = {MTLGUI_Z, KC_X, COMBO_END};
+const uint16_t PROGMEM cut_combo[]                  = {MTLCTL_Z, KC_X, COMBO_END};
 const uint16_t PROGMEM copy_combo[]                 = {KC_X, KC_C, COMBO_END};
 const uint16_t PROGMEM paste_combo[]                = {KC_C, KC_D, COMBO_END};
 const uint16_t PROGMEM pasteclip_combo[]            = {KC_X, KC_D, COMBO_END};
 const uint16_t PROGMEM pastetxt_combo[]             = {KC_X, KC_V, COMBO_END};
-const uint16_t PROGMEM selectall_combo[]            = {MTLGUI_Z, KC_D, COMBO_END};
+const uint16_t PROGMEM selectall_combo[]            = {MTLCTL_Z, KC_D, COMBO_END};
 const uint16_t PROGMEM questionmark_combo[]         = {KC_DOT, KC_SLSH, COMBO_END};
 const uint16_t PROGMEM exclamationmark_combo[]      = {KC_SLSH, MTRSFTBSLS, COMBO_END};
 const uint16_t PROGMEM underscore_combo[]           = {KC_COMMA, KC_DOT, COMBO_END};
 const uint16_t PROGMEM dash_combo[]                 = {KC_U, KC_Y, COMBO_END};
 const uint16_t PROGMEM twodquote_combo[]            = {KC_H, KC_COMMA, COMBO_END};
-const uint16_t PROGMEM lowertoggle_combo[]          = {LT(_LOWER, KC_F24), MTENTER, COMBO_END};
+// const uint16_t PROGMEM lowertoggle_combo[]          = {MT(MOD_LALT, KC_F24), MTENTER, COMBO_END};
 const uint16_t PROGMEM mousetoggle_combo[]          = {KC_A, KC_R, KC_S, KC_T, COMBO_END};
 const uint16_t PROGMEM sleep_combo[]                = {KC_Q, KC_W, KC_F, KC_P, COMBO_END};
-const uint16_t PROGMEM reset_combo[]                = {KC_BSPC, MTRCTLQUO, MTRSFTBSLS, COMBO_END};
+const uint16_t PROGMEM reset_combo[]                = {KC_BSPC, MTRCMDQUO, MTRSFTBSLS, COMBO_END};
 const uint16_t PROGMEM numlock_combo[]              = {KC_L, KC_U, KC_Y, COMBO_END};
 const uint16_t PROGMEM capsword_combo[]             = {KC_LSFT, MTRSFTBSLS, COMBO_END};
 
@@ -582,11 +583,11 @@ combo_t key_combos[] = {
   [PASTETEXT] = COMBO_ACTION(pastetxt_combo),
   [SELECTALL] = COMBO_ACTION(selectall_combo),
   [QUESTIONMARK] = COMBO_ACTION(questionmark_combo),
-   [EXCLAMATIONMARK] = COMBO_ACTION(exclamationmark_combo),
+  [EXCLAMATIONMARK] = COMBO_ACTION(exclamationmark_combo),
   [UNDERSCORE] = COMBO_ACTION(underscore_combo),
   [DASH] = COMBO_ACTION(dash_combo),
   [TWODQUOTE] = COMBO_ACTION(twodquote_combo),
-  [LOWERTOGGLE] = COMBO_ACTION(lowertoggle_combo),
+  // [LOWERTOGGLE] = COMBO_ACTION(lowertoggle_combo),
   [MOUSETOGGLE] = COMBO_ACTION(mousetoggle_combo),
   [SLEEP] = COMBO_ACTION(sleep_combo),
   [RESETKEY] = COMBO_ACTION(reset_combo),
@@ -642,7 +643,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       case CSS_STYLE:
       if (pressed) {
         SEND_STRING("<style></style>");
-         for (int i = 0; i < 8; i++) {
+          for (int i = 0; i < 8; i++) {
           tap_code16(KC_LEFT);
         }
       }
@@ -699,56 +700,99 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       break;
     case HTML_GENERIC_TAG:
       if (pressed) {
+        #ifdef MAC_HOTKEYS
+          SEND_STRING("<TAG></TAG>");
+          tap_code16(KC_ESC);
+          for (int i = 0; i < 9; i++) {
+            tap_code16(KC_LEFT);
+          }
+          tap_code16(LGUI(KC_D));
+          tap_code16(LGUI(KC_D));
+          tap_code16(KC_BSPC);
+        #else
         SEND_STRING("<TAG></TAG>");
-        tap_code16(KC_ESC);
-        for (int i = 0; i < 9; i++) {
-          tap_code16(KC_LEFT);
-        }
-        tap_code16(LCTL(KC_D));
-        tap_code16(LCTL(KC_D));
-        tap_code16(KC_BSPC);
+          tap_code16(KC_ESC);
+          for (int i = 0; i < 9; i++) {
+            tap_code16(KC_LEFT);
+          }
+          tap_code16(LCTL(KC_D));
+          tap_code16(LCTL(KC_D));
+          tap_code16(KC_BSPC);
+        #endif
+        break;
       }
-      break;
     case UNDO:
       if (pressed) {
-        tap_code16(C(KC_Z));
+        #ifdef MAC_HOTKEYS
+          tap_code16(LGUI(KC_Z));
+        #else
+          tap_code16(C(KC_Z));
+        #endif
+        break;
       }
-      break;
     case REDO:
       if (pressed) {
-        tap_code16(C(KC_Y));
+        #ifdef MAC_HOTKEYS
+          tap_code16(LGUI(S(KC_Z)));
+        #else
+          tap_code16(C(KC_Z));
+        #endif
+        break;
       }
-      break;
     case CUT:
       if (pressed) {
-        tap_code16(C(KC_X));
+        #ifdef MAC_HOTKEYS
+          tap_code16(LGUI(KC_X));
+        #else
+          tap_code16(C(KC_X));
+        #endif
+        break;
       }
-      break;
     case COPY:
       if (pressed) {
-        tap_code16(C(KC_C));
+        #ifdef MAC_HOTKEYS
+          tap_code16(LGUI(KC_C));
+        #else
+          tap_code16(C(KC_C));
+        #endif
+        break;
       }
-      break;
     case PASTE:
       if (pressed) {
-        tap_code16(C(KC_V));
+        #ifdef MAC_HOTKEYS
+          tap_code16(LGUI(KC_V));
+        #else
+          tap_code16(C(KC_V));
+        #endif
+        break;
       }
-      break;
     case PASTECLIPBOARD:
       if (pressed) {
-        tap_code16(LWIN(KC_V));
+        #ifdef MAC_HOTKEYS
+          tap_code16(LGUI(A(S(KC_SPC))));
+        #else
+          tap_code16(LWIN(KC_V));
+        #endif
+        break;
       }
-      break;
     case PASTETEXT:
       if (pressed) {
-        tap_code16(C(S(KC_V)));
+        #ifdef MAC_HOTKEYS
+          tap_code16(LGUI(S(KC_V)));
+        #else
+          tap_code16(C(S(KC_V)));
+        #endif
+        break;
       }
-      break;
     case SELECTALL:
       if (pressed) {
-        tap_code16(C(KC_A));
+        #ifdef MAC_HOTKEYS
+          tap_code16(LGUI(KC_A));
+        #else
+          tap_code16(C(KC_A));
+        #endif
+        break;
       }
-      break;
     case QUESTIONMARK:
       if (pressed) {
         tap_code16(KC_QUES);
@@ -782,21 +826,21 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         set_mods(mods);  // Restore mods.
         }
         break;
-    case LOWERTOGGLE:
-      if (pressed) {
-        layer_invert(_LOWER);
-        if(IS_LAYER_ON(_LOWER)){
-          #ifdef AUDIO_ENABLE
-              PLAY_SONG(tone_startup);
-          #endif
-        }
-        if(IS_LAYER_OFF(_LOWER)){
-          #ifdef AUDIO_ENABLE
-              PLAY_SONG(tone_goodbye);
-          #endif
-        }
-      }
-      break;
+    // case LOWERTOGGLE:
+    //   if (pressed) {
+    //     layer_invert(_LOWER);
+    //     if(IS_LAYER_ON(_LOWER)){
+    //       #ifdef AUDIO_ENABLE
+    //           PLAY_SONG(tone_startup);
+    //       #endif
+    //     }
+    //     if(IS_LAYER_OFF(_LOWER)){
+    //       #ifdef AUDIO_ENABLE
+    //           PLAY_SONG(tone_goodbye);
+    //       #endif
+    //     }
+    //   }
+    //   break;
     case MOUSETOGGLE:
       if (pressed) {
         layer_invert(_ADJUST);
@@ -843,6 +887,35 @@ void caps_word_set_user(bool active) {
       #endif
     }
 };
+
+// void process_platform_combo(uint16_t keycode, keyrecord_t *record) {
+//   uint8_t host_os = guess_host_os();
+//   uint16_t keycode_to_press = KC_NO;
+//   #ifdef MAC_HOTKEYS
+//     switch (keycode) {
+//       case USR_COPY:
+//         keycode_to_press = G(KC_C);
+//         break;
+//       case USR_PASTE:
+//         keycode_to_press = G(KC_V);
+//         break;
+//     }
+//   } else {
+//     switch (keycode) {
+//       case USR_COPY:
+//         keycode_to_press = C(KC_C);
+//         break;
+//       case USR_PASTE:
+//         keycode_to_press = C(KC_V);
+//         break;
+//     }
+//   }
+//   if (record->event.pressed) {
+//     register_code16(keycode_to_press);
+//   } else {
+//     unregister_code16(keycode_to_press);
+//   }
+// }
 
 // void dance_media (qk_tap_dance_state_t *state, void *user_data)
 //     if (state->count == 1) {

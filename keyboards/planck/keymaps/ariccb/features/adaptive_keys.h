@@ -1,6 +1,7 @@
 #include QMK_KEYBOARD_H
 #include "layer_lock.h"
 
+
 static bool     alt_tabbing      = false;
 static bool     ctrl_tabbing = false;
 static uint16_t alt_tabtimer;
@@ -111,9 +112,10 @@ bool process_adaptive_key(uint16_t keycode, const keyrecord_t *record) {
     }
     return return_state;
 }
-
+__attribute__((weak)) void matrix_scan_keymap(void) {}
 void matrix_scan_user(void) {
     layer_lock_task();
+    matrix_scan_keymap();
     if (timer_elapsed32(prior_keydown) >= ADAPTIVE_TERM) { // 30 seconds
         switch (prior_keycode) {
 #undef AK_BOTH_START

@@ -17,14 +17,17 @@
 // https://getreuer.info/posts/keyboards/select-word
 
 #include "select_word.h"
+#include "guess_os.h"
+
 
 // Mac users, uncomment this line:
-// #define MAC_HOTKEYS
+#if (host_os == OS_MACOS || host_os == OS_IOS)// if the os is iOS or MacOS
+  #define MAC_HOTKEYS
+#endif
 
 enum { STATE_NONE, STATE_SELECTED, STATE_WORD, STATE_FIRST_LINE, STATE_LINE };
 
-bool process_select_word(uint16_t keycode, keyrecord_t* record,
-                         uint16_t sel_keycode) {
+bool process_select_word(uint16_t keycode, keyrecord_t* record, uint16_t sel_keycode) {
   static uint8_t state = STATE_NONE;
 
   if (keycode == KC_LSFT || keycode == KC_RSFT) { return true; }

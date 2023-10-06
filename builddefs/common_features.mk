@@ -900,6 +900,8 @@ ifeq ($(strip $(BLUETOOTH_ENABLE)), yes)
     endif
 endif
 
+SRC += $(QUANTUM_DIR)/guess_os.c
+
 ifeq ($(strip $(ENCODER_ENABLE)), yes)
     SRC += $(QUANTUM_DIR)/encoder.c
     OPT_DEFS += -DENCODER_ENABLE

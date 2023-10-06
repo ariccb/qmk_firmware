@@ -44,12 +44,13 @@ enum layer_names {
 #define _____ KC_TRNS
 #define DESKTR LGUI(LCTL(KC_RGHT))  // move one virtual desktop to the right
 #define DESKTL LGUI(LCTL(KC_LEFT))  // move one virtual desktop to the left
-#define LOW_OSS LT(_LOWER, KC_F24)   // lower on hold, One Shot Shift on tap
-#define L_RAISE MO(_RAISE)
+#define LOW_SPC LT(_LOWER, KC_SPC)   // lower on hold, One Shot Shift on tap
+#define RSE_DEL LT(_RAISE, KC_DEL)
 #define MTLCTL_F9 MT(MOD_LCTL, KC_9)
 #define MTLSFT_F10 MT(MOD_LSFT, KC_F10)
 #define MTLALT_F11 MT(MOD_LALT, KC_F11)
-#define ALT_DEL MT(MOD_LALT, KC_DEL)
+#define ALT_GRV MT(MOD_LALT, KC_GRV)
+#define MTGUI_OSS MT(MOD_LGUI, KC_F24)
 #define MTLGUI_Z MT(MOD_LGUI, KC_Z)
 #define MTALT_APP MT(MOD_LALT, KC_APP)
 #define MTLALT_PL MT(MOD_LALT, KC_MPLY)
@@ -58,7 +59,7 @@ enum layer_names {
 #define MTRSFTBSLS MT(MOD_RSFT, KC_BSLS)
 #define MTRCTLQUO MT(MOD_RCTL, KC_QUOT)
 #define HYPERESC MT(MOD_LCTL | MOD_LGUI | MOD_LALT | MOD_LSFT, KC_ESC) // Hyper on hold, Esc on tap
-#define MTTAB MT(MOD_LCTL | MOD_LGUI | MOD_LALT, KC_TAB) // MEH on hold, Tab on tap
+#define FN_TAB  LT(_ADJUST, KC_TAB) // MEH on hold, Tab on tap
 #define FN_A LT(_ADJUST, KC_A)
 #define MTPLAY MT(MOD_RALT, KC_MPLY)
 #define KC_COPY LCTL(KC_C)
@@ -68,7 +69,7 @@ enum layer_names {
 #define KC_PTXT LCTL(LSFT(KC_V))
 #define KC_UNDO LCTL(KC_Z)
 #define KC_REDO LCTL(KC_Y)
-#define PTOYSMUTE C(G(A(KC_BSPC)))
+#define TAB_SWTCH G(KC_TAB)
 #define SUPERHUMAN A(KC_S)
 #define BWSRLEFT A(KC_LEFT)
 #define BWSRRHGT A(KC_RGHT)
@@ -94,71 +95,71 @@ enum planck_keycodes {
   SELWLEFT,
   SELWRIGHT
 };
-
+// this is the start of the combo keys
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* MIT Layout (COLEMAKH-DH)
  * .------------F1---------------------------.                                      .--------------------------F8-------------.
  * |TRMNAL|  F2  |  F9  |  F10 |  F11 |  F12 |                                      |  F3  |  F4  |  F5  |  F6  |  F7  |Select|
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |ADJ,ESC| Q   |  W   |  F   |  P   |  B   |                                      |  J   |  L   |  U   |  Y   |  ;   | BSPC |
+ * |HYP,ESC| Q   |  W   |  F   |  P   |  B   |                                      |  J   |  L   |  U   |  Y   |  ;   | BSPC |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |HYPERESC| A  |  R   |  S   |  T   |  G   |-------.                      .-------|  M   |  N   |  E   |  I   |  O   |CTRL,'|
+ * |FN_TAB|  A   |  R   |  S   |  T   |  G   |-------.                      .-------|  M   |  N   |  E   |  I   |  O   |CTRL,'|
  * |------+------+------+------+------+------|Alt-Tab|                      | Ctrl  |------+------+------+------+------+------|
- * | SHIFT| WIN_Z|  X   |  C   |  D   |  V   |       |-->Play/Pause         | Tab   |  K   |  H   |  ,   |  .   |  /   |SFT,\ |
+ * | SHIFT| GUI_Z|  X   |  C   |  D   |  V   |       |-->Play/Pause         | Tab   |  K   |  H   |  ,   |  .   |  /   |SFT,\ |
  * .-----------------------------------------|-------|   on Button Press    |-------|-----------------------------------------'
- *                      | ALT | CTRL |  LOW  /      /                        \ LALT \       |     |Expand Selection R/L|  //Hdr On/off On Press
- *                      | APP | ENTER| OSSft/ SPACE/                          \DELETE\ SPACE|RAISE| DIAL2|--> Right Scroll whole word
+ *                      | ALT | CTRL |  LOW  / GUI  /                        \ LALT \       |RAISE|Expand Selection R/L|  //Hdr On/off On Press
+ *                      | APP | ENTER| SPACE/OSShft/                          \GRV ` \ SPACE| DEL | DIAL2|--> Right Scroll whole word
  *                      `-------------------------'                            '-------------------------'
  */
   [_COLEMAKDH] = LAYOUT(
-  TERMINAL,  KC_F2,    KC_F9,  KC_F10,    KC_F11,    KC_F12,                           KC_F3,   KC_F4,   KC_F5,   KC_F6,  KC_F7,   KC_SLCT,
-  HYPERESC, KC_Q,     KC_W,   KC_F,      KC_P,      KC_B,                             KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, KC_BSPC,
-  MTTAB,    FN_A,     KC_R,   KC_S,      KC_T,      KC_G,                             KC_M,    KC_N,    KC_E,    KC_I,   KC_O,    MTRCTLQUO,
-  KC_LSFT,  MTLGUI_Z, KC_X,   KC_C,      KC_D,      KC_V,    KC_MPLY,       CTRL_TAB, KC_K,    KC_H,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
-                              MTALT_APP, MTCTL_ENT, LOW_OSS, KC_SPC,        ALT_DEL,  KC_SPC,  L_RAISE, PTOYSMUTE //Mute Mic
+  TERMINAL, KC_F2,    KC_F9,  KC_F10,    KC_F11,    KC_F12,                              KC_F3,   KC_F4,   KC_F5,   KC_F6,  KC_F7,   KC_SLCT,
+  HYPERESC, KC_Q,     KC_W,   KC_F,      KC_P,      KC_B,                                KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, KC_BSPC,
+  FN_TAB,   FN_A,     KC_R,   KC_S,      KC_T,      KC_G,                                KC_M,    KC_N,    KC_E,    KC_I,   KC_O,    MTRCTLQUO,
+  KC_LSFT,  MTLGUI_Z, KC_X,   KC_C,      KC_D,      KC_V,    KC_MPLY,          CTRL_TAB, KC_K,    KC_H,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
+                              MTALT_APP, MTCTL_ENT, LOW_SPC, MTGUI_OSS,        ALT_GRV,  LOW_SPC, RSE_DEL, TAB_SWTCH //Mute Mic
 ),
 
 /* MIT Layout (QWERTY)
  * .------------F1---------------------------.                                      .--------------------------F8-------------.
  * |TRMNAL|  F2  |  F9  |  F10 |  F11 |  F12 |                                      |  F3  |  F4  |  F5  |  F6  |  F7  |Select|
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |ADJ,ESC| Q   |  W   |  E   |  R   |  T   |                                      |  Y   |  U   |  I   |  O   |  P   | BSPC |
+ * |HYP,ESC| Q   |  W   |  E   |  R   |  T   |                                      |  Y   |  U   |  I   |  O   |  P   | BSPC |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |HYPERESC| A  |  S   |  D   |  F   |  G   |-------.                      .-------|  H   |  J   |  K   |  L   |  ;   |CTRL,'|
+ * |FN_TAB|  A   |  S   |  D   |  F   |  G   |-------.                      .-------|  H   |  J   |  K   |  L   |  ;   |CTRL,'|
  * |------+------+------+------+------+------|Alt-Tab|                      | Ctrl  |------+------+------+------+------+------|
- * | SHIFT| WIN_Z|  X   |  C   |  V   |  B   |       |-->Play/Pause         | Tab   |  N   |  M   |  ,   |  .   |  /   |SFT,\ |
+ * | SHIFT| GUI_Z|  X   |  C   |  V   |  B   |       |-->Play/Pause         | Tab   |  N   |  M   |  ,   |  .   |  /   |SFT,\ |
  * .-----------------------------------------|-------|   on Button Press    |-------|-----------------------------------------'
- *                      | ALT | CTRL |  LOW  /      /                        \ LALT \       |     |Expand Selection R/L|  //Hdr On/off On Press
- *                      | APP | ENTER| OSSft/ SPACE/                          \DELETE\ SPACE|RAISE| DIAL2|--> Right Scroll Whole word
+ *                      | ALT | CTRL |  LOW  /      /                        \ LALT \       |RAISE| Expand Selection R/L|  //Hdr On/off On Press
+ *                      | APP | ENTER| SPACE/ OSSft/                          \GRV ` \ SPACE| DEL | DIAL2|--> Right Scroll Whole word
  *                      `-------------------------'                            '-------------------------'
  */
   [_QWERTY] = LAYOUT(
-  TERMINAL, KC_F2,    KC_F9,  KC_F10,    KC_F11,    KC_F12,                           KC_F3,   KC_F4,   KC_F5,   KC_F6,  KC_F7,   KC_SLCT,
-  HYPERESC, KC_Q,     KC_W,   KC_E,      KC_R,      KC_T,                             KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_BSPC,
-  MTTAB,    FN_A,     KC_S,   KC_D,      KC_F,      KC_G,                             KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN, MTRCTLQUO,
-  KC_LSFT,  MTLGUI_Z, KC_X,   KC_C,      KC_V,      KC_B,    KC_MPLY,       CTRL_TAB, KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
-                              MTALT_APP, MTCTL_ENT, LOW_OSS, KC_SPC,        ALT_DEL,  KC_SPC,  L_RAISE, PTOYSMUTE
+  TERMINAL, KC_F2,    KC_F9,  KC_F10,    KC_F11,    KC_F12,                              KC_F3,   KC_F4,   KC_F5,   KC_F6,  KC_F7,   KC_SLCT,
+  HYPERESC, KC_Q,     KC_W,   KC_E,      KC_R,      KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_BSPC,
+  FN_TAB,   FN_A,     KC_S,   KC_D,      KC_F,      KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN, MTRCTLQUO,
+  KC_LSFT,  MTLGUI_Z, KC_X,   KC_C,      KC_V,      KC_B,    KC_MPLY,          CTRL_TAB, KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
+                              MTALT_APP, MTCTL_ENT, LOW_SPC, MTGUI_OSS,        ALT_GRV,  LOW_SPC, RSE_DEL, TAB_SWTCH
 ),
 
 /* MIT Layout (LOWER)
  * .-----------------------------------------.                                      .-----------------------------------------.
- * |TRMNAL|  F1  |  F2  |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  | F10  |Delete|
+ * |CGSWAP|  F1  |  F2  |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  | F10  |  \   |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
-*  |  `   |  !   |  <   |  >   |  [   |  ?   |                                      |   ^  |   7  |   8  |   9  |   :  | Bsp  |
+*  |  `   |  !   |  <   |  >   |  =   |  ^   |                                      |   *  |   7  |   8  |   9  |   :  | Bsp  |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |S(TAB)|  #   |  $   |  (   |  )   |  ]   |-------.                      .-------|   =  |   4  |   5  |   6  |   -  |  +   |
- * |------+------+------+------+------+------|Volume |                      | Layer |------+------+------+------+------+------|
- * |SHIFT |  ~   |  %   |  {   |  }   |  &   | DIAL1 |--> Reset Audio       | Lock  |   @  |   1  |   2  |   3  |   /  |  *   |
- * .-----------------------------------------|-------|    Recording Device  |-------|-----------------------------------------'
- *                      | ALT | CTRL |  LOW  /      /     on Button Press    \       \      |     |Expand|
- *                      | APP | ENTER| OSSft/ SPACE/                          \ SPACE \  0  |  .  | DIAL2|--> does a configurable keyboard shortcut: Hyper(J)
+ * |S(TAB)|  #   |  [   |  (   |  )   |  ]   |-------.                      .-------|   &  |   4  |   5  |   6  |   -  |  +   |
+ * |------+------+------+------+------+------|Volume |                      |       |------+------+------+------+------+------|
+ * |SHIFT |  ~   |  $   |  {   |  }   |  %   | DIAL1 |--> Press for         |   @   |   |  |   1  |   2  |   3  |   /  |  *   |
+ * .-----------------------------------------|-------|    LAYER LOCK        |-------|-----------------------------------------'
+ *                      | ALT | CTRL |  LOW  /      /                        \       \      |     |Expand|
+ *                      | APP | ENTER| SPACE/ OSSft/                          \ SPACE \  0  |  .  | DIAL2|--> does a configurable keyboard shortcut: Hyper(J)
  *                      `-------------------------'                            '-------------------------'
  */
   [_LOWER] = LAYOUT(
-  KC_HYPR,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                              KC_F6,   KC_F7,  KC_F8, KC_F9, KC_F10,  KC_DEL,
-  KC_GRV,    KC_EXLM, KC_LABK, KC_RABK, KC_LBRC, KC_QUES,                            KC_CIRC, KC_7,   KC_8,  KC_9,  KC_COLN, KC_BSPC,
-  S(KC_TAB), KC_HASH, KC_DLR,  KC_LPRN, KC_RPRN, KC_RBRC,                            KC_EQL,  KC_4,   KC_5,  KC_6,  KC_PMNS, KC_PPLS,
-  KC_LSFT,   KC_TILD, KC_PERC, KC_LCBR, KC_RCBR, KC_AMPR, LCTL(KC_0),        LLOCK,  KC_AT,   KC_1,   KC_2,  KC_3,  KC_PSLS, KC_PAST,
+  CG_SWAP,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                              KC_F6,   KC_F7,  KC_F8, KC_F9, KC_F10,  KC_BSLS,
+  KC_GRV,    KC_EXLM, KC_LABK, KC_RABK, KC_EQL,  KC_CIRC,                            KC_ASTR, KC_7,   KC_8,  KC_9,  KC_COLN, KC_BSPC,
+  S(KC_TAB), KC_HASH, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC,                            KC_AMPR, KC_4,   KC_5,  KC_6,  KC_PMNS, KC_PPLS,
+  KC_LSFT,   KC_TILD, KC_DLR,  KC_LCBR, KC_RCBR, KC_PERC, LLOCK,             KC_AT,  KC_PIPE, KC_1,   KC_2,  KC_3,  KC_PSLS, KC_PAST,
                                _____,   _____,   _____,   _____,             KC_SPC, KC_0,    KC_DOT, A(S(KC_J)) //
 ),
 
@@ -169,18 +170,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |CGNORM| Mb3  | Mb2  | MsUp | Mb1  | Mute |                               mouse  |      |      | MbMid|      |   :  | Bksp |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |      |      | MsLft| MDown|Mright| Vol+ |-------.                      .-------|ARROW | MbLft|SELWORD|MbRgt|      |   "  |
- * |------+------+------+------+------+------|Undo/Redo|                    | Layer |------+------+------+------+------+------|
- * |      | MWLft| MWUp | NWDn |NWRght| Vol- | DIAL1 |-->pins current       | Lock  |  <>  |  []  |   [  |   ]  |   !  |   |  |
- * .-----------------------------------------|-------|   window to all      |-------|-----------------------------------------'
- *                      | ALT | CTRL |  LOW  /      /    virtual destktops on\ Mouse\ Mouse |******|Search|
- *                      | APP | ENTER| OSSft/ SPACE/     Button Press         \ Btn 1\ Btn 3|******| DIAL2|--> sends CTRL(KC_F)
+ * |------+------+------+------+------+------|Undo/Redo|                    |       |------+------+------+------+------+------|
+ * |      | MWLft| MWUp | NWDn |NWRght| Vol- | DIAL1 |--> Press for         |       |  <>  |  []  |   [  |   ]  |   !  |   |  |
+ * .-----------------------------------------|-------|    LAYER LOCK        |-------|-----------------------------------------'
+ *                      | ALT | CTRL |  LOW  /      /                        \ Mouse\ Mouse |******|Search|
+ *                      | APP | ENTER| OSSft/ SPACE/                          \ Btn 1\ Btn 3|******| DIAL2|--> sends CTRL(KC_F)
  *                      `-------------------------'                            '--------------------------'    on Button Press
  */
   [_RAISE] = LAYOUT(
   CG_SWAP, XXXXX,   XXXXX,   XXXXX,   XXXXX,   XXXXX,                                  KC_BTN2, XXXXX,   KC_NUM,  XXXXX,   XXXXX,   TG(_QWERTY),
   CG_NORM, KC_BTN3, KC_BTN2, KC_MS_U, KC_BTN1, KC_MUTE,                                _____,   LLOCK,   KC_BTN3, _____,   KC_COLN, KC_BSPC,
   _____,   _____,   KC_MS_L, KC_MS_D, KC_MS_R, KC_VOLU,                                ARROW,   KC_BTN1, SELWORD, KC_BTN2, _____,   KC_DQUO,
-  _____,   KC_WH_L, KC_WH_U, KC_WH_D, KC_WH_R, KC_VOLD, C(A(KC_P)),           LLOCK,   BRACES,  BRACES2, KC_LBRC, KC_RBRC, KC_EXLM, KC_PIPE,
+  _____,   KC_WH_L, KC_WH_U, KC_WH_D, KC_WH_R, KC_VOLD, LLOCK,                _____,   BRACES,  BRACES2, KC_LBRC, KC_RBRC, KC_EXLM, KC_PIPE,
                              _____, _____, _____, _____,                      KC_BTN1, KC_BTN3, _____,   LCTL(KC_F) // search on page (ctrl f)
 ),
 
@@ -190,7 +191,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |CGNORM|  F6  |  F7  |  F8  |  F9  |  F10 |                                      |TabDn | Home |  Up  |  End | PAUSE|Delete|
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |      |******| Ctrl | Shift| Alt  | CALC |--------.                     .-------|SWLeft| Left | Down | Right|SWRigt|CAPSLK|
+ * |      |******| Alt  | Shift| Cmd  | Ctrl |--------.                     .-------|SWLeft| Left | Down | Right|SWRigt|CAPSLK|
  * |------+------+------+------+------+------| Virtual|                     | Layer |------+------+------+------+------+------|
  * |      |  F1  |  F2  |  F3  |  F4  |  F5  |Desktop |-->  Next Song       | Lock  | Back |PageUp|C+A_Dn|PageDn|Forwrd|INSERT|
  * .-----------------------------------------|--------|                     |-------|-----------------------------------------'
@@ -201,9 +202,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_ADJUST] = LAYOUT(
   CG_SWAP, XXXXX, XXXXX,   XXXXX,   KC_F11,  KC_F12,                            C(KC_PGUP), BWSRLEFT, LCA(KC_UP),   BWSRRHGT, KC_SCRL,   TG(_QWERTY),
   CG_NORM, KC_F6, KC_F7,   KC_F8,   KC_F9,   KC_F10,                            C(KC_PGDN), KC_HOME,  KC_UP,        KC_END,   KC_PAUSE,  KC_DEL,
-  _____,   _____, KC_LCTL, KC_LSFT, KC_LALT, KC_CALC,                           SELWLEFT,   KC_LEFT,  KC_DOWN,      KC_RGHT,  SELWRIGHT, KC_CAPS,
+  _____,   _____, KC_LALT, KC_LSFT, KC_LGUI, KC_LCTL,                           SELWLEFT,   KC_LEFT,  KC_DOWN,      KC_RGHT,  SELWRIGHT, KC_CAPS,
   _____,   KC_F1, KC_F2,   KC_F3,   KC_F4,   KC_F5,     KC_MNXT,         _____, BWSRLEFT,   KC_PGUP,  LCA(KC_DOWN), KC_PGDN,  BWSRRHGT,  KC_INS,
-                               _____,   _____, ALT_TAB, CTRL_TAB,        _____, _____,  _____, G(A(KC_B))
+                              _____,   _____, ALT_TAB, CTRL_TAB,         _____, _____,  _____, G(A(KC_B))
 )
 };
 
