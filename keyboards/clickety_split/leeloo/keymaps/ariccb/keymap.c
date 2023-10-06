@@ -485,6 +485,7 @@ enum combo_events {
   DQUOTE,
   UNDERSCORE,
   DASH,
+  EQUALSIGN,
   TWODQUOTE,
   LOWERTOGGLE,
   SLEEP,
@@ -526,7 +527,7 @@ const uint16_t PROGMEM exclamationmark_combo[]      = {KC_SLSH, MTRSFTBSLS, COMB
 const uint16_t PROGMEM dquote_combo[]               = {KC_O, MTRCTLQUO, COMBO_END};
 const uint16_t PROGMEM underscore_combo[]           = {KC_COMMA, KC_DOT, COMBO_END};
 const uint16_t PROGMEM dash_combo[]                 = {KC_U, KC_Y, COMBO_END};
-const uint16_t PROGMEM equal_combo[]                = {KC_E, KC_I, COMBO_END};
+const uint16_t PROGMEM equalsign_combo[]            = {KC_E, KC_I, COMBO_END};
 const uint16_t PROGMEM twodquote_combo[]            = {KC_H, KC_COMMA, COMBO_END};
 const uint16_t PROGMEM lowertoggle_combo[]          = {LT(_LOWER, KC_F24), MTCTL_ENT, COMBO_END};
 const uint16_t PROGMEM sleep_combo[]                = {KC_F2, KC_F9, KC_F10, KC_F11, COMBO_END};
@@ -541,42 +542,42 @@ const uint16_t PROGMEM capsword_combo[]             = {KC_LSFT, MTRSFTBSLS, COMB
 // const uint8_t combo_oneshot_mods = get_oneshot_mods();
 
 combo_t key_combos[] = {
-  [EM_EMAIL] = COMBO_ACTION(email_combo),
-  [EM_WORK_EMAIL] = COMBO_ACTION(email_work_combo),
-  [HOME_ADDRESS] = COMBO_ACTION(home_address_combo),
-  [HTML_P] = COMBO_ACTION(html_p_combo),
-  [HTML_TITLE] = COMBO_ACTION(html_title_combo),
-  [HTML_DIV] = COMBO_ACTION(html_div_combo),
-  [HTML_HTML] = COMBO_ACTION(html_html_combo),
-  [HTML_HEAD] = COMBO_ACTION(html_head_combo),
-  [HTML_BODY] = COMBO_ACTION(html_body_combo),
-  [HTML_FOOTER] = COMBO_ACTION(html_footer_combo),
-  [HTML_A_HREF] = COMBO_ACTION(html_a_href_combo),
-  [HTML_IMG] = COMBO_ACTION(html_img_combo),
-  [CSS_STYLE] = COMBO_ACTION(css_style_combo),
-  [HTML_GENERIC_TAG] = COMBO_ACTION(html_generic_tag_combo),
-  [UNDO] = COMBO_ACTION(undo_combo),
-  [REDO] = COMBO_ACTION(redo_combo),
-  [CUT] = COMBO_ACTION(cut_combo),
-  [COPY] = COMBO_ACTION(copy_combo),
-  [PASTE] = COMBO_ACTION(paste_combo),
-  [PASTECLIPBOARD] = COMBO_ACTION(pasteclip_combo),
-  [PASTETEXT] = COMBO_ACTION(pastetxt_combo),
-  [SELECTALL] = COMBO_ACTION(selectall_combo),
-  [QUESTIONMARK] = COMBO_ACTION(questionmark_combo),
-  [EXCLAMATIONMARK] = COMBO_ACTION(exclamationmark_combo),
-  [DQUOTE] = COMBO_ACTION(dquote_combo),
-  [UNDERSCORE] = COMBO_ACTION(underscore_combo),
-  [DASH] = COMBO_ACTION(dash_combo),
-  [EQUAL] = COMBO_ACTION(equal_combo),
-  [TWODQUOTE] = COMBO_ACTION(twodquote_combo),
-  [LOWERTOGGLE] = COMBO_ACTION(lowertoggle_combo),
-  [SLEEP] = COMBO_ACTION(sleep_combo),
-  [RESETKEY] = COMBO_ACTION(reset_combo),
-  [NUMLOCKC] = COMBO_ACTION(numlock_combo),
-  [F1COMBO] = COMBO_ACTION(f1_combo),
-  [F8COMBO] = COMBO_ACTION(f8_combo),
-  [CAPSWORD] = COMBO_ACTION(capsword_combo)
+    [EM_EMAIL] = COMBO_ACTION(email_combo),
+    [EM_WORK_EMAIL] = COMBO_ACTION(email_work_combo),
+    [HOME_ADDRESS] = COMBO_ACTION(home_address_combo),
+    [HTML_P] = COMBO_ACTION(html_p_combo),
+    [HTML_TITLE] = COMBO_ACTION(html_title_combo),
+    [HTML_DIV] = COMBO_ACTION(html_div_combo),
+    [HTML_HTML] = COMBO_ACTION(html_html_combo),
+    [HTML_HEAD] = COMBO_ACTION(html_head_combo),
+    [HTML_BODY] = COMBO_ACTION(html_body_combo),
+    [HTML_FOOTER] = COMBO_ACTION(html_footer_combo),
+    [HTML_A_HREF] = COMBO_ACTION(html_a_href_combo),
+    [HTML_IMG] = COMBO_ACTION(html_img_combo),
+    [CSS_STYLE] = COMBO_ACTION(css_style_combo),
+    [HTML_GENERIC_TAG] = COMBO_ACTION(html_generic_tag_combo),
+    [UNDO] = COMBO_ACTION(undo_combo),
+    [REDO] = COMBO_ACTION(redo_combo),
+    [CUT] = COMBO_ACTION(cut_combo),
+    [COPY] = COMBO_ACTION(copy_combo),
+    [PASTE] = COMBO_ACTION(paste_combo),
+    [PASTECLIPBOARD] = COMBO_ACTION(pasteclip_combo),
+    [PASTETEXT] = COMBO_ACTION(pastetxt_combo),
+    [SELECTALL] = COMBO_ACTION(selectall_combo),
+    [QUESTIONMARK] = COMBO_ACTION(questionmark_combo),
+    [EXCLAMATIONMARK] = COMBO_ACTION(exclamationmark_combo),
+    [DQUOTE] = COMBO_ACTION(dquote_combo),
+    [UNDERSCORE] = COMBO_ACTION(underscore_combo),
+    [DASH] = COMBO_ACTION(dash_combo),
+    [EQUALSIGN] = COMBO_ACTION(equalsign_combo),
+    [TWODQUOTE] = COMBO_ACTION(twodquote_combo),
+    [LOWERTOGGLE] = COMBO_ACTION(lowertoggle_combo),
+    [SLEEP] = COMBO_ACTION(sleep_combo),
+    [RESETKEY] = COMBO_ACTION(reset_combo),
+    [NUMLOCKC] = COMBO_ACTION(numlock_combo),
+    [F1COMBO] = COMBO_ACTION(f1_combo),
+    [F8COMBO] = COMBO_ACTION(f8_combo),
+    [CAPSWORD] = COMBO_ACTION(capsword_combo)
 };
 /* COMBO_ACTION(x) is same as COMBO(x, XXXXX) */
 
@@ -759,7 +760,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         tap_code16(KC_PMNS);
       }
       break;
-    case EQUAL:
+    case EQUALSIGN:
       if (pressed) {
         tap_code16(KC_EQL);
       }
