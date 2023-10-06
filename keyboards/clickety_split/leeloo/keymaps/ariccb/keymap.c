@@ -74,7 +74,7 @@ enum layer_names {
 #define BWSRLEFT A(KC_LEFT)
 #define BWSRRHGT A(KC_RGHT)
 #define ALT_TAB LALT(KC_TAB)
-#define TERMINAL LCTL(LALT((KC_GRV)))
+#define TERMINAL LCTL(KC_GRV)
 
 
 enum planck_keycodes {
@@ -520,6 +520,7 @@ const uint16_t PROGMEM exclamationmark_combo[]      = {KC_SLSH, MTRSFTBSLS, COMB
 const uint16_t PROGMEM dquote_combo[]               = {KC_O, MTRCTLQUO, COMBO_END};
 const uint16_t PROGMEM underscore_combo[]           = {KC_COMMA, KC_DOT, COMBO_END};
 const uint16_t PROGMEM dash_combo[]                 = {KC_U, KC_Y, COMBO_END};
+const uint16_t PROGMEM equal_combo[]                = {KC_E, KC_I, COMBO_END};
 const uint16_t PROGMEM twodquote_combo[]            = {KC_H, KC_COMMA, COMBO_END};
 const uint16_t PROGMEM lowertoggle_combo[]          = {LT(_LOWER, KC_F24), MTCTL_ENT, COMBO_END};
 const uint16_t PROGMEM sleep_combo[]                = {KC_F2, KC_F9, KC_F10, KC_F11, COMBO_END};
@@ -561,6 +562,7 @@ combo_t key_combos[] = {
   [DQUOTE] = COMBO_ACTION(dquote_combo),
   [UNDERSCORE] = COMBO_ACTION(underscore_combo),
   [DASH] = COMBO_ACTION(dash_combo),
+  [EQUAL] = COMBO_ACTION(equal_combo),
   [TWODQUOTE] = COMBO_ACTION(twodquote_combo),
   [LOWERTOGGLE] = COMBO_ACTION(lowertoggle_combo),
   [SLEEP] = COMBO_ACTION(sleep_combo),
@@ -749,6 +751,11 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case DASH:
       if (pressed) {
         tap_code16(KC_PMNS);
+      }
+      break;
+    case EQUAL:
+      if (pressed) {
+        tap_code16(KC_EQL);
       }
       break;
     case TWODQUOTE:
