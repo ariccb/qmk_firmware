@@ -78,8 +78,9 @@ enum layer_names {
 
 #ifdef MAC_HOTKEYS
 #define TERMINAL LCTL(KC_GRV)
+#define UNDO_OS
 #else
-#define TERMINAL LCTL(KC_GRV)
+#define TERMINAL LGUI(KC_GRV)
 #endif  // MAC_HOTKEYS
 
 
@@ -104,8 +105,8 @@ enum planck_keycodes {
 // this is the start of the combo keys
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* MIT Layout (COLEMAKH-DH)
- * .------------F1---------------------------.                                      .--------------------------F8-------------.
- * |TRMNAL|  F2  |  F9  |  F10 |  F11 |  F12 |                                      |  F3  |  F4  |  F5  |  F6  |  F7  |Select|
+ * .-----------------------------------------.                                      .-----------------------------------------.
+ * |TRMNAL|  1   |  2   |  3   |  4   |  5   |                                      |  6   |  7   |  8   |  9   |  0   | F12  |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |HYP,ESC| Q   |  W   |  F   |  P   |  B   |                                      |  J   |  L   |  U   |  Y   |  ;   | BSPC |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
@@ -118,7 +119,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                      `-------------------------'                            '-------------------------'
  */
   [_COLEMAKDH] = LAYOUT(
-  TERMINAL, KC_F2,    KC_F9,  KC_F10,    KC_F11,    KC_F12,                              KC_F3,   KC_F4,   KC_F5,   KC_F6,  KC_F7,   KC_SLCT,
+  TERMINAL, KC_1,     KC_2,   KC_3,      KC_4,      KC_5,                                KC_6,    KC_7,    KC_8,    KC_9,   KC_0,    KC_F12,
   HYPERESC, KC_Q,     KC_W,   KC_F,      KC_P,      KC_B,                                KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, KC_BSPC,
   FN_TAB,   FN_A,     KC_R,   KC_S,      KC_T,      KC_G,                                KC_M,    KC_N,    KC_E,    KC_I,   KC_O,    MTRCTLQUO,
   KC_LSFT,  MTLGUI_Z, KC_X,   KC_C,      KC_D,      KC_V,    KC_MPLY,          CTRL_TAB, KC_K,    KC_H,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
@@ -126,8 +127,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 /* MIT Layout (QWERTY)
- * .------------F1---------------------------.                                      .--------------------------F8-------------.
- * |TRMNAL|  F2  |  F9  |  F10 |  F11 |  F12 |                                      |  F3  |  F4  |  F5  |  F6  |  F7  |Select|
+ * .-----------------------------------------.                                      .-----------------------------------------.
+ * |TRMNAL|  1   |  2   |  3   |  4   |  5   |                                      |  6   |  7   |  8   |  9   |  0   | F12  |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |HYP,ESC| Q   |  W   |  E   |  R   |  T   |                                      |  Y   |  U   |  I   |  O   |  P   | BSPC |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
@@ -140,7 +141,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                      `-------------------------'                            '-------------------------'
  */
   [_QWERTY] = LAYOUT(
-  TERMINAL, KC_F2,    KC_F9,  KC_F10,    KC_F11,    KC_F12,                              KC_F3,   KC_F4,   KC_F5,   KC_F6,  KC_F7,   KC_SLCT,
+  TERMINAL, KC_1,     KC_2,   KC_3,      KC_4,      KC_5,                                KC_6,    KC_7,    KC_8,    KC_9,   KC_0,    KC_F12,
   HYPERESC, KC_Q,     KC_W,   KC_E,      KC_R,      KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_BSPC,
   FN_TAB,   FN_A,     KC_S,   KC_D,      KC_F,      KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN, MTRCTLQUO,
   KC_LSFT,  MTLGUI_Z, KC_X,   KC_C,      KC_V,      KC_B,    KC_MPLY,          CTRL_TAB, KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
@@ -149,24 +150,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* MIT Layout (LOWER)
  * .-----------------------------------------.                                      .-----------------------------------------.
- * |CGSWAP|  F1  |  F2  |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  | F10  |  \   |
+ * |CGSWAP|  F1  |  F2  |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  | F10  |  F11 |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
 *  |  `   |  !   |  <   |  >   |  =   |  ^   |                                      |   *  |   7  |   8  |   9  |   :  | Bsp  |
- * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |S(TAB)|  #   |  [   |  (   |  )   |  ]   |-------.                      .-------|   &  |   4  |   5  |   6  |   -  |  +   |
+ * |------+------+------+------+-------------|                                      |------+------+------+------+------+------|
+ * |S(TAB)|  #   |  [   |  (   |  )  -@-  ]  |-------.                      .-------|   &  |   4  |   5  |   6  |   -  |  +   |
  * |------+------+------+------+------+------|Volume |                      |       |------+------+------+------+------+------|
- * |SHIFT |  ~   |  $   |  {   |  }   |  %   | DIAL1 |--> Press for         |   @   |   |  |   1  |   2  |   3  |   /  |  *   |
- * .-----------------------------------------|-------|    LAYER LOCK        |-------|-----------------------------------------'
+ * |SHIFT |  ~   |  $   |  {   |  }   |  %   | DIAL1 |--> Press for         |   @   |   |  |   1  |   2  |   3  |   /  |  |   |
+ * .-----------------------------------------|-------|                      |-------|-----------------------------------------'
  *                      | ALT | CTRL |  LOW  /      /                        \       \      |     |Expand|
- *                      | APP | ENTER| SPACE/ OSSft/                          \ SPACE \  0  |  .  | DIAL2|--> does a configurable keyboard shortcut: Hyper(J)
+ *                      | APP | ENTER| SPACE/ OSSft/                          \ SPACE \  0  |  .  | DIAL2|--> open to set
  *                      `-------------------------'                            '-------------------------'
  */
   [_LOWER] = LAYOUT(
-  CG_SWAP,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                              KC_F6,   KC_F7,  KC_F8, KC_F9, KC_F10,  KC_BSLS,
+  CG_SWAP,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                              KC_F6,   KC_F7,  KC_F8, KC_F9, KC_F10,  KC_F11,
   KC_GRV,    KC_EXLM, KC_LABK, KC_RABK, KC_EQL,  KC_CIRC,                            KC_ASTR, KC_7,   KC_8,  KC_9,  KC_COLN, KC_BSPC,
   S(KC_TAB), KC_HASH, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC,                            KC_AMPR, KC_4,   KC_5,  KC_6,  KC_PMNS, KC_PPLS,
-  KC_LSFT,   KC_TILD, KC_DLR,  KC_LCBR, KC_RCBR, KC_PERC, LLOCK,             KC_AT,  KC_PIPE, KC_1,   KC_2,  KC_3,  KC_PSLS, KC_PAST,
-                               _____,   _____,   _____,   _____,             KC_SPC, KC_0,    KC_DOT, A(S(KC_J)) //
+  KC_LSFT,   KC_TILD, KC_DLR,  KC_LCBR, KC_RCBR, KC_PERC, _____,             KC_AT,  KC_PIPE, KC_1,   KC_2,  KC_3,  KC_PSLS, KC_PIPE,
+                               _____,   _____,   _____,   _____,             KC_SPC, KC_0,    KC_DOT, _____ //
 ),
 
 /* MIT Layout (RAISE)
@@ -177,8 +178,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |      |      | MsLft| MDown|Mright| Vol+ |-------.                      .-------|ARROW | MbLft|SELWORD|MbRgt|      |   "  |
  * |------+------+------+------+------+------|Undo/Redo|                    |       |------+------+------+------+------+------|
- * |      | MWLft| MWUp | NWDn |NWRght| Vol- | DIAL1 |--> Press for         |       |  <>  |  []  |   [  |   ]  |   !  |   |  |
- * .-----------------------------------------|-------|    LAYER LOCK        |-------|-----------------------------------------'
+ * |      | MWLft| MWUp | NWDn |NWRght| Vol- | DIAL1 |--> Press for         |       |BRACES|BRACES2|SELWORD|BRACES| !  |   |  |
+ * .-----------------------------------------|-------|                      |-------|-----------------------------------------'
  *                      | ALT | CTRL |  LOW  /      /                        \ Mouse\ Mouse |******|Search|
  *                      | APP | ENTER| OSSft/ SPACE/                          \ Btn 1\ Btn 3|******| DIAL2|--> sends CTRL(KC_F)
  *                      `-------------------------'                            '--------------------------'    on Button Press
@@ -187,7 +188,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   CG_SWAP, XXXXX,   XXXXX,   XXXXX,   XXXXX,   XXXXX,                                  KC_BTN2, XXXXX,   KC_NUM,  XXXXX,   XXXXX,   TG(_QWERTY),
   CG_NORM, KC_BTN3, KC_BTN2, KC_MS_U, KC_BTN1, KC_MUTE,                                _____,   LLOCK,   KC_BTN3, _____,   KC_COLN, KC_BSPC,
   _____,   _____,   KC_MS_L, KC_MS_D, KC_MS_R, KC_VOLU,                                ARROW,   KC_BTN1, SELWORD, KC_BTN2, _____,   KC_DQUO,
-  _____,   KC_WH_L, KC_WH_U, KC_WH_D, KC_WH_R, KC_VOLD, LLOCK,                _____,   BRACES,  BRACES2, KC_LBRC, KC_RBRC, KC_EXLM, KC_PIPE,
+  _____,   KC_WH_L, KC_WH_U, KC_WH_D, KC_WH_R, KC_VOLD, _____,                _____,   BRACES,  BRACES2, SELWORD, BRACES, KC_EXLM, KC_PIPE,
                              _____, _____, _____, _____,                      KC_BTN1, KC_BTN3, _____,   LCTL(KC_F) // search on page (ctrl f)
 ),
 
@@ -198,8 +199,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |CGNORM|  F6  |  F7  |  F8  |  F9  |  F10 |                                      |TabDn | Home |  Up  |  End | PAUSE|Delete|
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |      |******| Alt  | Shift| Cmd  | Ctrl |--------.                     .-------|SWLeft| Left | Down | Right|SWRigt|CAPSLK|
- * |------+------+------+------+------+------| Virtual|                     | Layer |------+------+------+------+------+------|
- * |      |  F1  |  F2  |  F3  |  F4  |  F5  |Desktop |-->  Next Song       | Lock  | Back |PageUp|C+A_Dn|PageDn|Forwrd|INSERT|
+ * |------+------+------+------+------+------| Virtual|                     |       |------+------+------+------+------+------|
+ * |      |  F1  |  F2  |  F3  |  F4  |  F5  |Desktop |-->  Next Song       |       | Back |PageUp|C+A_Dn|PageDn|Forwrd|INSERT|
  * .-----------------------------------------|--------|                     |-------|-----------------------------------------'
  *                      | ALT | CTRL |  Alt  / Ctrl  /                       \       \       |      |MW L/R Selection in VSCode|
  *                      | APP | ENTER| Tab  /  Tab  /                         \       \      |      | DIAL2|--> Toggle HDR
@@ -486,13 +487,13 @@ enum combo_events {
   UNDERSCORE,
   DASH,
   EQUALSIGN,
+  ATSYMB,
   TWODQUOTE,
   LOWERTOGGLE,
   SLEEP,
   RESETKEY,
   NUMLOCKC,
-  F1COMBO,
-  F8COMBO,
+  F12COMBO,
   CAPSWORD,
   COMBO_LENGTH
 };
@@ -500,8 +501,8 @@ enum combo_events {
 
 uint16_t COMBO_LEN = COMBO_LENGTH; // remove the COMBO_COUNT define and use this instead
 
-const uint16_t PROGMEM email_combo[]                = {KC_E, KC_M, COMBO_END};
-const uint16_t PROGMEM email_work_combo[]           = {KC_E, KC_K, COMBO_END};
+const uint16_t PROGMEM email_combo[]                = {KC_J, KC_L, COMBO_END};
+const uint16_t PROGMEM email_work_combo[]           = {KC_M, KC_N, COMBO_END};
 const uint16_t PROGMEM home_address_combo[]         = {KC_E, KC_J, COMBO_END};
 const uint16_t PROGMEM html_p_combo[]               = {KC_P, KC_DOT, COMBO_END};
 const uint16_t PROGMEM html_title_combo[]           = {KC_T, KC_DOT, COMBO_END};
@@ -528,13 +529,13 @@ const uint16_t PROGMEM dquote_combo[]               = {KC_O, MTRCTLQUO, COMBO_EN
 const uint16_t PROGMEM underscore_combo[]           = {KC_COMMA, KC_DOT, COMBO_END};
 const uint16_t PROGMEM dash_combo[]                 = {KC_U, KC_Y, COMBO_END};
 const uint16_t PROGMEM equalsign_combo[]            = {KC_E, KC_I, COMBO_END};
+const uint16_t PROGMEM atsymb_combo[]               = {KC_T, KC_G, COMBO_END};
 const uint16_t PROGMEM twodquote_combo[]            = {KC_H, KC_COMMA, COMBO_END};
-const uint16_t PROGMEM lowertoggle_combo[]          = {LT(_LOWER, KC_F24), MTCTL_ENT, COMBO_END};
+const uint16_t PROGMEM lowertoggle_combo[]          = {LOW_SPC, MTCTL_ENT, COMBO_END};
 const uint16_t PROGMEM sleep_combo[]                = {KC_F2, KC_F9, KC_F10, KC_F11, COMBO_END};
 const uint16_t PROGMEM reset_combo[]                = {KC_BSPC, MTRCTLQUO, MTRSFTBSLS, COMBO_END};
 const uint16_t PROGMEM numlock_combo[]              = {KC_L, KC_U, KC_Y, COMBO_END};
-const uint16_t PROGMEM f1_combo[]                   = {KC_F2, KC_F9, COMBO_END};
-const uint16_t PROGMEM f8_combo[]                   = {KC_F6, KC_F7, COMBO_END};
+const uint16_t PROGMEM f12_combo[]                  = {KC_F1, KC_F2, COMBO_END};
 const uint16_t PROGMEM capsword_combo[]             = {KC_LSFT, MTRSFTBSLS, COMBO_END};
 
 
@@ -570,13 +571,13 @@ combo_t key_combos[] = {
     [UNDERSCORE] = COMBO_ACTION(underscore_combo),
     [DASH] = COMBO_ACTION(dash_combo),
     [EQUALSIGN] = COMBO_ACTION(equalsign_combo),
+    [ATSYMB] = COMBO_ACTION(atsymb_combo),
     [TWODQUOTE] = COMBO_ACTION(twodquote_combo),
     [LOWERTOGGLE] = COMBO_ACTION(lowertoggle_combo),
     [SLEEP] = COMBO_ACTION(sleep_combo),
     [RESETKEY] = COMBO_ACTION(reset_combo),
     [NUMLOCKC] = COMBO_ACTION(numlock_combo),
-    [F1COMBO] = COMBO_ACTION(f1_combo),
-    [F8COMBO] = COMBO_ACTION(f8_combo),
+    [F12COMBO] = COMBO_ACTION(f12_combo),
     [CAPSWORD] = COMBO_ACTION(capsword_combo)
 };
 /* COMBO_ACTION(x) is same as COMBO(x, XXXXX) */
@@ -588,12 +589,12 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
   switch(combo_index) {
     case EM_EMAIL:
       if (pressed) {
-        SEND_STRING("aricbouwers@outlook.com");
+        SEND_STRING("contact@ariccb.dev");
       }
       break;
     case EM_WORK_EMAIL:
       if (pressed) {
-        SEND_STRING("acbouwers@freedomsadvocate.ca");
+        SEND_STRING("aric@collegiumbuilt.com");
       }
       break;
     case HOME_ADDRESS:
@@ -701,10 +702,14 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       }
       break;
     case REDO:
-      if (pressed) {
-        tap_code16(C(KC_Y));
-      }
-      break;
+        if (pressed) {
+            #ifdef MAC_HOTKEYS
+                tap_code16(C(S(KC_Z));
+            #else
+            tap_code16(C(KC_Z));
+            #endif
+            }
+        break;
     case CUT:
       if (pressed) {
         tap_code16(C(KC_X));
@@ -765,6 +770,11 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         tap_code16(KC_EQL);
       }
       break;
+    case ATSYMB:
+      if (pressed) {
+        tap_code16(KC_AT);
+      }
+      break;
     case TWODQUOTE:
       if (pressed) {
         clear_mods();  // Temporarily disable mods.
@@ -808,14 +818,9 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         tap_code16(KC_NUM);
       }
       break;
-    case F1COMBO:
+    case F12COMBO:
       if (pressed) {
-        tap_code16(KC_F1);
-      }
-      break;
-    case F8COMBO:
-      if (pressed) {
-        tap_code16(KC_F8);
+        tap_code16(KC_F12);
       }
       break;
     case CAPSWORD:
