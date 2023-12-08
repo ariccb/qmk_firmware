@@ -59,9 +59,9 @@ bool process_select_word(uint16_t keycode, keyrecord_t* record, uint16_t sel_key
         clear_oneshot_mods();
 #endif  // NO_ACTION_ONESHOT
 #ifdef MAC_HOTKEYS
-        register_code16(LGUI(KC_A));
+        register_code16(LCTL(KC_A));
         tap_code16(LSFT(KC_E));
-        unregister_code16(LGUI(KC_A));
+        unregister_code16(LCTL(KC_A));
         tap_code(KC_HOME);
         tap_code16(LSFT(KC_END));
 #else
