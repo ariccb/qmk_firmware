@@ -22,7 +22,7 @@
 
 // Mac users, uncomment this line:
 #if (host_os == OS_MACOS || host_os == OS_IOS)// if the os is iOS or MacOS
-  #define MAC_HOTKEYS
+#define MAC_HOTKEYS
 #endif
 
 enum { STATE_NONE, STATE_SELECTED, STATE_WORD, STATE_FIRST_LINE, STATE_LINE };
