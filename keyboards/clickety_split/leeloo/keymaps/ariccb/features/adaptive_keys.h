@@ -35,7 +35,7 @@ bool process_adaptive_key(uint16_t keycode, const keyrecord_t *record) {
                             return_state = true;       \
                             if(is_caps_word_on()){      \
                                 add_weak_mods(MOD_BIT(KC_LSFT));\
-                                 tap_code(first);\
+                                tap_code(first);\
                             } else {\
                                 tap_code(first);\
                             }         \
@@ -114,24 +114,23 @@ bool process_adaptive_key(uint16_t keycode, const keyrecord_t *record) {
 
 void matrix_scan_user(void) {
     layer_lock_task();
-   if (timer_elapsed32(prior_keydown) >= ADAPTIVE_TERM) { // 30 seconds
-    switch (prior_keycode) {
+    if (timer_elapsed32(prior_keydown) >= ADAPTIVE_TERM) { // 30 seconds
+        switch (prior_keycode) {
 #undef AK_BOTH_START
 #define AK_BOTH_START(key, default_key)    \
-  case key:                                \
-    if(is_caps_word_on()){\
-        add_weak_mods(MOD_BIT(KC_LSFT));\
-        tap_code(default_key);\
-    } else {\
-        tap_code(default_key); \
-    }                \
-    break;
-
+            case key:                                \
+                if(is_caps_word_on()){\
+                    add_weak_mods(MOD_BIT(KC_LSFT));\
+                    tap_code(default_key);\
+                } else {\
+                    tap_code(default_key); \
+                }                \
+                break;
 #include "adaptive_keys.def"
+        }
+        prior_keydown = timer_read32();
+        prior_keycode = KC_NO;
     }
-    prior_keydown = timer_read32();
-    prior_keycode = KC_NO;
-  }
     if (tabbing) {
         if (timer_elapsed(tabtimer) > TABBING_TIMER) {
             unregister_code(KC_LALT);

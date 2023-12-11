@@ -49,35 +49,52 @@ enum layer_names {
 #define _____ KC_TRNS
 #define HYPERESC MT(MOD_LCTL | MOD_LGUI | MOD_LALT | MOD_LSFT, KC_ESC) // Hyper on hold, Esc on tap
 #define LOW_SPC LT(_LOWER, KC_SPC)   // lower on hold, One Shot Shift on tap
-#define RSE_DEL LT(_RAISE, KC_DEL)
-#define MTALT_APP MT(MOD_LALT, KC_APP)
+#define RSE_DEL LT(_RAISE, KC_DEL)  // raise on hold, Delete on tap
 #define ALT_GRV MT(MOD_LALT, KC_GRV) // alt on hold, grave ` on tap
-#define MTLGUI_STAB MT(MOD_LGUI, LSFT(KC_TAB))
-#define MTRSFTBSLS MT(MOD_RSFT, KC_BSLS)
-#define MTRCTLQUO MT(MOD_RCTL, KC_QUOT)
+#define MTLGUI_STAB MT(MOD_LGUI, LSFT(KC_TAB))  // GUI on hold, Shift Tab on tap
+#define MTRSFTBSLS MT(MOD_RSFT, KC_BSLS) // Shift on hold, \ on tap
+#define MTRCTLQUO MT(MOD_RCTL, KC_QUOT) // Ctrl on hold, " on tap
 #define FN_TAB  LT(_ADJUST, KC_TAB) // MEH on hold, Tab on tap
 #define FN_A LT(_ADJUST, KC_A)
+#define FN_O LT(_ADJUST, KC_O)
+#define FN_SCLN LT(_ADJUST, KC_SCLN)
 
 
 #ifdef MAC_HOTKEYS
+// Mac Specific Hotkeys
 #define TERMINAL LCTL(KC_GRV)
 #define DESKTR LCTL(KC_RGHT)  // move one virtual desktop to the right
 #define DESKTL LCTL(KC_LEFT)  // move one virtual desktop to the left
 #define MTCMD_ENT MT(MOD_LGUI, KC_ENT)
 #define MTCTL_OSS MT(MOD_LCTL, KC_F24)
 #define MTLGUI_Z MT(MOD_LGUI, KC_Z)
+// modifier tap keys
+#define MTALT_APP MT(MOD_LALT, KC_GLOBE) // Alt on hold, Menu on tap
 #define MTLALT_LRBC MT(MOD_LALT, KC_LBRC) // Alt on hold, [ on tap
 #define MTLSFT_LPRN MT(MOD_LSFT, KC_LPRN) // Shift on hold, ( on tap
 #define MTLGUI_RPRN MT(MOD_LGUI, KC_RPRN) // GUI on hold, ) on tap
 #define MTLCTL_RBRC MT(MOD_LCTL, KC_RBRC) // Ctrl on hold, ] on tap
+#define MTALT_F5 MT(MOD_LALT, KC_F5) // alt on hold, F5 on tap
+#define MTLSFT_F6 MT(MOD_LSFT, KC_F6) // shift on hold, F6 on tap
+#define MTGUI_F7 MT(MOD_LGUI, KC_F7) // gui on hold, F7 on tap
+#define MTCTL_F8 MT(MOD_LCTL, KC_F8) // ctrl on hold, F8 on tap
+#define MTALT_RHGT MT(MOD_LALT, KC_RGHT) // alt on hold, mouse right on tap
+#define MTLSFT_DN MT(MOD_LSFT, KC_DOWN) // shift on hold, down arrow on tap
+#define MTGUI_LEFT MT(MOD_LGUI, KC_LEFT) // gui on hold, left arrow on tap
+#define MTCTL_RCLCK MT(MOD_LCTL, KC_M) // ctrl on hold, right arrow on tap
+//rpbprbst
+//_____,      KC_LEFT,  KC_DOWN,   KC_RGHT,
 #define GUI_TAB LGUI(KC_TAB)
 #define BWSRLEFT LGUI(KC_LEFT)
 #define BWSRRHGT LGUI(KC_RGHT)
 #define CTL_TAB LCTL(KC_TAB)
+#define CRSR_UP LGUI(LALT(KC_UP)) // add cursor above
+#define CRSR_DN LGUI(LALT(KC_DOWN)) // add cursor below
+#define SEARCH LGUI(KC_F) // search on page
+
 
 #else
-
-
+// Windows Specific Hotkeys
 #define TERMINAL LGUI(KC_GRV)
 #define DESKTR LGUI(LCTL(KC_RGHT))  // move one virtual desktop to the right
 #define DESKTL LGUI(LCTL(KC_LEFT))  // move one virtual desktop to the left
@@ -86,20 +103,16 @@ enum layer_names {
 #define MTLGUI_RPRN MT(MOD_LALT, KC_RPRN) // Alt (for windows) on hold, ) on tap
 #define MTLCTL_RBRC MT(MOD_LGUI, KC_RBRC) // Win/GUI (for windows) on hold, ] on tap
 #define MTLGUI_Z MT(MOD_LGUI, KC_Z)
+#define MTALT_APP MT(MOD_LALT, KC_APP) // Alt on hold, Menu on tap
 #define MTCMD_ENT MT(MOD_LGUI, KC_ENT)
 #define MTCTL_OSS MT(MOD_LCTL, KC_F24)
 #define GUI_TAB LALT(KC_TAB)
 #define BWSRLEFT A(KC_LEFT)
 #define BWSRRHGT A(KC_RGHT)
 #define CTL_TAB LALT(KC_TAB)
-
-
-
-
-
-
-
-
+#define CRSR_UP LCTL(LALT(KC_UP)) // add cursor above
+#define CRSR_DN LCTL(LALT(KC_DOWN)) // add cursor below
+#define SEARCH LCTL(KC_F) // search on page
 
 
 #endif  // MAC_HOTKEYS
@@ -108,67 +121,67 @@ enum layer_names {
 
 
 enum planck_keycodes {
-  COLEMAKDH = SAFE_RANGE,
-  QWERTY,
-  LOWER,
-  RAISE,
-  ADJUST,
-  NUMPAD,
-  GAMING,
-  EXT_NUM,
-  SELWORD,
-  BRACES,
-  BRACES2,
-  ARROW,
-  CTRL_TAB,
-  LLOCK,
-  SELWLEFT,
-  SELWRIGHT
+    COLEMAKDH = SAFE_RANGE,
+    QWERTY,
+    LOWER,
+    RAISE,
+    ADJUST,
+    NUMPAD,
+    GAMING,
+    EXT_NUM,
+    SELWORD,
+    BRACES,
+    BRACES2,
+    ARROW,
+    CTRL_TAB,
+    LLOCK,
+    SELWLEFT,
+    SELWRIGHT
 };
 // this is the start of the combo keys
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* MIT Layout (COLEMAKH-DH)
  * .-----------------------------------------.                                      .-----------------------------------------.
- * |TRMNAL|  F1  |  F2  |  F3  |  F4  |  F5  |                                      | F6  |  F7  |  F8  |  F9  | F10 -F11- F12|
+ * |TRMNAL| F1 -F12- F2 |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  |  F10 +  F11 |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |HYP,ESC| Q   |  W   |  F   |  P   |  B   |                                      |  J   |  L   |  U   |  Y   |  ;   | BSPC |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |FN_TAB|  A   |  R   |  S   |  T   |  G   |-------.                      .-------|  M   |  N   |  E   |  I   |  O   |CTRL,'|
+ * |FN_TAB| FN_A |  R   |  S   |  T   |  G   |-------.                      .-------|  M   |  N   |  E   |  I   | FN_O |CTRL,'|
  * |------+------+------+------+------+------|Alt-Tab|                      | LALT  |------+------+------+------+------+------|
  * | SHIFT| GUI_Z|  X   |  C   |  D   |  V   |       |-->Play/Pause         | GRV`  |  K   |  H   |  ,   |  .   |  /   |SFT,\ |
  * .-----------------------------------------|-------|   on Button Press    |-------|-----------------------------------------'
- *                      | ALT | CMD  |  LOW  / CTRL  /                       \ CMD \       |RAISE|Expand Selection R/L|  //Hdr On/off On Press
- *                      | APP | ENTER| SPACE/OSShft/                          \Sft-Tab\ SPACE| DEL | DIAL2|--> Right Scroll whole word
- *                      `-------------------------'                            '-------------------------'
+ *                      | ALT | CMD  |  LOW  / CTRL  /                       \GLOBE \  LOW  |RAISE/ |Expand Selection R/L|  //Hdr On/off On Press
+ *                      | APP | ENTER| SPACE/OSShft/                          \Mac FN\ SPACE| DEL   |DIAL2|--> Right Scroll whole word
+ *                      `-------------------------'                            '--------------------------'
  */
   [_COLEMAKDH] = LAYOUT(
-  TERMINAL, KC_F1,   KC_F2,   KC_F3,     KC_F4,     KC_F5,                               KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F12,
+  TERMINAL, KC_F1,   KC_F2,   KC_F3,     KC_F4,     KC_F5,                               KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   HYPERESC, KC_Q,     KC_W,   KC_F,      KC_P,      KC_B,                                KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, KC_BSPC,
-  FN_TAB,   FN_A,     KC_R,   KC_S,      KC_T,      KC_G,                                KC_M,    KC_N,    KC_E,    KC_I,   KC_O,    MTRCTLQUO,
+  FN_TAB,   FN_A,     KC_R,   KC_S,      KC_T,      KC_G,                                KC_M,    KC_N,    KC_E,    KC_I,   FN_O,    MTRCTLQUO,
   KC_LSFT,  MTLGUI_Z, KC_X,   KC_C,      KC_D,      KC_V,    KC_MPLY,          ALT_GRV,  KC_K,    KC_H,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
-                              MTALT_APP, MTCMD_ENT, LOW_SPC, MTCTL_OSS,      MTLGUI_STAB,LOW_SPC, RSE_DEL, GUI_TAB //Mute Mic
+                              MTALT_APP, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        KC_GLOBE, LOW_SPC, RSE_DEL, GUI_TAB //Mute Mic
 ),
 
 /* MIT Layout (QWERTY)
  * .-----------------------------------------.                                      .-----------------------------------------.
- * |TRMNAL| F1  |  F2  |  F3  |  F4  |  F5  |                                       | F6  |  F7  |  F8  |  F9  | F10 -F11- F12|
+ * |TRMNAL| F1 -F12- F2 |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  |  F10 +  F11 |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |HYP,ESC| Q   |  W   |  E   |  R   |  T   |                                      |  Y   |  U   |  I   |  O   |  P   | BSPC |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |FN_TAB|  A   |  S   |  D   |  F  -@- G   |-------.                      .-------|  H   |  J   |  K   |  L   |  ;   |CTRL,'|
+ * |FN_TAB| FN_A |  S   |  D   |  F  -@- G   |-------.                      .-------|  H   |  J   |  K   |  L   | FN_; |CTRL,'|
  * |------+------+------+------+------+------|Alt-Tab|                      | LALT  |------+------+------+------+------+------|
  * | SHIFT| GUI_Z|  X   |  C   |  V   |  B   |       |-->Play/Pause         | GRV`  |  N   |  M   |  ,   |  .   |  /   |SFT,\ |
  * .-----------------------------------------|-------|   on Button Press    |-------|-----------------------------------------'
- *                      | ALT | CTRL |  LOW  /      /                        \ CMD  \  LOW  |RAISE| Expand Selection R/L|  //Hdr On/off On Press
- *                      | APP | ENTER| SPACE/ OSSft/                          \SftTab\ SPACE| DEL | DIAL2|--> Right Scroll Whole word
+ *                      | ALT | CTRL |  LOW  /      /                        \GLOBE \  LOW  |RAISE| Expand Selection R/L|  //Hdr On/off On Press
+ *                      | APP | ENTER| SPACE/ OSSft/                          \Mac FN\ SPACE| DEL | DIAL2|--> Right Scroll Whole word
  *                      `-------------------------'                            '-------------------------'
  */
   [_QWERTY] = LAYOUT(
-  TERMINAL, KC_F1,   KC_F2,   KC_F3,     KC_F4,     KC_F5,                               KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F12,
-  HYPERESC, KC_Q,     KC_W,   KC_E,      KC_R,      KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_BSPC,
-  FN_TAB,   FN_A,     KC_S,   KC_D,      KC_F,      KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN, MTRCTLQUO,
-  KC_LSFT,  MTLGUI_Z, KC_X,   KC_C,      KC_V,      KC_B,    KC_MPLY,          ALT_GRV,  KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
-                              MTALT_APP, MTCMD_ENT, LOW_SPC, MTCTL_OSS,      MTLGUI_STAB,LOW_SPC, RSE_DEL, GUI_TAB
+  TERMINAL, KC_F1,   KC_F2,     KC_F3,     KC_F4,     KC_F5,                               KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
+  HYPERESC, KC_Q,     KC_W,     KC_E,      KC_R,      KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_BSPC,
+  FN_TAB,   FN_A,     KC_S,     KC_D,      KC_F,      KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,   FN_SCLN, MTRCTLQUO,
+  KC_LSFT,  MTLGUI_Z, KC_X,     KC_C,      KC_V,      KC_B,    KC_MPLY,          ALT_GRV,  KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
+                                MTALT_APP, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        KC_GLOBE, LOW_SPC, RSE_DEL, GUI_TAB
 ),
 
 /* MIT Layout (LOWER)
@@ -179,18 +192,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+-------------|                                      |------+------+------+------+------+------|
  * |S(TAB)|  #   | [,alt|(,sft |),gui | ],ctl|-------.                      .-------|   &  |   4  |   5  |   6  |   -  |  +   |
  * |------+------+------+------+------+------|Volume |                      |       |------+------+------+------+------+------|
- * |SHIFT |  ~   |  $   |  {   |  }   |  %   | DIAL1 |--> Press for         |   @   |   |  |   1  |   2  |   3  |   /  |  |   |
+ * |SHIFT |  ~   |  $   |  {   |  }   |  %   | DIAL1 |--> Press for         |      |   |  |   1  |   2  |   3  |   /  |  |   |
  * .-----------------------------------------|-------|                      |-------|-----------------------------------------'
  *                      | ALT | CTRL |  LOW  /      /                        \       \      |     |Expand|
  *                      | APP | ENTER| SPACE/ OSSft/                          \ SPACE \  0  |  .  | DIAL2|--> open to set
  *                      `-------------------------'                            '-------------------------'
  */
   [_LOWER] = LAYOUT(
-  CG_SWAP,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                               KC_6,    KC_7,   KC_8,  KC_9,  KC_0,    KC_F12,
-  KC_GRV,    KC_EXLM, KC_LABK, KC_RABK, KC_EQL,  KC_CIRC,                            KC_ASTR, KC_7,   KC_8,  KC_9,  KC_COLN, KC_BSPC,
-  S(KC_TAB), KC_HASH, MTLALT_LRBC, MTLSFT_LPRN, MTLGUI_RPRN, MTLCTL_RBRC,                            KC_AMPR, KC_4,   KC_5,  KC_6,  KC_PMNS, KC_PPLS,
-  KC_LSFT,   KC_TILD, KC_DLR,  KC_LCBR, KC_RCBR, KC_PERC, _____,             KC_AT,  KC_PIPE, KC_1,   KC_2,  KC_3,  KC_PSLS, KC_PIPE,
-                               _____,   _____,   _____,   _____,             KC_SPC, KC_0,    KC_DOT, _____ //
+  CG_SWAP,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                KC_6,    KC_7,   KC_8,  KC_9,  KC_0,    KC_F12,
+  KC_GRV,    KC_EXLM, KC_LABK, KC_RABK, KC_EQL,  KC_CIRC,                             KC_ASTR, KC_7,   KC_8,  KC_9,  KC_COLN, KC_BSPC,
+  S(KC_TAB), KC_HASH, MTLALT_LRBC, MTLSFT_LPRN, MTLGUI_RPRN, MTLCTL_RBRC,             KC_AMPR, KC_4,   KC_5,  KC_6,  KC_PMNS, KC_PPLS,
+  KC_LSFT,   KC_TILD, KC_DLR,  KC_LCBR, KC_RCBR, KC_PERC, _____,             KC_TILD, KC_PIPE, KC_1,   KC_2,  KC_3,  KC_PSLS, KC_PIPE,
+                               _____,   _____,   _____,   _____,             KC_SPC,  KC_0,    KC_DOT, _____ //
 ),
 
 /* MIT Layout (RAISE)
@@ -211,30 +224,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   CG_SWAP, XXXXX,   XXXXX,   XXXXX,   XXXXX,   XXXXX,                                  KC_BTN2, XXXXX,   KC_NUM,  XXXXX,   XXXXX,   TG(_QWERTY),
   CG_NORM, KC_BTN3, KC_BTN2, KC_MS_U, KC_BTN1, KC_MUTE,                                _____,   LLOCK,   KC_BTN3, _____,   KC_COLN, KC_BSPC,
   _____,   _____,   KC_MS_L, KC_MS_D, KC_MS_R, KC_VOLU,                                ARROW,   KC_BTN1, SELWORD, KC_BTN2, _____,   KC_DQUO,
-  _____,   KC_WH_L, KC_WH_U, KC_WH_D, KC_WH_R, KC_VOLD, _____,                _____,   BRACES,  BRACES2, SELWORD, BRACES, KC_EXLM, KC_PIPE,
-                             _____, _____, _____, _____,                      KC_BTN1, KC_BTN3, _____,   LCTL(KC_F) // search on page (ctrl f)
+  _____,   KC_WH_L, KC_WH_U, KC_WH_D, KC_WH_R, KC_VOLD, _____,                _____,   BRACES,  BRACES2, SELWORD, BRACES,  KC_EXLM, KC_PIPE,
+                                   _____, _____, _____, _____,                KC_BTN1, KC_BTN3, _____,   SEARCH // search on page (ctrl f)
 ),
 
 /* MIT Layout (ADJUST)
  * .-----------------------------------------.                                      .-----------------------------------------.
- * |CGSWAP|      |      |      |  F11 |  F12 |                                      |TabUp | Back |C+A_Up|Frward|SclLok|QWERTY|
+ * |CGSWAP|  F1  |  F2  |  F3  |  F4  |  F5  |                                      |TabUp | Back |C+A_Up|Frward|SclLok|QWERTY|
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |CGNORM|  F6  |  F7  |  F8  |  F9  |  F10 |                                      |TabDn | Home |  Up  |  End | PAUSE|Delete|
+ * |CGNORM|      |  F9  |  F10 | F11  |  F12 |                                      |TabDn | Home |  Up  |  End | PAUSE|Delete|
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |      |******| Alt  | Shift| Cmd  | Ctrl |--------.                     .-------|SWLeft| Left | Down | Right|SWRigt|CAPSLK|
+ * |******|*STAB*|Alt,F5|Sft,F6|Cmd,F7|Ctl,F8|--------.                     .-------|Mright| Left | Down | Right|      |CAPSLK|
  * |------+------+------+------+------+------| Virtual|                     |  `grv |------+------+------+------+------+------|
- * |      |  F1  |  F2  |  F3  |  F4  |  F5  |Desktop |-->  Next Song       | Alt   | Back |PageUp|C+A_Dn|PageDn|Forwrd|INSERT|
+ * |      |      |  F1  |  F2  |  F3  |  F4  |Desktop |-->  Next Song       | Alt   | Back |PageUp|C+A_Dn|PageDn|Forwrd|INSERT|
  * .-----------------------------------------|--------|                     |-------|-----------------------------------------'
  *                      | ALT | CTRL |  Alt  / Ctrl  /                       \       \       |      |MW L/R Selection in VSCode|
  *                      | APP | ENTER| Tab  /  Tab  /                         \       \      |      | DIAL2|--> Toggle HDR
  *                      `--------------------------'                           '---------------------------'    on Button Press
  */
   [_ADJUST] = LAYOUT(
-  CG_SWAP, XXXXX, XXXXX,   XXXXX,   KC_F11,  KC_F12,                                  C(KC_PGUP), BWSRLEFT, LCA(KC_UP),   BWSRRHGT, KC_SCRL,   TG(_QWERTY),
-  CG_NORM, KC_F6, KC_F7,   KC_F8,   KC_F9,   KC_F10,                                  C(KC_PGDN), KC_HOME,  KC_UP,        KC_END,   KC_PAUSE,  KC_DEL,
-  _____,   _____, KC_LALT, KC_LSFT, KC_LGUI, KC_LCTL,                                 SELWLEFT,   KC_LEFT,  KC_DOWN,      KC_RGHT,  SELWRIGHT, KC_CAPS,
-  _____,   KC_F1, KC_F2,   KC_F3,   KC_F4,   KC_F5,     KC_MNXT,             ALT_GRV, BWSRLEFT,   KC_PGUP,  LCA(KC_DOWN), KC_PGDN,  BWSRRHGT,  KC_INS,
-                              _____,   _____, CTL_TAB, CTRL_TAB,             CTRL_TAB, _____,  _____, G(A(KC_B))
+  CG_SWAP, KC_F1, KC_F2,    KC_F3,     KC_F4,    KC_F5,                               C(KC_PGUP),  BWSRLEFT,   CRSR_UP,   BWSRRHGT,  KC_SCRL,   TG(_QWERTY),
+  CG_NORM, _____, KC_F9,    KC_F10,    KC_F11,   KC_F12,                              C(KC_PGDN),  KC_HOME,    KC_UP,     KC_END,    KC_PAUSE,  KC_DEL,
+  _____,   _____, MTALT_F5, MTLSFT_F6, MTGUI_F7, MTCTL_F8,                            MTCTL_RCLCK, MTGUI_LEFT, MTLSFT_DN, MTALT_RHGT, _____,     KC_CAPS,
+  _____,   _____, KC_F1,    KC_F2,     KC_F3,    KC_F4,    KC_MNXT,          ALT_GRV, BWSRLEFT,    KC_PGUP,    CRSR_DN,   KC_PGDN,   BWSRRHGT,  KC_INS,
+                              _____,   _____,    CTL_TAB,  MTCTL_OSS,        CTRL_TAB, _____,  _____, G(A(KC_B))
 )
 };
 
@@ -406,154 +419,140 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 #endif
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (!process_layer_lock(keycode, record, LLOCK)) { return false; }
-  if (!process_select_word(keycode, record, SELWORD)) { return false; }
-  if (!process_adaptive_key(keycode, record)) { return false; }
+    if (!process_layer_lock(keycode, record, LLOCK)) { return false; }
+    if (!process_select_word(keycode, record, SELWORD)) { return false; }
+    if (!process_adaptive_key(keycode, record)) { return false; }
  // if (!process_caps_word(keycode, record)) { return false; }
   //if (!process_autocorrection(keycode, record)) { return false; }
 
-  const uint8_t mods = get_mods();
-  const uint8_t oneshot_mods = get_oneshot_mods();
+    const uint8_t mods = get_mods();
+    const uint8_t oneshot_mods = get_oneshot_mods();
 
-  switch (keycode) {
-      case BRACES:  // Types (), or {}, and puts cursor between braces.
-        if (record->event.pressed) {
-            clear_mods();  // Temporarily disable mods.
-            clear_oneshot_mods();
-            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-            SEND_STRING("<>");
-            } else {
-            SEND_STRING("()");
+    switch (keycode) {
+        case BRACES:  // Types (), or {}, and puts cursor between braces.
+            if (record->event.pressed) {
+                clear_mods();  // Temporarily disable mods.
+                clear_oneshot_mods();
+                if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                SEND_STRING("<>");
+                } else {
+                SEND_STRING("()");
+                }
+                tap_code(KC_LEFT);  // Move cursor between braces.
+                set_mods(mods);  // Restore mods.
             }
-            tap_code(KC_LEFT);  // Move cursor between braces.
-            set_mods(mods);  // Restore mods.
-        }
-        return false;
-        break;
-      case BRACES2:  // Types [], or <>, and puts cursor between braces.
-        if (record->event.pressed) {
-            clear_mods();  // Temporarily disable mods.
-            clear_oneshot_mods();
-            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-            SEND_STRING("{}");
-            } else {
-            SEND_STRING("[]");
+            return false;
+            break;
+        case BRACES2:  // Types [], or <>, and puts cursor between braces.
+            if (record->event.pressed) {
+                clear_mods();  // Temporarily disable mods.
+                clear_oneshot_mods();
+                if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                SEND_STRING("{}");
+                } else {
+                SEND_STRING("[]");
+                }
+                tap_code(KC_LEFT);  // Move cursor between braces.
+                set_mods(mods);  // Restore mods.
             }
-            tap_code(KC_LEFT);  // Move cursor between braces.
-            set_mods(mods);  // Restore mods.
-        }
-        return false;
-        break;
-      case ARROW:  // Arrow macro, types -> or =>.
-        if (record->event.pressed) {
-            if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {  // Is shift held?
-            del_mods(MOD_MASK_SHIFT);  // Temporarily delete shift.
-            del_oneshot_mods(MOD_MASK_SHIFT);
-            SEND_STRING("const yourFuncVariable = (x,y) => x + y.method;");
-            for (int counter = 0; counter <= 24; counter++){
-              tap_code(KC_LEFT);
-            }
+            return false;
+            break;
+        case ARROW:  // Arrow macro, types -> or =>.
+            if (record->event.pressed) {
+                if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {  // Is shift held?
+                    del_mods(MOD_MASK_SHIFT);  // Temporarily delete shift.
+                    del_oneshot_mods(MOD_MASK_SHIFT);
+                    SEND_STRING("const yourFuncVariable = (x,y) => x + y.method;");
+                for (int counter = 0; counter <= 24; counter++){
+                    tap_code(KC_LEFT);
+                }
 #ifdef MAC_HOTKEYS
-            tap_code16(LALT(LSFT(KC_LEFT)));
+                tap_code16(LALT(LSFT(KC_LEFT)));
 #else
-            tap_code16(LCTL(LSFT(KC_LEFT)));
+                tap_code16(LCTL(LSFT(KC_LEFT)));
 #endif  // MAC_HOTKEYS
-            set_mods(mods);  // Restore mods.
-            } else {
-              SEND_STRING("() => ");
-              tap_code(KC_LEFT);
-              tap_code(KC_LEFT);
-              tap_code(KC_LEFT);
-              tap_code(KC_LEFT);
-              tap_code(KC_LEFT);
-              set_mods(mods); // Restore mods.
+                set_mods(mods);  // Restore mods.
+                } else {
+                    SEND_STRING("() => ");
+                    tap_code(KC_LEFT);
+                    tap_code(KC_LEFT);
+                    tap_code(KC_LEFT);
+                    tap_code(KC_LEFT);
+                    tap_code(KC_LEFT);
+                    set_mods(mods); // Restore mods.
+                }
             }
-        }
-        return false;
-        break;
-      case CTRL_TAB:
-        if (record->event.pressed) {
-          ctrl_tabtimer = timer_read_fast();
-          if(!ctrl_tabbing) {
+            return false;
+            break;
+        case CTRL_TAB:
+            if (record->event.pressed) {
+                ctrl_tabtimer = timer_read_fast();
+                if(!ctrl_tabbing) {
 #ifdef MAC_HOTKEYS
-            register_code(KC_LGUI);
+                    register_code(KC_LGUI);
 #else
-            register_code(KC_LCTL);
+                    register_code(KC_LCTL);
 #endif  // MAC_HOTKEYS
-            ctrl_tabbing = true;
-          }
-          tap_code(KC_TAB);
-        }
-        return false;
-        break;
+                    ctrl_tabbing = true;
+                }
+            tap_code(KC_TAB);
+            }
+            return false;
+            break;
 #ifdef MAC_HOTKEYS
-      case MT(MOD_LCTL, KC_F24):
+        case MT(MOD_LCTL, KC_F24):
 #else
-      case MT(MOD_LGUI, KC_F24):
+        case MT(MOD_LGUI, KC_F24):
 #endif // MAC_HOTKEYS
-        if (record->tap.count > 0) {
-        if (record->event.pressed) {
-            set_oneshot_mods(MOD_LSFT);
-        }
-        return false;
-        }
-        break;
-      case SELWLEFT:
-        if (record->event.pressed){
-#ifdef MAC_HOTKEYS
-          tap_code16(LALT(LSFT(KC_LEFT)));
-#else
-          tap_code16(LCTL(LSFT(KC_LEFT)));
-#endif  // MAC_HOTKEYS
-        }
-        break;
-        case SELWRIGHT:
-        if (record->event.pressed){
-          tap_code16(LCTL(LSFT(KC_RGHT)));
-        }
-        break;
-  }
-  return true;
+            if (record->tap.count > 0) {
+                if (record->event.pressed) {
+                    set_oneshot_mods(MOD_LSFT);
+                }
+                return false;
+            }
+            break;
+    }
+    return true;
 };
 
 enum combo_events {
-  EM_EMAIL,
-  EM_WORK_EMAIL,
-  HOME_ADDRESS,
-  HTML_P,
-  HTML_TITLE,
-  HTML_DIV,
-  HTML_HTML,
-  HTML_HEAD,
-  HTML_BODY,
-  HTML_FOOTER,
-  HTML_A_HREF,
-  HTML_IMG,
-  CSS_STYLE,
-  HTML_GENERIC_TAG,
-  UNDO,
-  REDO,
-  CUT,
-  COPY,
-  PASTE,
-  PASTECLIPBOARD,
-  PASTETEXT,
-  SELECTALL,
-  QUESTIONMARK,
-  EXCLAMATIONMARK,
-  DQUOTE,
-  UNDERSCORE,
-  DASH,
-  EQUALSIGN,
-  ATSYMB,
-  TWODQUOTE,
-  LOWERTOGGLE,
-  SLEEP,
-  RESETKEY,
-  NUMLOCKC,
-  F12COMBO,
-  CAPSWORD,
-  COMBO_LENGTH
+    EM_EMAIL,
+    EM_WORK_EMAIL,
+    HOME_ADDRESS,
+    HTML_P,
+    HTML_TITLE,
+    HTML_DIV,
+    HTML_HTML,
+    HTML_HEAD,
+    HTML_BODY,
+    HTML_FOOTER,
+    HTML_A_HREF,
+    HTML_IMG,
+    CSS_STYLE,
+    HTML_GENERIC_TAG,
+    UNDO,
+    REDO,
+    CUT,
+    COPY,
+    PASTE,
+    PASTECLIPBOARD,
+    PASTETEXT,
+    SELECTALL,
+    QUESTIONMARK,
+    EXCLAMATIONMARK,
+    DQUOTE,
+    UNDERSCORE,
+    DASH,
+    EQUALSIGN,
+    ATSYMB,
+    TWODQUOTE,
+    LOWERTOGGLE,
+    SLEEP,
+    RESETKEY,
+    NUMLOCKC,
+    F12COMBO,
+    CAPSWORD,
+    COMBO_LENGTH
 };
 
 
@@ -641,254 +640,341 @@ combo_t key_combos[] = {
 /* COMBO_ACTION(x) is same as COMBO(x, XXXXX) */
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
-  const uint8_t mods = get_mods();
-  const uint8_t oneshot_mods = get_oneshot_mods();
+    const uint8_t mods = get_mods();
+    const uint8_t oneshot_mods = get_oneshot_mods();
 
-  switch(combo_index) {
-    case EM_EMAIL:
-      if (pressed) {
-        SEND_STRING("contact@ariccb.dev");
-      }
-      break;
-    case EM_WORK_EMAIL:
-      if (pressed) {
-        SEND_STRING("aric@collegiumbuilt.com");
-      }
-      break;
-    case HOME_ADDRESS:
-      if (pressed) {
-        SEND_STRING("111 Highview Gate SE");
-      }
-      break;
-    case HTML_DIV:
-      if (pressed) {
-        SEND_STRING("<div></div>");
-        for (int i = 0; i < 6; i++) {
-          tap_code16(KC_LEFT);
-        }
-      }
-      break;
-    case HTML_P:
-      if (pressed) {
-        SEND_STRING("<p></p>");
-        for (int i = 0; i < 4; i++) {
-          tap_code16(KC_LEFT);
-        }
-      }
-      break;
-    case HTML_TITLE:
-      if (pressed) {
-        SEND_STRING("<title></title>");
-        for (int i = 0; i < 8; i++) {
-          tap_code16(KC_LEFT);
-        }
-      }
-      break;
-      case CSS_STYLE:
-      if (pressed) {
-        SEND_STRING("<style></style>");
-         for (int i = 0; i < 8; i++) {
-          tap_code16(KC_LEFT);
-        }
-      }
-      break;
-    case HTML_HTML:
-      if (pressed) {
-        SEND_STRING("<html lang=\"en\"></html>");
-        for (int i = 0; i < 7; i++) {
-          tap_code16(KC_LEFT);
-        }
-      }
-      break;
-    case HTML_HEAD:
-      if (pressed) {
-        SEND_STRING("<head></head>");
-        for (int i = 0; i < 7; i++) {
-          tap_code16(KC_LEFT);
-        }
-      }
-      break;
-    case HTML_BODY:
-      if (pressed) {
-        SEND_STRING("<body></body>");
-        for (int i = 0; i < 7; i++) {
-          tap_code16(KC_LEFT);
-        }
-      }
-      break;
-    case HTML_FOOTER:
-      if (pressed) {
-        SEND_STRING("<footer></footer>");
-        for (int i = 0; i < 9; i++) {
-          tap_code16(KC_LEFT);
-        }
-      }
-      break;
-    case HTML_A_HREF:
-      if (pressed) {
-        SEND_STRING("<a href=\"link_goes_here\">name_of_link_goes_here</a>");
-        tap_code16(KC_HOME);
-        for (int i = 0; i < 10; i++) {
-          tap_code16(KC_RGHT);
-        }
-      }
-      break;
-    case HTML_IMG:
-      if (pressed) {
-        SEND_STRING("<img src=\"image_source_or_link_goes_here\" alt=\"name_if_cant_load\" width=\"num_pixels\" height=\"num_pixels\">");
-        tap_code16(KC_HOME);
-        for (int i = 0; i < 11; i++) {
-          tap_code16(KC_RGHT);
-        }
-      }
-      break;
-    case HTML_GENERIC_TAG:
-      if (pressed) {
-        SEND_STRING("<TAG></TAG>");
-        tap_code16(KC_ESC);
-        for (int i = 0; i < 9; i++) {
-          tap_code16(KC_LEFT);
-        }
+    switch(combo_index) {
+        case EM_EMAIL:
+            if (pressed) {
+                SEND_STRING("contact@ariccb.dev");
+            }
+            break;
+        case EM_WORK_EMAIL:
+            if (pressed) {
+                SEND_STRING("aric@collegiumbuilt.com");
+            }
+            break;
+        case HOME_ADDRESS:
+            if (pressed) {
+                SEND_STRING("111 Highview Gate SE");
+            }
+            break;
+        case HTML_DIV:
+            if (pressed) {
+                SEND_STRING("<div></div>");
+                for (int i = 0; i < 6; i++) {
+                tap_code16(KC_LEFT);
+                }
+            }
+            break;
+        case HTML_P:
+            if (pressed) {
+                SEND_STRING("<p></p>");
+                for (int i = 0; i < 4; i++) {
+                tap_code16(KC_LEFT);
+                }
+            }
+            break;
+        case HTML_TITLE:
+            if (pressed) {
+                SEND_STRING("<title></title>");
+                for (int i = 0; i < 8; i++) {
+                tap_code16(KC_LEFT);
+                }
+            }
+            break;
+        case CSS_STYLE:
+            if (pressed) {
+                SEND_STRING("<style></style>");
+                for (int i = 0; i < 8; i++) {
+                tap_code16(KC_LEFT);
+                }
+            }
+            break;
+        case HTML_HTML:
+            if (pressed) {
+                SEND_STRING("<html lang=\"en\"></html>");
+                for (int i = 0; i < 7; i++) {
+                tap_code16(KC_LEFT);
+                }
+            }
+            break;
+        case HTML_HEAD:
+            if (pressed) {
+                SEND_STRING("<head></head>");
+                for (int i = 0; i < 7; i++) {
+                tap_code16(KC_LEFT);
+                }
+            }
+            break;
+        case HTML_BODY:
+            if (pressed) {
+                SEND_STRING("<body></body>");
+                for (int i = 0; i < 7; i++) {
+                tap_code16(KC_LEFT);
+                }
+            }
+            break;
+        case HTML_FOOTER:
+            if (pressed) {
+                SEND_STRING("<footer></footer>");
+                for (int i = 0; i < 9; i++) {
+                tap_code16(KC_LEFT);
+                }
+            }
+            break;
+        case HTML_A_HREF:
+            if (pressed) {
+                SEND_STRING("<a href=\"link_goes_here\">name_of_link_goes_here</a>");
+                tap_code16(KC_HOME);
+                for (int i = 0; i < 10; i++) {
+                tap_code16(KC_RGHT);
+                }
+            }
+            break;
+        case HTML_IMG:
+            if (pressed) {
+                SEND_STRING("<img src=\"image_source_or_link_goes_here\" alt=\"name_if_cant_load\" width=\"num_pixels\" height=\"num_pixels\">");
+                tap_code16(KC_HOME);
+                for (int i = 0; i < 11; i++) {
+                tap_code16(KC_RGHT);
+                }
+            }
+            break;
+        case HTML_GENERIC_TAG:
+            if (pressed) {
+                SEND_STRING("<TAG></TAG>");
+                tap_code16(KC_ESC);
+                for (int i = 0; i < 9; i++) {
+                tap_code16(KC_LEFT);
+                }
 
 #ifdef MAC_HOTKEYS
-        tap_code16(LGUI(KC_D));
-        tap_code16(LGUI(KC_D));
+                tap_code16(LGUI(KC_D));
+                tap_code16(LGUI(KC_D));
 #else
-        tap_code16(LCTL(KC_D));
-        tap_code16(LCTL(KC_D));
+                tap_code16(LCTL(KC_D));
+                tap_code16(LCTL(KC_D));
 #endif  // MAC_HOTKEYS
-        tap_code16(KC_BSPC);
-      }
-      break;
-    case UNDO:
-      if (pressed) {
-        tap_code16(C(KC_Z));
-      }
-      break;
-    case REDO:
-        if (pressed) {
-            #ifdef MAC_HOTKEYS
-                tap_code16(G(S(KC_Z)));
-            #else
-            tap_code16(C(KC_Z));
-            #endif
+                tap_code16(KC_BSPC);
             }
+            break;
+        case UNDO:
+            if (pressed) {
+#ifdef MAC_HOTKEYS
+                register_code(KC_LGUI);
+                register_code(KC_Z);
+                unregister_code(KC_LGUI);
+                unregister_code(KC_Z);
+#else
+                register_code(KC_LCTL);
+                register_code(KC_Z);
+                unregister_code(KC_LCTL);
+                unregister_code(KC_Z);
+#endif
+            }
+            break;
+        case REDO:
+            if (pressed) {
+#ifdef MAC_HOTKEYS
+                register_code(KC_LGUI);
+                register_code(KC_LSFT);
+                register_code(KC_Z);
+                unregister_code(KC_LGUI);
+                unregister_code(KC_LSFT);
+                unregister_code(KC_Z);
+#else
+                register_code(KC_LCTL);
+                register_code(KC_Y);
+                unregister_code(KC_LCTL);
+                unregister_code(KC_Y);
+#endif
+            }
+            break;
+        case CUT:
+            if (pressed) {
+#ifdef MAC_HOTKEYS
+                register_code(KC_LGUI);
+                register_code(KC_X);
+                unregister_code(KC_LGUI);
+                unregister_code(KC_X);
+#else
+                register_code(KC_LCTL);
+                register_code(KC_X);
+                unregister_code(KC_LCTL);
+                unregister_code(KC_X);
+#endif
+            }
+            break;
+        case COPY:
+            if (pressed) {
+#ifdef MAC_HOTKEYS
+                register_code(KC_LGUI);
+                register_code(KC_C);
+                unregister_code(KC_LGUI);
+                unregister_code(KC_C);
+#else
+                register_code(KC_LCTL);
+                register_code(KC_C);
+                unregister_code(KC_LCTL);
+                unregister_code(KC_C);
+#endif
+            }
+            break;
+        case PASTE:
+            if (pressed) {
+#ifdef MAC_HOTKEYS
+                register_code(KC_LGUI);
+                register_code(KC_V);
+                unregister_code(KC_LGUI);
+                unregister_code(KC_V);
+#else
+                register_code(KC_LCTL);
+                register_code(KC_V);
+                unregister_code(KC_LCTL);
+                unregister_code(KC_V);
+#endif
+            }
+            break;
+        case PASTECLIPBOARD:
+            if (pressed) {
+                #ifdef MAC_HOTKEYS
+                register_code(KC_LALT);
+                register_code(KC_LSFT);
+                register_code(KC_LGUI);
+                register_code(KC_SPC);
+                unregister_code(KC_LGUI);
+                unregister_code(KC_LSFT);
+                unregister_code(KC_LGUI);
+                unregister_code(KC_SPC);
+#else
+                register_code(KC_LGUI);
+                register_code(KC_V);
+                unregister_code(KC_LGUI);
+                unregister_code(KC_V);
+#endif
+            }
+            break;
+        case PASTETEXT:
+            if (pressed) {
+#ifdef MAC_HOTKEYS
+                register_code(KC_LSFT);
+                register_code(KC_LGUI);
+                register_code(KC_V);
+                unregister_code(KC_LSFT);
+                unregister_code(KC_LGUI);
+                unregister_code(KC_V);
+#else
+                register_code(KC_LSFT);
+                register_code(KC_LCTL);
+                register_code(KC_V);
+                unregister_code(KC_LSFT);
+                unregister_code(KC_LCTL);
+                unregister_code(KC_V);
+#endif
+                tap_code16(C(S(KC_V)));
+            }
+            break;
+        case SELECTALL:
+            if (pressed) {
+                #ifdef MAC_HOTKEYS
+                register_code(KC_LGUI);
+                register_code(KC_A);
+                unregister_code(KC_LGUI);
+                unregister_code(KC_A);
+#else
+                register_code(KC_LCTL);
+                register_code(KC_A);
+                unregister_code(KC_LCTL);
+                unregister_code(KC_A);
+#endif
+            }
+            break;
+        case QUESTIONMARK:
+            if (pressed) {
+                tap_code16(KC_QUES);
+            }
+            break;
+        case EXCLAMATIONMARK:
+            if (pressed) {
+                tap_code16(KC_EXLM);
+            }
+            break;
+        case DQUOTE:
+            if (pressed) {
+                tap_code16(KC_DQUO);
+            }
+            break;
+        case UNDERSCORE:
+            if (pressed) {
+                tap_code16(KC_UNDS);
+            }
+            break;
+        case DASH:
+            if (pressed) {
+                tap_code16(KC_PMNS);
+            }
+            break;
+        case EQUALSIGN:
+            if (pressed) {
+                tap_code16(KC_EQL);
+            }
+            break;
+        case ATSYMB:
+            if (pressed) {
+                tap_code16(KC_AT);
+            }
+            break;
+        case TWODQUOTE:
+            if (pressed) {
+                clear_mods();  // Temporarily disable mods.
+                clear_oneshot_mods();
+                if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                SEND_STRING("''");
+                } else {
+                SEND_STRING("\"\"");
+                }
+                tap_code(KC_LEFT);  // Move cursor between braces.
+                set_mods(mods);  // Restore mods.
+                }
+                break;
+        case LOWERTOGGLE:
+            if (pressed) {
+                layer_invert(_LOWER);
+                if(IS_LAYER_ON(_LOWER)){
+                #ifdef AUDIO_ENABLE
+                    PLAY_SONG(tone_startup);
+                #endif
+                }
+                if(IS_LAYER_OFF(_LOWER)){
+                #ifdef AUDIO_ENABLE
+                    PLAY_SONG(tone_goodbye);
+                #endif
+                }
+            }
+            break;
+        case SLEEP:
+            if (pressed) {
+                tap_code16(KC_SLEP);
+            }
+            break;
+        case RESETKEY:
+            if (pressed) {
+                reset_keyboard();
+            }
+            break;
+        case NUMLOCKC:
+            if (pressed) {
+                tap_code16(KC_NUM);
+            }
+            break;
+        case F12COMBO:
+            if (pressed) {
+                tap_code16(KC_F12);
+            }
+            break;
+        case CAPSWORD:
+            caps_word_on();
         break;
-    case CUT:
-      if (pressed) {
-        tap_code16(C(KC_X));
-      }
-      break;
-    case COPY:
-      if (pressed) {
-        tap_code16(C(KC_C));
-      }
-      break;
-    case PASTE:
-      if (pressed) {
-        tap_code16(C(KC_V));
-      }
-      break;
-    case PASTECLIPBOARD:
-      if (pressed) {
-        tap_code16(LWIN(KC_V));
-      }
-      break;
-    case PASTETEXT:
-      if (pressed) {
-        tap_code16(C(S(KC_V)));
-      }
-      break;
-    case SELECTALL:
-      if (pressed) {
-        tap_code16(C(KC_A));
-      }
-      break;
-    case QUESTIONMARK:
-      if (pressed) {
-        tap_code16(KC_QUES);
-      }
-      break;
-    case EXCLAMATIONMARK:
-      if (pressed) {
-        tap_code16(KC_EXLM);
-      }
-      break;
-    case DQUOTE:
-      if (pressed) {
-        tap_code16(KC_DQUO);
-      }
-      break;
-    case UNDERSCORE:
-      if (pressed) {
-        tap_code16(KC_UNDS);
-      }
-      break;
-    case DASH:
-      if (pressed) {
-        tap_code16(KC_PMNS);
-      }
-      break;
-    case EQUALSIGN:
-      if (pressed) {
-        tap_code16(KC_EQL);
-      }
-      break;
-    case ATSYMB:
-      if (pressed) {
-        tap_code16(KC_AT);
-      }
-      break;
-    case TWODQUOTE:
-      if (pressed) {
-        clear_mods();  // Temporarily disable mods.
-        clear_oneshot_mods();
-        if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-          SEND_STRING("''");
-        } else {
-          SEND_STRING("\"\"");
-        }
-        tap_code(KC_LEFT);  // Move cursor between braces.
-        set_mods(mods);  // Restore mods.
-        }
-        break;
-    case LOWERTOGGLE:
-      if (pressed) {
-        layer_invert(_LOWER);
-        if(IS_LAYER_ON(_LOWER)){
-          #ifdef AUDIO_ENABLE
-              PLAY_SONG(tone_startup);
-          #endif
-        }
-        if(IS_LAYER_OFF(_LOWER)){
-          #ifdef AUDIO_ENABLE
-              PLAY_SONG(tone_goodbye);
-          #endif
-        }
-      }
-      break;
-    case SLEEP:
-      if (pressed) {
-        tap_code16(KC_SLEP);
-      }
-      break;
-    case RESETKEY:
-      if (pressed) {
-        reset_keyboard();
-      }
-      break;
-    case NUMLOCKC:
-      if (pressed) {
-        tap_code16(KC_NUM);
-      }
-      break;
-    case F12COMBO:
-      if (pressed) {
-        tap_code16(KC_F12);
-      }
-      break;
-    case CAPSWORD:
-      caps_word_on();
-      break;
     }
 };

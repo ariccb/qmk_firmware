@@ -103,7 +103,8 @@ enum consumer_usages {
     AC_FORWARD             = 0x225,
     AC_STOP                = 0x226,
     AC_REFRESH             = 0x227,
-    AC_BOOKMARKS           = 0x22A
+    AC_BOOKMARKS           = 0x22A,
+    AC_GLOBE               = 0x29D
 };
 
 /* Generic Desktop Page (0x01)
@@ -318,6 +319,8 @@ static inline uint16_t KEYCODE2CONSUMER(uint8_t key) {
             return BRIGHTNESS_DOWN;
         case KC_WWW_FAVORITES:
             return AC_BOOKMARKS;
+        case KC_GLOBE:
+            return AC_GLOBE;
         default:
             return 0;
     }

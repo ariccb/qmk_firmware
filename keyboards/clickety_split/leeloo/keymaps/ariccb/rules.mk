@@ -34,3 +34,6 @@ SRC += features/layer_lock.c
 EXTRAFLAGS += -flto
 # SRC += features/caps_word.c
 # SRC += features/autocorrection.c
+
+# Making Apple Globe (Fn) Key work
+KEYBOARD_SHARED_EP = yes
