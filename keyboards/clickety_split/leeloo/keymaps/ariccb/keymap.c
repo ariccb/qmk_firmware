@@ -82,13 +82,13 @@ enum layer_names {
 #define MTLSFT_DN MT(MOD_LSFT, KC_DOWN) // shift on hold, down arrow on tap
 #define MTGUI_LEFT MT(MOD_LGUI, KC_LEFT) // gui on hold, left arrow on tap
 #define MTCTL_RCLCK MT(MOD_LCTL, KC_M) // ctrl on hold, right arrow on tap
-#define GUI_TAB LGUI(KC_TAB)
+#define FIND_F3 KC_F3 // search on page
 #define BWSRLEFT LGUI(KC_LEFT)
 #define BWSRRHGT LGUI(KC_RGHT)
-#define CTL_TAB LCTL(KC_TAB)
 #define CRSR_UP LGUI(LALT(KC_UP)) // add cursor above
 #define CRSR_DN LGUI(LALT(KC_DOWN)) // add cursor below
 #define SEARCH LGUI(KC_F) // search on page
+#define ZOOM_RESET LGUI(KC_0) // reset zoom
 
 
 #else
@@ -102,15 +102,16 @@ enum layer_names {
 #define MTLCTL_RBRC MT(MOD_LGUI, KC_RBRC) // Win/GUI (for windows) on hold, ] on tap
 #define MTLALT_Z MT(MOD_LGUI, KC_Z)
 #define MTALT_APP MT(MOD_LALT, KC_APP) // Alt on hold, Menu on tap
-#define MTCMD_ENT MT(MOD_LGUI, KC_ENT)
-#define MTCTL_OSS MT(MOD_LCTL, KC_F24)
-#define GUI_TAB LALT(KC_TAB)
+#define MTCMD_ENT MT(MOD_LCTL, KC_ENT)
+#define MTCTL_OSS MT(MOD_LGUI, KC_F24)
+#define FIND_F3 KC_F3 // search on page
 #define BWSRLEFT A(KC_LEFT)
 #define BWSRRHGT A(KC_RGHT)
-#define CTL_TAB LALT(KC_TAB)
 #define CRSR_UP LCTL(LALT(KC_UP)) // add cursor above
 #define CRSR_DN LCTL(LALT(KC_DOWN)) // add cursor below
 #define SEARCH LCTL(KC_F) // search on page
+#define ZOOM_RESET LCTL(KC_0) // reset zoom
+
 
 
 #endif  // MAC_HOTKEYS
@@ -132,6 +133,7 @@ enum planck_keycodes {
     BRACES2,
     ARROW,
     CTRL_TAB,
+    CMD_TAB,
     LLOCK,
     SELWLEFT,
     SELWRIGHT
@@ -148,8 +150,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|Alt-Tab|                      | LALT  |------+------+------+------+------+------|
  * | SHIFT| GUI_Z|  X   |  C   |  D   |  V   |       |-->Play/Pause         | GRV`  |  K   |  H   |  ,   |  .   |  /   |SFT,\ |
  * .-----------------------------------------|-------|   on Button Press    |-------|-----------------------------------------'
- *                      | ALT | CMD  |  LOW  / CTRL  /                       \GLOBE \  LOW  |RAISE/ |Expand Selection R/L|  //Hdr On/off On Press
- *                      | APP | ENTER| SPACE/OSShft/                          \Mac FN\ SPACE| DEL   |DIAL2|--> Right Scroll whole word
+ *                      | ALT | CMD  |  LOW  / CTRL  /                       \GLOBE \  LOW  |RAISE/ |Cursor Up/Down|
+ *                      | APP | ENTER| SPACE/OSShft/                          \Mac FN\ SPACE| DEL   |DIAL2 | -> TOGGLE QWERTY On Press
  *                      `-------------------------'                            '--------------------------'
  */
   [_COLEMAKDH] = LAYOUT(
@@ -157,7 +159,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   HYPERESC, KC_Q,     KC_W,   KC_F,      KC_P,      KC_B,                                KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, KC_BSPC,
   FN_TAB,   FN_A,     KC_R,   KC_S,      KC_T,      KC_G,                                KC_M,    KC_N,    KC_E,    KC_I,   FN_O,    MTRCTLQUO,
   KC_LSFT,  MTLALT_Z, KC_X,   KC_C,      KC_D,      KC_V,    KC_MPLY,          ALT_GRV,  KC_K,    KC_H,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
-                              MTALT_APP, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        KC_GLOBE, LOW_SPC, RSE_DEL, GUI_TAB //Mute Mic
+                              MTALT_APP, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        KC_GLOBE, LOW_SPC, RSE_DEL, TG(_QWERTY) //Mute Mic
 ),
 
 /* MIT Layout (QWERTY)
@@ -170,8 +172,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|Alt-Tab|                      | LALT  |------+------+------+------+------+------|
  * | SHIFT| GUI_Z|  X   |  C   |  V   |  B   |       |-->Play/Pause         | GRV`  |  N   |  M   |  ,   |  .   |  /   |SFT,\ |
  * .-----------------------------------------|-------|   on Button Press    |-------|-----------------------------------------'
- *                      | ALT | CTRL |  LOW  /      /                        \GLOBE \  LOW  |RAISE| Expand Selection R/L|  //Hdr On/off On Press
- *                      | APP | ENTER| SPACE/ OSSft/                          \Mac FN\ SPACE| DEL | DIAL2|--> Right Scroll Whole word
+ *                      | ALT | CTRL |  LOW  /      /                        \GLOBE \  LOW  |RAISE| Cursor R/L|
+ *                      | APP | ENTER| SPACE/ OSSft/                          \Mac FN\ SPACE| DEL | DIAL2 | -> TOGGLE QWERTY On Press
  *                      `-------------------------'                            '-------------------------'
  */
   [_QWERTY] = LAYOUT(
@@ -179,7 +181,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   HYPERESC, KC_Q,     KC_W,     KC_E,      KC_R,      KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_BSPC,
   FN_TAB,   FN_A,     KC_S,     KC_D,      KC_F,      KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,   FN_SCLN, MTRCTLQUO,
   KC_LSFT,  MTLALT_Z, KC_X,     KC_C,      KC_V,      KC_B,    KC_MPLY,          ALT_GRV,  KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
-                                MTALT_APP, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        KC_GLOBE, LOW_SPC, RSE_DEL, GUI_TAB
+                                MTALT_APP, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        KC_GLOBE, LOW_SPC, RSE_DEL, TG(_QWERTY)
 ),
 
 /* MIT Layout (LOWER) // couldn't get mod-tap to work with LPRN and RPRN
@@ -190,18 +192,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+-------------|                                      |------+------+------+------+------+------|
  * |S(TAB)|  #   | [,alt|(,sft |),gui | ],ctl|-------.                      .-------|   &  |   4  |   5  |   6  |   -  |  +   |
  * |------+------+------+------+------+------|Volume |                      |       |------+------+------+------+------+------|
- * |SHIFT |  ~   |  $   |  {   |  }   |  %   | DIAL1 |--> Press for         |      |   |  |   1  |   2  |   3  |   /  |  |   |
- * .-----------------------------------------|-------|   LLOCK              |-------|-----------------------------------------'
- *                      | ALT | CTRL |  LOW  /      /                        \       \      |     |Expand|
- *                      | APP | ENTER| SPACE/ OSSft/                          \ SPACE \  0  |  .  | DIAL2|--> open to set
+ * |SHIFT |  ~   |  $   |  {   |  }   |  %   | DIAL1 |--> Press for         |       |   |  |   1  |   2  |   3  |   /  |  |   |
+ * .-----------------------------------------|-------|   ZOOM_RESET         |-------|-----------------------------------------'
+ *                      | ALT | CTRL |  LOW  /      /                        \       \      |     |ZOOM IN/OUT|
+ *                      | APP | ENTER| SPACE/ OSSft/                          \ SPACE \  0  |  .  | DIAL2|--> LAYER LOCK on Press
  *                      `-------------------------'                            '-------------------------'
  */
   [_LOWER] = LAYOUT(
   CG_SWAP,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                KC_6,    KC_7,   KC_8,  KC_9,  KC_0,    KC_F12,
   KC_GRV,    KC_EXLM, KC_LABK, KC_RABK, KC_EQL,  KC_CIRC,                             KC_ASTR, KC_7,   KC_8,  KC_9,  KC_COLN, KC_BSPC,
   S(KC_TAB), KC_HASH, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC,                             KC_AMPR, KC_4,   KC_5,  KC_6,  KC_PMNS, KC_PPLS,
-  KC_LSFT,   KC_TILD, KC_DLR,  KC_LCBR, KC_RCBR, KC_PERC, LLOCK,             KC_TILD, KC_PIPE, KC_1,   KC_2,  KC_3,  KC_PSLS, KC_PIPE,
-                               _____,   _____,   _____,   _____,             KC_SPC,  KC_0,    KC_DOT, _____ //
+  KC_LSFT,   KC_TILD, KC_DLR,  KC_LCBR, KC_RCBR, KC_PERC, ZOOM_RESET,        KC_TILD, KC_PIPE, KC_1,   KC_2,  KC_3,  KC_PSLS, KC_PIPE,
+                               _____,   _____,   _____,   _____,             KC_SPC,  KC_0,    KC_DOT, LLOCK //LAYER LOCK on Press
 ),
 
 /* MIT Layout (RAISE)
@@ -212,18 +214,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |      |      | MsLft| MDown|Mright| Vol+ |-------.                      .-------|ARROW | MbLft|SELWORD|MbRgt|      |   "  |
  * |------+------+------+------+------+------|Undo/Redo|                    |       |------+------+------+------+------+------|
- * |      | MWLft| MWUp | NWDn |NWRght| Vol- | DIAL1 |--> Press for         | LLOCK |BRACES|BRACES2|SELWORD|BRACES| !  |   |  |
+ * |      | MWLft| MWUp | NWDn |NWRght| Vol- | DIAL1 |--> Press for         | LLOCK |      |BRACES2|SELWORD|BRACES| !  |   |  |
  * .-----------------------------------------|-------|                      |-------|-----------------------------------------'
  *                      | ALT | CTRL |  LOW  /      /                        \ Mouse\ Mouse |******|Search|
- *                      | APP | ENTER| OSSft/ SPACE/                          \ Btn 1\ Btn 3|******| DIAL2|--> sends CTRL(KC_F)
- *                      `-------------------------'                            '--------------------------'    on Button Press
+ *                      | APP | ENTER| OSSft/ SPACE/                          \ Btn 1\ Btn 3|******| DIAL2|--> //LAYER LOCK on Press
+ *                      `-------------------------'                            '--------------------------'
  */
   [_RAISE] = LAYOUT(
   CG_SWAP, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                   KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    TG(_QWERTY),
   CG_NORM, KC_BTN3, KC_BTN2, KC_MS_U, KC_BTN1, KC_MUTE,                                _____,   _____,   KC_BTN3, KC_NUM,  KC_COLN, KC_BSPC,
   _____,   _____,   KC_MS_L, KC_MS_D, KC_MS_R, KC_VOLU,                                ARROW,   KC_BTN1, SELWORD, KC_BTN2, _____,   KC_DQUO,
-  _____,   KC_WH_L, KC_WH_U, KC_WH_D, KC_WH_R, KC_VOLD, LLOCK,                _____,   BRACES,  BRACES2, SELWORD, BRACES,  KC_EXLM, KC_PIPE,
-                                   _____, _____, _____, _____,                KC_BTN1, KC_BTN3, _____,   SEARCH // search on page (ctrl f)
+  _____,   KC_WH_L, KC_WH_U, KC_WH_D, KC_WH_R, KC_VOLD, LLOCK,                _____,   _____,   BRACES2, SELWORD, BRACES,  KC_EXLM, KC_PIPE,
+                                  _____, LGUI(KC_ENT), _____, _____,          KC_BTN1, KC_BTN3, _____,   LLOCK //LAYER LOCK on Press
 ),
 
 /* MIT Layout (ADJUST)
@@ -232,34 +234,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |CGNORM|      |  F9  |  F10 | F11  |  F12 |                                      |TabDn | Home |  Up  |  End |NumLck|Delete|
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |******|*STAB*|Alt,F5|Sft,F6|Cmd,F7|Ctl,F8|--------.                     .-------|Mright| Left | Down | Right|      |CAPSLK|
- * |------+------+------+------+------+------| Virtual|                     |  `grv |------+------+------+------+------+------|
- * |      |      |  F1  |  F2  |  F3  |  F4  |Desktop |-->  Press For       | Alt   | Back |PageUp|C+A_Dn|PageDn|Forwrd|INSERT|
+ * |******|*STAB*|Alt,F5|Sft,F6|Cmd,F7|Ctl,F8|--------.                     .-------|      | Left | Down | Right|      |CAPSLK|
+ * |------+------+------+------+------+------| Program|                     | APP   |------+------+------+------+------+------|
+ * |      |      |  F1  |  F2  |  F3  |  F4  |Switcher|-->  Press For       |SWITCHER|     |PageUp|C+A_Dn|PageDn|Forwrd|INSERT|
  * .-----------------------------------------|--------|     LLOCK           |-------|-----------------------------------------'
- *                      | ALT | CTRL |  Alt  / Ctrl  /                       \       \       |      |MW L/R Selection in VSCode|
- *                      | APP | ENTER| Tab  /  Tab  /                         \       \      |      | DIAL2|--> Toggle HDR
- *                      `--------------------------'                           '---------------------------'    on Button Press
+ *                      | ALT | CTRL |  Alt  / Ctrl  /                       \ TAB   \       |      | Cursor Left/Right |
+ *                      | APP | ENTER| Tab  /  Tab  /                         \SWITCHER\     |      | DIAL2 |---> //LAYER LOCK on Press
+ *                      `--------------------------'                           '----------------------------'
  */
   [_ADJUST] = LAYOUT(
-  CG_SWAP, KC_F1, KC_F2,    KC_F3,     KC_F4,    KC_F5,                               C(KC_PGUP),  BWSRLEFT,   CRSR_UP,   BWSRRHGT,   KC_SCRL,   TG(_QWERTY),
-  CG_NORM, _____, KC_F9,    KC_F10,    KC_F11,   KC_F12,                              C(KC_PGDN),  KC_HOME,    KC_UP,     KC_END,     KC_NUM,    KC_DEL,
-  _____,   _____, MTALT_F5, MTLSFT_F6, MTGUI_F7, MTCTL_F8,                            MTCTL_RCLCK, MTGUI_LEFT, MTLSFT_DN, MTALT_RHGT, _____,     KC_CAPS,
-  _____,   _____, KC_F1,    KC_F2,     KC_F3,    KC_F4,    LLOCK,            ALT_GRV, BWSRLEFT,    KC_PGUP,    CRSR_DN,   KC_PGDN,    BWSRRHGT,  KC_INS,
-                              _____,   _____,    CTL_TAB,  MTCTL_OSS,        CTRL_TAB, _____,  _____, G(A(KC_B))
+  CG_SWAP, KC_F1, KC_F2,    KC_F3,     KC_F4,    KC_F5,                                C(KC_PGUP), BWSRLEFT,   CRSR_UP,   BWSRRHGT,   KC_SCRL,   TG(_QWERTY),
+  CG_NORM, _____, KC_F9,    KC_F10,    KC_F11,   KC_F12,                               C(KC_PGDN), KC_HOME,    KC_UP,     KC_END,     KC_NUM,    KC_DEL,
+  _____,   _____, MTALT_F5, MTLSFT_F6, MTGUI_F7, MTCTL_F8,                             _____,      MTGUI_LEFT, MTLSFT_DN, MTALT_RHGT, _____,     KC_CAPS,
+  _____,   _____, KC_F1,    KC_F2,     KC_F3,    KC_F4,    LLOCK,            CMD_TAB,  _____,      KC_PGUP,    CRSR_DN,   KC_PGDN,    BWSRRHGT,  KC_INS,
+                              _____,   _____,    _____,    _____,            CTRL_TAB, _____,      _____,      LLOCK //LAYER LOCK on Press
 )
 };
 
 static fast_timer_t last_encoding_time = 0;
 static const fast_timer_t ENCODER_DEBOUNCE = 50;
-
-// layer_state_t layer_state_set_user(layer_state_t state) {
-
-//   if (is_ctrl_tab_active) {
-//         unregister_code(KC_LCTL);
-//         is_ctrl_tab_active = false;
-//     }
-//     return state;
-// }
 
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
@@ -281,137 +274,111 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
                 }
                 break;
                 // Next song on button press
-            case _RAISE:
-            // Undo/ Redo Revision History
+            case _ADJUST:
+                // CMD/ALT Tab through open windows
+                if (!clockwise) {
+                    tabtimer = timer_read();
+                    if(!tabbing) {
 #ifdef MAC_HOTKEYS
-                if (!clockwise) {
-                    tap_code16(LGUI(LSFT(KC_Z)));
-                } else {
-                    tap_code16(LGUI(KC_Z));
-                }
+                        register_code(KC_LGUI);
 #else
-                if (!clockwise) {
-                    tap_code16(LCTL(KC_Y));
+                        register_code(KC_LALT);
+#endif  // MAC_HOTKEYS
+                        register_code(KC_TAB);
+                        unregister_code(KC_TAB);
+                        tabbing = true;
+                    }
+                    tap_code(KC_RGHT);
                 } else {
-                    tap_code16(LCTL(KC_Z));
+                    tabtimer = timer_read();
+                    if(!tabbing) {
+#ifdef MAC_HOTKEYS
+                        register_code(KC_LGUI);
+#else
+                        register_code(KC_LALT);
+#endif  // MAC_HOTKEYS
+                        register_code(KC_TAB);
+                        unregister_code(KC_TAB);
+                        tabbing = true;
+                    }
+                    tap_code(KC_LEFT);
                 }
-#endif
-              // Save As on button press
                 break;
-//             case _ADJUST:
-//             // Forward/Back Windows Virtual Desktops
-//                 if (!clockwise) {
-//                     tap_code16(G(C(KC_RGHT)));
-//                 } else {
-//                     tap_code16(G(C(KC_LEFT)));
-//                 }
-//                 // Play/pause on button press
-//                 break;
-//                 //Pins current window to all desktops C(A(KC_P))
-//             // case _ADJUST:
-//             //     // ALT Tab through open windows
-//             //   if (!clockwise) {
-//             //       tabtimer = timer_read();
-//             //       if(!tabbing) {
-//             //         register_code(KC_LGUI);
-//             //         register_code(KC_TAB);
-//             //         unregister_code(KC_LGUI);
-//             //         unregister_code(KC_TAB);
-//             //         tabbing = true;
-//             //       }
-//             //       tap_code(KC_RGHT);
-//             //   } else {
-//             //       tabtimer = timer_read();
-//             //       if(!tabbing) {
-//             //           register_code(KC_LGUI);
-//             //           register_code(KC_TAB);
-//             //           unregister_code(KC_LGUI);
-//             //           unregister_code(KC_TAB);
-//             //           tabbing = true;
-//             //       }
-//             //       tap_code(KC_LEFT);
-//             //     }
-//             //     break;
-//             //     //Pins current window to all desktops C(A(KC_P))
-//             default:
-//               // ALT Tab through open windows
-//             if (!clockwise) {
-//                 tabtimer = timer_read();
-//                 if(!tabbing) {
-//                     register_code(KC_LALT);
-//                     tabbing = true;
-//                 }
-//                 tap_code(KC_TAB);
-//             } else {
-// #ifdef MAC_HOTKEYS
-//                 tabtimer = timer_read();
-//                     if(!tabbing) {
-//                         register_code(KC_LGUI);
-//                         tabbing = true;
-//                     }
-//                 register_code(KC_LSFT);
-//                 tap_code(KC_TAB);
-//                 unregister_code(KC_LSFT);
-// #else
-//                 tabtimer = timer_read();
-//                 if(!tabbing) {
-//                     register_code(KC_LALT);
-//                     tabbing = true;
-//                 }
-//                 register_code(KC_LSFT);
-//                 tap_code(KC_TAB);
-//                 unregister_code(KC_LSFT);
-// #endif  // MAC_HOTKEYS
-//                 }
-//                 break;
+                //  on press, LAYER LOCK
+            default:
+              // CTRL_TAB through open Tabs
+            if (!clockwise) {
+                tabtimer = timer_read();
+                if(!tabbing) {
+                    register_code(KC_LCTL);
+                    tabbing = true;
+                }
+                tap_code(KC_TAB);
+            } else {
+                tabtimer = timer_read();
+                if(!tabbing) {
+                    register_code(KC_LCTL);
+                    tabbing = true;
+                }
+                register_code(KC_LSFT);
+                tap_code(KC_TAB);
+                unregister_code(KC_LSFT);
+                }
+                break;
         }
-
     } else if (index == 1) {
         switch (biton32(layer_state)) {
             case _LOWER:
-               // Expand selection in VSCode
+            // Zoom in / Zoom Out
+#ifdef MAC_HOTKEYS
                 if (!clockwise) {
-                    tap_code16(LCTL(LSFT(KC_LEFT)));
+                    tap_code16(LGUI(KC_PMNS));
                 } else {
-                    tap_code16(LCTL(LSFT(KC_RGHT)));
+                    tap_code16(LGUI(KC_PPLS));
                 }
+#else
+                if (!clockwise) {
+                    tap_code16(LCTL(KC_PMNS));
+                } else {
+                    tap_code16(LCTL(KC_PPLS));
+                }
+#endif
                 break;
-                // Change Audio Recording Source on button press (Alt Shift J)
             case _RAISE:
-                // Scrolling Through Search Results (ctrl(f), aka F3)
-                if (clockwise) {
-                    tap_code(KC_F3);
+            // Undo / Redo - Revision History
+#ifdef MAC_HOTKEYS
+                if (!clockwise) {
+                    tap_code16(LGUI(KC_Z));
                 } else {
-                    tap_code16(S(KC_F3));
+                    tap_code16(LGUI(LSFT(KC_Z)));
                 }
-                // on button press sends CTRL(KC_F)
+#else
+                if (!clockwise) {
+                    tap_code16(LCTL(KC_Z));
+                } else {
+                    tap_code16(LCTL(KC_Y));
+                }
+#endif
+              //  on press, LAYER LOCK
                 break;
             case _ADJUST:
-                  // Mouse Wheel Right/Left
+               // Move cursor up and down
                 if (!clockwise) {
-                    tap_code16(KC_WH_L);
+                    tap_code16(KC_LEFT);
                 } else {
-                    tap_code16(KC_WH_R);
+                    tap_code16(KC_RGHT);
                 }
                 break;
-                // Next song on button press
+                // on press, LAYER LOCK
             default:
-               // Select Whole Word
+               // Move cursor left and right
                 if (!clockwise) {
-#ifdef MAC_HOTKEYS
-                    tap_code16(LALT(LSFT(KC_LEFT)));
-#else
-                    tap_code16(LCTL(LSFT(KC_LEFT)));
-#endif  // MAC_HOTKEYS
+                    tap_code16(KC_UP);
                 } else {
-#ifdef MAC_HOTKEYS
-                    tap_code16(LALT(LSFT(KC_RGHT)));
-#else
-                    tap_code16(LCTL(LSFT(KC_RGHT)));
-#endif  // MAC_HOTKEYS
+                    tap_code16(KC_DOWN);
                 }
                 break;
-                // mute powertoys
+                // on press, LAYER LOCK
         }
     }
     return false;
@@ -488,10 +455,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 ctrl_tabtimer = timer_read_fast();
                 if(!ctrl_tabbing) {
+                    register_code(KC_LCTL);
+                    ctrl_tabbing = true;
+                }
+            tap_code(KC_TAB);
+            }
+            return false;
+            break;
+        case CMD_TAB:
+            if (record->event.pressed) {
+                ctrl_tabtimer = timer_read_fast();
+                if(!ctrl_tabbing) {
 #ifdef MAC_HOTKEYS
                     register_code(KC_LGUI);
 #else
-                    register_code(KC_LCTL);
+                    register_code(KC_LALT);
 #endif  // MAC_HOTKEYS
                     ctrl_tabbing = true;
                 }

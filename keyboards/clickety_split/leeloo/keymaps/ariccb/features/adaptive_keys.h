@@ -1,6 +1,10 @@
 #include QMK_KEYBOARD_H
 #include "layer_lock.h"
 
+#if (host_os == OS_MACOS || host_os == OS_IOS)// if the os is iOS or MacOS
+#define MAC_HOTKEYS
+#endif
+
 static bool     tabbing      = false;
 static bool     ctrl_tabbing = false;
 static uint16_t tabtimer;
@@ -133,7 +137,11 @@ void matrix_scan_user(void) {
     }
     if (tabbing) {
         if (timer_elapsed(tabtimer) > TABBING_TIMER) {
+#ifdef MAC_HOTKEYS
+            unregister_code(KC_LGUI);
+#else
             unregister_code(KC_LALT);
+#endif // MAC_HOTKEYS
             tabbing = false;
         }
     }
