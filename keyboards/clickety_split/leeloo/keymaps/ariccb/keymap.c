@@ -256,7 +256,7 @@ static const fast_timer_t ENCODER_DEBOUNCE = 50;
 
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
-  if (TIMER_DIFF_FAST(timer_read_fast(), last_encoding_time) >= ENCODER_DEBOUNCE) {
+    if (TIMER_DIFF_FAST(timer_read_fast(), last_encoding_time) >= ENCODER_DEBOUNCE) {
         last_encoding_time = timer_read_fast();
     }
     else {
@@ -264,15 +264,26 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     }
     // then goes the rest of your rotary encoder handling code.
     if (index == 0) {
+        uint8_t mod_state = get_mods();
         switch (biton32(layer_state)) {
             case _LOWER:
-            // Volume Up/Down
-                if (!clockwise) {
-                    tap_code16(KC_VOLU);
+            // Volume Up/Down or Brightness up/ down with shift
+                if (mod_state & MOD_MASK_SHIFT) {
+                    unregister_mods(mod_state);
+                    wait_ms(100);
+                    if (clockwise) {
+                        tap_code(KC_BRIGHTNESS_DOWN);
+                    } else {
+                        tap_code(KC_BRIGHTNESS_UP);
+                    }
+                    register_mods(mod_state);
                 } else {
-                    tap_code16(KC_VOLD);
+                    if (clockwise) {
+                        tap_code(KC_AUDIO_VOL_DOWN);
+                    } else {
+                        tap_code(KC_AUDIO_VOL_UP);
+                    }
                 }
-                break;
                 // Next song on button press
             case _ADJUST:
                 // CMD/ALT Tab through open windows
@@ -307,24 +318,24 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
                 //  on press, LAYER LOCK
             default:
               // CTRL_TAB through open Tabs
-            if (!clockwise) {
-                tabtimer = timer_read();
-                if(!tabbing) {
-                    register_code(KC_LCTL);
-                    tabbing = true;
-                }
-                tap_code(KC_TAB);
-            } else {
-                tabtimer = timer_read();
-                if(!tabbing) {
-                    register_code(KC_LCTL);
-                    tabbing = true;
-                }
-                register_code(KC_LSFT);
-                tap_code(KC_TAB);
-                unregister_code(KC_LSFT);
-                }
-                break;
+                if (!clockwise) {
+                    ctrl_tabtimer = timer_read();
+                    if(!ctrl_tabbing) {
+                        register_code(KC_LCTL);
+                        ctrl_tabbing = true;
+                    }
+                    tap_code(KC_TAB);
+                } else {
+                    ctrl_tabtimer = timer_read();
+                    if(!ctrl_tabbing) {
+                        register_code(KC_LCTL);
+                    ctrl_tabbing = true;
+                    }
+                    register_code(KC_LSFT);
+                    tap_code(KC_TAB);
+                    unregister_code(KC_LSFT);
+                    }
+                    break;
         }
     } else if (index == 1) {
         switch (biton32(layer_state)) {
@@ -464,14 +475,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case CMD_TAB:
             if (record->event.pressed) {
-                ctrl_tabtimer = timer_read_fast();
-                if(!ctrl_tabbing) {
+                tabtimer = timer_read_fast();
+                if(!tabbing) {
 #ifdef MAC_HOTKEYS
                     register_code(KC_LGUI);
 #else
                     register_code(KC_LALT);
 #endif  // MAC_HOTKEYS
-                    ctrl_tabbing = true;
+                    tabbing = true;
                 }
             tap_code(KC_TAB);
             }
@@ -568,7 +579,7 @@ const uint16_t PROGMEM atsymb_combo[]               = {KC_T, KC_G, COMBO_END};
 const uint16_t PROGMEM twodquote_combo[]            = {KC_H, KC_COMMA, COMBO_END};
 const uint16_t PROGMEM lowertoggle_combo[]          = {LOW_SPC, MTCMD_ENT, COMBO_END};
 const uint16_t PROGMEM sleep_combo[]                = {KC_F2, KC_F9, KC_F10, KC_F11, COMBO_END};
-const uint16_t PROGMEM reset_combo[]                = {KC_BSPC, MTRCTLQUO, MTRSFTBSLS, COMBO_END};
+const uint16_t PROGMEM reset_combo  []                = {KC_BSPC, MTRCTLQUO, MTRSFTBSLS, COMBO_END};
 const uint16_t PROGMEM numlock_combo[]              = {KC_L, KC_U, KC_Y, COMBO_END};
 const uint16_t PROGMEM f12_combo[]                  = {KC_F1, KC_F2, COMBO_END};
 const uint16_t PROGMEM capsword_combo[]             = {KC_LSFT, MTRSFTBSLS, COMBO_END};
