@@ -245,7 +245,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_ADJUST] = LAYOUT(
   CG_SWAP, KC_F1, KC_F2,    KC_F3,     KC_F4,    KC_F5,                                C(KC_PGUP), BWSRLEFT, CRSR_UP, BWSRRHGT, KC_SCRL,  TG(_QWERTY),
   CG_NORM, _____, KC_F9,    KC_F10,    KC_F11,   KC_F12,                               C(KC_PGDN), KC_HOME,  KC_UP,   KC_END,   KC_NUM,   KC_DEL,
-  _____,   _____, MTALT_F5, MTLSFT_F6, MTGUI_F7, MTCTL_F8,                             _____,      KC_LEFT,  KC_DOWN, KC_DOWN,  _____,    KC_CAPS,
+  _____,   _____, MTALT_F5, MTLSFT_F6, MTGUI_F7, MTCTL_F8,                             _____,      KC_LEFT,  KC_DOWN, KC_RGHT,  _____,    KC_CAPS,
   _____,   _____, KC_F1,    KC_F2,     KC_F3,    KC_F4,    LLOCK,            CMD_TAB,  _____,      KC_PGUP,  CRSR_DN, KC_PGDN,  BWSRRHGT, KC_INS,
                               _____,   _____,    _____,    _____,            CTRL_TAB, _____,      _____,    LLOCK //LAYER LOCK on Press
 )
