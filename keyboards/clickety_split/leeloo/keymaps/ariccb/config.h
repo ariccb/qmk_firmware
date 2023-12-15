@@ -27,6 +27,7 @@
 // #define IS_RIGHT 1 // uncomment and flash for right side
 #define OLED_DRIVER_ENABLE
 
+//// Turn these off to save space
 // logo glitch
 // #define WITH_GLITCH
 // boot sequence
@@ -66,8 +67,8 @@
 #define NO_ACTION_FUNCTION
 #define NO_ACTION_ONESHOT
 #define DISABLE_LEADER
-#define NO_ACTION_TAPPING
-#define NO_USB_STARTUP_CHECK
+// #define NO_ACTION_TAPPING // this disables all tapping features: tap dance, oneshot, mod-tap, etc. (basically breaks everything)
+// #define NO_USB_STARTUP_CHECK // looks like this breaks my #define MAC_HOTKEYS settings
 
 #ifndef NO_DEBUG
 #define NO_DEBUG
@@ -106,4 +107,4 @@
 // #define MOUSEKEY_WHEEL_DECELERATED_MOVEMENTS 8  //Decelerated wheel movements
 
 
-#define ENCODER_RESOLUTIONS {2}
+// #define ENCODER_RESOLUTIONS {2}

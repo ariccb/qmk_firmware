@@ -5,7 +5,7 @@ TAP_DANCE_ENABLE = no         # Enable Tap Dance
 COMBO_ENABLE = yes            # Enable Combos
 BACKLIGHT_ENABLE = no	      # Backlighting
 DEBOUNCE_TYPE = sym_defer_g   # Debouncing - trying to stop double space bar from being hit
-CAPS_WORD_ENABLE = yes		  # enabling qmk-official caps-word feature instead of custom version
+CAPS_WORD_ENABLE = no		  # enabling qmk-official caps-word feature instead of custom version // turned off to save space
 SPACE_CADET_ENABLE = no
 CONSOLE_ENABLE = no
 
@@ -17,7 +17,7 @@ SWAP_HANDS_ENABLE = no
 RGBLIGHT_ENABLE = no
 
 # To enable Rotary Encoders
-ENCODER_ENABLE = yes
+ENCODER_ENABLE = no 		# trying to save space by not including this
 
 # To enable OLED Displays
 OLED_ENABLE = yes
@@ -43,7 +43,7 @@ SRC +=  ./lib/rgb_state_reader.c \
         ./layer_frame.c \
         ./boot.c \
         ./draw_helper.c \
-        # ./ring.c \
+        # ./ring.c \ // trying to save space by not including this, since it's only for the right hand
 
 EXTRAFLAGS += -flto
 # SRC += features/caps_word.c

@@ -1,9 +1,9 @@
 #include QMK_KEYBOARD_H
 #include "layer_lock.h"
 
-#if (host_os == OS_MACOS || host_os == OS_IOS)// if the os is iOS or MacOS
+// #if (host_os == OS_MACOS || host_os == OS_IOS)// if the os is iOS or MacOS
 #define MAC_HOTKEYS
-#endif
+// #endif
 
 static bool     tabbing      = false;
 static bool     ctrl_tabbing = false;
@@ -34,63 +34,40 @@ bool process_adaptive_key(uint16_t keycode, const keyrecord_t *record) {
             switch (prior_keycode) {
                 case KC_NO:
                     switch (keycode) {
-                    #define AK_BOTH_START(key, def_key) \
-                        default:                        \
-                            return_state = true;       \
-                            if(is_caps_word_on()){      \
-                                add_weak_mods(MOD_BIT(KC_LSFT));\
+                    #define AK_BOTH_START(key, def_key)\
+                        default:                \
                                 tap_code(first);\
-                            } else {\
-                                tap_code(first);\
-                            }         \
                     }                           \
                     break;                      \
-                case key:                       \
-                    first = def_key;     \
-                    return_state = false;       \
-                    switch (keycode) {
-                        #define AK_SND_ONLY_START(key) AK_BOTH_START(key, KC_NO)
-
-                        #define R_BTH(second_key, replaced_key_1, replaced_key_2) \
-                        case second_key:                                      \
-                            first  = replaced_key_1;                          \
-                            second = replaced_key_2;                          \
-                            break;
-
-                        #define R_FST(second_key, replaced_key) R_BTH(second_key, replaced_key, keycode)
-
-                        #define R_SND(second_key, replaced_key) \
-                        case second_key:                    \
-                            second = replaced_key;          \
-                            break;
-
-                        #include "adaptive_keys.def"
-                        default:
-                            return_state = true;
-                            if(is_caps_word_on()){
-                                add_weak_mods(MOD_BIT(KC_LSFT));
-                                tap_code(first);
-                            } else {
-                                tap_code(first);
-                            }
-                    }
-            }
-            if (return_state) {
-                set_mods(saved_mods);
-            } else {
-                if(is_caps_word_on()){
-                    add_weak_mods(MOD_BIT(KC_LSFT));
-                    tap_code(first);
-                    add_weak_mods(MOD_BIT(KC_LSFT));
-                    tap_code(second);
+                        case key:                       \
+                            first = def_key;     \
+                            return_state = false;       \
+                            switch (keycode) {
+                                #define AK_SND_ONLY_START(key) AK_BOTH_START(key, KC_NO)
+                                        #define R_BTH(second_key, replaced_key_1, replaced_key_2) \
+                                case second_key:                                      \
+                                    first  = replaced_key_1;                          \
+                                    second = replaced_key_2;                          \
+                                    break;
+                                        #define R_FST(second_key, replaced_key) R_BTH(second_key, replaced_key, keycode)
+                                        #define R_SND(second_key, replaced_key) \
+                                case second_key:                    \
+                                    second = replaced_key;          \
+                                    break;
+                                        #include "adaptive_keys.def"
+                                default:
+                                    return_state = true;
+                                                tap_code(first);
+                                    }
+                }                   if (return_state) {
+                    set_mods(saved_mods);
                 } else {
-                    set_mods(prior_saved_mods);
-                    tap_code(first);
-                    clear_mods();
-                    tap_code(second);
+                        set_mods(prior_saved_mods);
+                        tap_code(first);
+                        clear_mods();
+                        tap_code(second);
                 }
             }
-        }
         switch (keycode) {
 #undef AK_BOTH_START
 #undef AK_SND_ONLY_START

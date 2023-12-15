@@ -44,7 +44,7 @@
 // #include "ring.h"
 
 
-//#include "features/caps_word.h"
+//#include "features/caps_word.h"g
 //#include "features/autocorrection.h"
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
@@ -53,9 +53,9 @@
 // entirely and just use numbers.
 
 
-#if (host_os == OS_MACOS || host_os == OS_IOS)// if the os is iOS or MacOS
+// #if (host_os == OS_MACOS || host_os == OS_IOS)// if the os is iOS or MacOS
 #define MAC_HOTKEYS
-#endif
+// #endif
 
 #define XXXXX KC_NO
 #define _____ KC_TRNS
@@ -419,10 +419,10 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 // NAVI DISPLAY CONTROLS END
 
 
+#ifdef ENCODER_ENABLE
 static fast_timer_t last_encoding_time = 0;
 static const fast_timer_t ENCODER_DEBOUNCE = 50;
 
-#ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (TIMER_DIFF_FAST(timer_read_fast(), last_encoding_time) >= ENCODER_DEBOUNCE) {
         last_encoding_time = timer_read_fast();
@@ -1142,8 +1142,10 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
                 tap_code16(KC_F12);
             }
             break;
+#ifdef CAPS_WORD_ENABLE
         case CAPSWORD:
             caps_word_on();
         break;
+#endif
     }
 };

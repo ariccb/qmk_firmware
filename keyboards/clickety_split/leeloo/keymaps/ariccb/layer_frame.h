@@ -6,7 +6,7 @@
 // layer name : must be 3 chars
 #define LAYER_NAME_0 "ABC"
 // #define LAYER_NAME_1 "QWT"
-#define LAYER_NAME_1 "NAV"
+#define LAYER_NAME_1 "SYM"
 #define LAYER_NAME_2 "RSE"
 #define LAYER_NAME_3 "NAV"
 
