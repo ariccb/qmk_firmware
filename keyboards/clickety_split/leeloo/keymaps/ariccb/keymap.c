@@ -26,6 +26,24 @@
 #include "features/layer_lock.h"
 #include "guess_os.h"
 
+// Navi Display
+// global
+#include "transactions.h"
+#include "gui_state.h"
+#include "boot.h"
+#include "navi_logo.h"
+
+#include "draw_helper.h"
+#include "fast_random.h"
+
+// left side
+#include "layer_frame.h"
+#include "burst.h"
+
+// right side
+// #include "ring.h"
+
+
 //#include "features/caps_word.h"
 //#include "features/autocorrection.h"
 
@@ -33,13 +51,7 @@
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skiep them
 // entirely and just use numbers.
-enum layer_names {
-    _COLEMAKDH,
-    _QWERTY,
-    _LOWER,
-    _RAISE,
-    _ADJUST
-};
+
 
 #if (host_os == OS_MACOS || host_os == OS_IOS)// if the os is iOS or MacOS
 #define MAC_HOTKEYS
@@ -66,7 +78,7 @@ enum layer_names {
 #define DESKTR LCTL(KC_RGHT)  // move one virtual desktop to the right
 #define DESKTL LCTL(KC_LEFT)  // move one virtual desktop to the left
 #define MTCMD_ENT MT(MOD_LGUI, KC_ENT)
-#define MTCTL_OSS MT(MOD_LCTL, KC_F24)
+#define MTCTL_OSS KC_LCTL //MT(MOD_LCTL, KC_F24) removed to save space with #define NO_ACTION_TAPPING in config.h
 #define MTLALT_Z MT(MOD_LALT, KC_Z)
 // modifier tap keys
 #define MTALT_APP MT(MOD_LALT, KC_PMNS) // Alt on hold, Menu on tap
@@ -121,7 +133,7 @@ enum layer_names {
 
 enum planck_keycodes {
     COLEMAKDH = SAFE_RANGE,
-    QWERTY,
+    // QWERTY,
     LOWER,
     RAISE,
     ADJUST,
@@ -159,30 +171,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   HYPERESC, KC_Q,     KC_W,   KC_F,      KC_P,      KC_B,                                KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, KC_BSPC,
   MEH_TAB,  FN_A,     KC_R,   KC_S,      KC_T,      KC_G,                                KC_M,    KC_N,    KC_E,    KC_I,   FN_O,    MTRCTLQUO,
   KC_LSFT,  MTLALT_Z, KC_X,   KC_C,      KC_D,      KC_V,    KC_MPLY,          ALT_GRV,  KC_K,    KC_H,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
-                              MTALT_APP, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        KC_GLOBE, LOW_SPC, RSE_DEL, TG(_QWERTY) //Mute Mic
+                              MTALT_APP, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        KC_GLOBE, LOW_SPC, RSE_DEL, KC_MUTE //Mute Mic
 ),
 
-/* MIT Layout (QWERTY)
- * .-----------------------------------------.                                      .-----------------------------------------.
- * |TRMNAL| F1 -F12- F2 |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  |  F10 +  F11 |
- * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |HYP,ESC| Q   |  W   |  E   |  R   |  T   |                                      |  Y   |  U   |  I   |  O   |  P   | BSPC |
- * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |MEH_TAB| FN_A |  S   |  D   |  F  -@- G   |-------.                      .-------|  H   |  J   |  K   |  L   | FN_; |CTRL,'|
- * |------+------+------+------+------+------|Alt-Tab|                      | LALT  |------+------+------+------+------+------|
- * | SHIFT| GUI_Z|  X   |  C   |  V   |  B   |       |-->Play/Pause         | GRV`  |  N   |  M   |  ,   |  .   |  /   |SFT,\ |
- * .-----------------------------------------|-------|   on Button Press    |-------|-----------------------------------------'
- *                      | ALT | CTRL |  LOW  /      /                        \GLOBE \  LOW  |RAISE| Cursor R/L|
- *                      | APP | ENTER| SPACE/ OSSft/                          \Mac FN\ SPACE| DEL | DIAL2 | -> TOGGLE QWERTY On Press
- *                      `-------------------------'                            '-------------------------'
- */
-  [_QWERTY] = LAYOUT(
-  TERMINAL, KC_F1,   KC_F2,     KC_F3,     KC_F4,     KC_F5,                               KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
-  HYPERESC, KC_Q,     KC_W,     KC_E,      KC_R,      KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_BSPC,
-  MEH_TAB,   FN_A,     KC_S,     KC_D,      KC_F,      KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,   FN_SCLN, MTRCTLQUO,
-  KC_LSFT,  MTLALT_Z, KC_X,     KC_C,      KC_V,      KC_B,    KC_MPLY,          ALT_GRV,  KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
-                                MTALT_APP, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        KC_GLOBE, LOW_SPC, RSE_DEL, TG(_QWERTY)
-),
+// /* MIT Layout (QWERTY)
+//  * .-----------------------------------------.                                      .-----------------------------------------.
+//  * |TRMNAL| F1 -F12- F2 |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  |  F10 +  F11 |
+//  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
+//  * |HYP,ESC| Q   |  W   |  E   |  R   |  T   |                                      |  Y   |  U   |  I   |  O   |  P   | BSPC |
+//  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
+//  * |MEH_TAB| FN_A |  S   |  D   |  F  -@- G   |-------.                      .-------|  H   |  J   |  K   |  L   | FN_; |CTRL,'|
+//  * |------+------+------+------+------+------|Alt-Tab|                      | LALT  |------+------+------+------+------+------|
+//  * | SHIFT| GUI_Z|  X   |  C   |  V   |  B   |       |-->Play/Pause         | GRV`  |  N   |  M   |  ,   |  .   |  /   |SFT,\ |
+//  * .-----------------------------------------|-------|   on Button Press    |-------|-----------------------------------------'
+//  *                      | ALT | CTRL |  LOW  /      /                        \GLOBE \  LOW  |RAISE| Cursor R/L|
+//  *                      | APP | ENTER| SPACE/ OSSft/                          \Mac FN\ SPACE| DEL | DIAL2 | -> TOGGLE QWERTY On Press
+//  *                      `-------------------------'                            '-------------------------'
+//  */
+//   [_QWERTY] = LAYOUT(
+//   TERMINAL, KC_F1,   KC_F2,     KC_F3,     KC_F4,     KC_F5,                               KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
+//   HYPERESC, KC_Q,     KC_W,     KC_E,      KC_R,      KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_BSPC,
+//   MEH_TAB,   FN_A,     KC_S,     KC_D,      KC_F,      KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,   FN_SCLN, MTRCTLQUO,
+//   KC_LSFT,  MTLALT_Z, KC_X,     KC_C,      KC_V,      KC_B,    KC_MPLY,          ALT_GRV,  KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
+//                                 MTALT_APP, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        KC_GLOBE, LOW_SPC, RSE_DEL, TG(_QWERTY)
+// ),
 
 /* MIT Layout (LOWER) // couldn't get mod-tap to work with LPRN and RPRN
  * .-----------------------------------------.                                      .-----------------------------------------.
@@ -221,7 +233,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                      `-------------------------'                            '--------------------------'
  */
   [_RAISE] = LAYOUT(
-  CG_SWAP, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                   KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    TG(_QWERTY),
+  CG_SWAP, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                   KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_F12, // TG(_QWERTY),
   CG_NORM, KC_BTN3, KC_BTN2, KC_MS_U, KC_BTN1, KC_MUTE,                                _____,   _____,   KC_BTN3, KC_NUM,  KC_COLN, KC_BSPC,
   _____,   _____,   KC_MS_L, KC_MS_D, KC_MS_R, KC_VOLU,                                ARROW,   KC_BTN1, SELWORD, KC_BTN2, _____,   KC_DQUO,
   _____,   KC_WH_L, KC_WH_U, KC_WH_D, KC_WH_R, KC_VOLD, LLOCK,                _____,   _____,   BRACES2, SELWORD, BRACES,  KC_EXLM, KC_PIPE,
@@ -243,13 +255,169 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                      `--------------------------'                           '----------------------------'
  */
   [_ADJUST] = LAYOUT(
-  CG_SWAP, KC_F1, KC_F2,    KC_F3,     KC_F4,    KC_F5,                                C(KC_PGUP), BWSRLEFT, CRSR_UP, BWSRRHGT, KC_SCRL,  TG(_QWERTY),
+  CG_SWAP, KC_F1, KC_F2,    KC_F3,     KC_F4,    KC_F5,                                C(KC_PGUP), BWSRLEFT, CRSR_UP, BWSRRHGT, KC_SCRL,  KC_F12,// TG(_QWERTY),
   CG_NORM, _____, KC_F9,    KC_F10,    KC_F11,   KC_F12,                               C(KC_PGDN), KC_HOME,  KC_UP,   KC_END,   KC_NUM,   KC_DEL,
   _____,   _____, MTALT_F5, MTLSFT_F6, MTGUI_F7, MTCTL_F8,                             _____,      KC_LEFT,  KC_DOWN, KC_DOWN,  _____,    KC_CAPS,
   _____,   _____, KC_F1,    KC_F2,     KC_F3,    KC_F4,    LLOCK,            CMD_TAB,  _____,      KC_PGUP,  CRSR_DN, KC_PGDN,  BWSRRHGT, KC_INS,
                               _____,   _____,    _____,    _____,            CTRL_TAB, _____,      _____,    LLOCK //LAYER LOCK on Press
 )
 };
+
+// NAVI DISPLAY CONTROLS START
+// sync transport
+typedef struct _sync_keycode_t {
+    uint16_t keycode;
+} sync_keycode_t;
+
+// force rigth side to update
+bool b_sync_need_send = false;
+
+// last keycode typed
+sync_keycode_t last_keycode;
+
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+    // vertical orientation
+    return OLED_ROTATION_270;
+}
+
+void render(gui_state_t t) {
+    // logo
+    render_logo(t);
+
+#if IS_LEFT
+    // left side
+    render_layer_frame(t);
+    render_gears();
+
+    decay_scope();
+    render_scope(t);
+#endif
+
+#if IS_RIGHT
+    // right side
+    render_circle(t);
+#endif
+}
+
+void update(uint16_t keycode) {
+#if IS_LEFT
+    update_scope();
+#endif
+
+#if IS_RIGHT
+    update_circle(keycode);
+#endif
+}
+
+void reset(void) {
+#if IS_LEFT
+    reset_scope();
+#endif
+
+#if IS_RIGHT
+    reset_ring();
+#endif
+}
+
+void set_wackingup_mode_clean(void) {
+    oled_clear();
+    reset();
+}
+
+bool oled_task_user(void) {
+    gui_state_t t = get_gui_state();
+
+    // in sleep mode => turn display off
+    if (t == _SLEEP) {
+        oled_off();
+        return false;
+    }
+
+    // not in sleep mode => screen is on
+    oled_on();
+
+#ifdef WITH_BOOT
+    // in booting mode => display booting animation
+    if (t == _BOOTING) {
+        bool boot_finished = render_boot();
+        if (boot_finished) {
+            // end of the boot : wacking up
+            set_wackingup_mode_clean();
+            update_gui_state();
+        }
+        return false;
+    }
+#endif
+
+    // in halting mode => display booting animation
+    if (t == _HALTING) {
+        render_halt();
+        return false;
+    }
+
+    render(t);
+    return false;
+}
+
+void process_key(uint16_t keycode) {
+    // update screen with the new key
+    update(keycode);
+
+    gui_state_t t = get_gui_state();
+
+    if (t == _IDLE) {
+        // wake up animation
+        reset();
+    }
+
+    if (t == _BOOTING || t == _HALTING) {
+        // cancel booting or halting : waking_up
+        set_wackingup_mode_clean();
+    }
+
+    if (t == _SLEEP) {
+        // boot sequence
+        set_wackingup_mode_clean();
+        reset_boot();
+    }
+
+    update_gui_state();
+}
+
+void user_sync_a_slave_handler(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data) {
+    const sync_keycode_t* m2s = (const sync_keycode_t*)in_data;
+    // get the last char typed on left side and update the right side
+    process_key(m2s->keycode);
+}
+
+void keyboard_post_init_user(void) {
+    // callback for tranport sync data
+    transaction_register_rpc(USER_SYNC_A, user_sync_a_slave_handler);
+}
+
+void housekeeping_task_user(void) {
+    // only for master side
+    if (!is_keyboard_master()) return;
+
+    // only if a new char was typed
+    if (!b_sync_need_send) return;
+
+    // send the char to the slave side : sync is done
+    if (transaction_rpc_send(USER_SYNC_A, sizeof(last_keycode), &last_keycode)) {
+        b_sync_need_send = false;
+    }
+}
+
+#if IS_LEFT
+layer_state_t layer_state_set_user(layer_state_t state) {
+    // update the frame with the layer name
+    update_layer_frame(state);
+    return state;
+}
+#endif
+
+// NAVI DISPLAY CONTROLS END
+
 
 static fast_timer_t last_encoding_time = 0;
 static const fast_timer_t ENCODER_DEBOUNCE = 50;
@@ -400,18 +568,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_layer_lock(keycode, record, LLOCK)) { return false; }
     if (!process_select_word(keycode, record, SELWORD)) { return false; }
     if (!process_adaptive_key(keycode, record)) { return false; }
+    if (record->event.pressed) {
+        // master : store keycode to sent to the other side to be process_key
+        last_keycode.keycode = keycode;
+        b_sync_need_send     = true;
+
+        // gui process the input
+        process_key(keycode);
+    }
+    return true;
  // if (!process_caps_word(keycode, record)) { return false; }
   //if (!process_autocorrection(keycode, record)) { return false; }
 
     const uint8_t mods = get_mods();
-    const uint8_t oneshot_mods = get_oneshot_mods();
+    // const uint8_t oneshot_mods = get_oneshot_mods();
 
     switch (keycode) {
         case BRACES:  // Types (), or {}, and puts cursor between braces.
             if (record->event.pressed) {
                 clear_mods();  // Temporarily disable mods.
-                clear_oneshot_mods();
-                if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                // clear_oneshot_mods();
+                // if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                if ((mods) & MOD_MASK_SHIFT) {
                 SEND_STRING("<>");
                 } else {
                 SEND_STRING("()");
@@ -424,8 +602,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case BRACES2:  // Types [], or <>, and puts cursor between braces.
             if (record->event.pressed) {
                 clear_mods();  // Temporarily disable mods.
-                clear_oneshot_mods();
-                if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                // clear_oneshot_mods();
+                // if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                if ((mods) & MOD_MASK_SHIFT) {
                 SEND_STRING("{}");
                 } else {
                 SEND_STRING("[]");
@@ -437,9 +616,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case ARROW:  // Arrow macro, types -> or =>.
             if (record->event.pressed) {
-                if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {  // Is shift held?
+                // if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {  // Is shift held?
+                if ((mods) & MOD_MASK_SHIFT) {  // Is shift held?
                     del_mods(MOD_MASK_SHIFT);  // Temporarily delete shift.
-                    del_oneshot_mods(MOD_MASK_SHIFT);
+                    // del_oneshot_mods(MOD_MASK_SHIFT);
                     SEND_STRING("const yourFuncVariable = (x,y) => x + y.method;");
                 for (int counter = 0; counter <= 24; counter++){
                     tap_code(KC_LEFT);
@@ -488,18 +668,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
-#ifdef MAC_HOTKEYS
-        case MT(MOD_LCTL, KC_F24):
-#else
-        case MT(MOD_LGUI, KC_F24):
-#endif // MAC_HOTKEYS
-            if (record->tap.count > 0) {
-                if (record->event.pressed) {
-                    set_oneshot_mods(MOD_LSFT);
-                }
-                return false;
-            }
-            break;
+// #ifdef MAC_HOTKEYS
+//         case MT(MOD_LCTL, KC_F24):
+// #else
+//         case MT(MOD_LGUI, KC_F24):
+// #endif // MAC_HOTKEYS
+//             if (record->tap.count > 0) {
+//                 if (record->event.pressed) {
+//                     // set_oneshot_mods(MOD_LSFT);
+//                 }
+//                 return false;
+//             }
+//             break;
     }
     return true;
 };
@@ -630,7 +810,7 @@ combo_t key_combos[] = {
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
     const uint8_t mods = get_mods();
-    const uint8_t oneshot_mods = get_oneshot_mods();
+    // const uint8_t oneshot_mods = get_oneshot_mods();
 
     switch(combo_index) {
         case EM_EMAIL:
@@ -917,8 +1097,9 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         case QUOTES:
             if (pressed) {
                 clear_mods();  // Temporarily disable mods.
-                clear_oneshot_mods();
-                if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                // clear_oneshot_mods();
+                // if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
+                if ((mods) & MOD_MASK_SHIFT) {
                 SEND_STRING("'");
                 } else {
                 SEND_STRING("\"");
