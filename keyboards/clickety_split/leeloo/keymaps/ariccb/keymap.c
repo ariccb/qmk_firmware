@@ -54,7 +54,7 @@ enum layer_names {
 #define MTLGUI_STAB MT(MOD_LGUI, LSFT(KC_TAB))  // GUI on hold, Shift Tab on tap
 #define MTRSFTBSLS MT(MOD_RSFT, KC_BSLS) // Shift on hold, \ on tap
 #define MTRCTLQUO MT(MOD_RCTL, KC_QUOT) // Ctrl on hold, " on tap
-#define FN_TAB  LT(_ADJUST, KC_TAB) // MEH on hold, Tab on tap
+#define MEH_TAB  MT(MOD_LCTL | MOD_LGUI | MOD_LALT, KC_TAB) // MEH on hold, Tab on tap
 #define FN_A LT(_ADJUST, KC_A)
 #define FN_O LT(_ADJUST, KC_O)
 #define FN_SCLN LT(_ADJUST, KC_SCLN)
@@ -146,7 +146,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |HYP,ESC| Q   |  W   |  F   |  P   |  B   |                                      |  J   |  L   |  U   |  Y   |  ;   | BSPC |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |FN_TAB| FN_A |  R   |  S   |  T   |  G   |-------.                      .-------|  M   |  N   |  E   |  I   | FN_O |CTRL,'|
+ * |MEH_TAB| FN_A |  R   |  S   |  T   |  G   |-------.                      .-------|  M   |  N   |  E   |  I   | FN_O |CTRL,'|
  * |------+------+------+------+------+------|Alt-Tab|                      | LALT  |------+------+------+------+------+------|
  * | SHIFT| GUI_Z|  X   |  C   |  D   |  V   |       |-->Play/Pause         | GRV`  |  K   |  H   |  ,   |  .   |  /   |SFT,\ |
  * .-----------------------------------------|-------|   on Button Press    |-------|-----------------------------------------'
@@ -157,7 +157,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_COLEMAKDH] = LAYOUT(
   TERMINAL, KC_F1,   KC_F2,   KC_F3,     KC_F4,     KC_F5,                               KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   HYPERESC, KC_Q,     KC_W,   KC_F,      KC_P,      KC_B,                                KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, KC_BSPC,
-  FN_TAB,   FN_A,     KC_R,   KC_S,      KC_T,      KC_G,                                KC_M,    KC_N,    KC_E,    KC_I,   FN_O,    MTRCTLQUO,
+  MEH_TAB,  FN_A,     KC_R,   KC_S,      KC_T,      KC_G,                                KC_M,    KC_N,    KC_E,    KC_I,   FN_O,    MTRCTLQUO,
   KC_LSFT,  MTLALT_Z, KC_X,   KC_C,      KC_D,      KC_V,    KC_MPLY,          ALT_GRV,  KC_K,    KC_H,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
                               MTALT_APP, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        KC_GLOBE, LOW_SPC, RSE_DEL, TG(_QWERTY) //Mute Mic
 ),
@@ -168,7 +168,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |HYP,ESC| Q   |  W   |  E   |  R   |  T   |                                      |  Y   |  U   |  I   |  O   |  P   | BSPC |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |FN_TAB| FN_A |  S   |  D   |  F  -@- G   |-------.                      .-------|  H   |  J   |  K   |  L   | FN_; |CTRL,'|
+ * |MEH_TAB| FN_A |  S   |  D   |  F  -@- G   |-------.                      .-------|  H   |  J   |  K   |  L   | FN_; |CTRL,'|
  * |------+------+------+------+------+------|Alt-Tab|                      | LALT  |------+------+------+------+------+------|
  * | SHIFT| GUI_Z|  X   |  C   |  V   |  B   |       |-->Play/Pause         | GRV`  |  N   |  M   |  ,   |  .   |  /   |SFT,\ |
  * .-----------------------------------------|-------|   on Button Press    |-------|-----------------------------------------'
@@ -179,7 +179,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT(
   TERMINAL, KC_F1,   KC_F2,     KC_F3,     KC_F4,     KC_F5,                               KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   HYPERESC, KC_Q,     KC_W,     KC_E,      KC_R,      KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_BSPC,
-  FN_TAB,   FN_A,     KC_S,     KC_D,      KC_F,      KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,   FN_SCLN, MTRCTLQUO,
+  MEH_TAB,   FN_A,     KC_S,     KC_D,      KC_F,      KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,   FN_SCLN, MTRCTLQUO,
   KC_LSFT,  MTLALT_Z, KC_X,     KC_C,      KC_V,      KC_B,    KC_MPLY,          ALT_GRV,  KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
                                 MTALT_APP, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        KC_GLOBE, LOW_SPC, RSE_DEL, TG(_QWERTY)
 ),
@@ -243,11 +243,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                      `--------------------------'                           '----------------------------'
  */
   [_ADJUST] = LAYOUT(
-  CG_SWAP, KC_F1, KC_F2,    KC_F3,     KC_F4,    KC_F5,                                C(KC_PGUP), BWSRLEFT,   CRSR_UP,   BWSRRHGT,   KC_SCRL,   TG(_QWERTY),
-  CG_NORM, _____, KC_F9,    KC_F10,    KC_F11,   KC_F12,                               C(KC_PGDN), KC_HOME,    KC_UP,     KC_END,     KC_NUM,    KC_DEL,
-  _____,   _____, MTALT_F5, MTLSFT_F6, MTGUI_F7, MTCTL_F8,                             _____,      MTGUI_LEFT, MTLSFT_DN, MTALT_RHGT, _____,     KC_CAPS,
-  _____,   _____, KC_F1,    KC_F2,     KC_F3,    KC_F4,    LLOCK,            CMD_TAB,  _____,      KC_PGUP,    CRSR_DN,   KC_PGDN,    BWSRRHGT,  KC_INS,
-                              _____,   _____,    _____,    _____,            CTRL_TAB, _____,      _____,      LLOCK //LAYER LOCK on Press
+  CG_SWAP, KC_F1, KC_F2,    KC_F3,     KC_F4,    KC_F5,                                C(KC_PGUP), BWSRLEFT, CRSR_UP, BWSRRHGT, KC_SCRL,  TG(_QWERTY),
+  CG_NORM, _____, KC_F9,    KC_F10,    KC_F11,   KC_F12,                               C(KC_PGDN), KC_HOME,  KC_UP,   KC_END,   KC_NUM,   KC_DEL,
+  _____,   _____, MTALT_F5, MTLSFT_F6, MTGUI_F7, MTCTL_F8,                             _____,      KC_LEFT,  KC_DOWN, KC_DOWN,  _____,    KC_CAPS,
+  _____,   _____, KC_F1,    KC_F2,     KC_F3,    KC_F4,    LLOCK,            CMD_TAB,  _____,      KC_PGUP,  CRSR_DN, KC_PGDN,  BWSRRHGT, KC_INS,
+                              _____,   _____,    _____,    _____,            CTRL_TAB, _____,      _____,    LLOCK //LAYER LOCK on Press
 )
 };
 
@@ -534,7 +534,7 @@ enum combo_events {
     DASH,
     EQUALSIGN,
     ATSYMB,
-    TWODQUOTE,
+    QUOTES,
     LOWERTOGGLE,
     SLEEP,
     RESETKEY,
@@ -576,10 +576,10 @@ const uint16_t PROGMEM underscore_combo[]           = {KC_COMMA, KC_DOT, COMBO_E
 const uint16_t PROGMEM dash_combo[]                 = {KC_U, KC_Y, COMBO_END};
 const uint16_t PROGMEM equalsign_combo[]            = {KC_E, KC_I, COMBO_END};
 const uint16_t PROGMEM atsymb_combo[]               = {KC_T, KC_G, COMBO_END};
-const uint16_t PROGMEM twodquote_combo[]            = {KC_H, KC_COMMA, COMBO_END};
+const uint16_t PROGMEM QUOTES_combo[]               = {KC_H, KC_COMMA, COMBO_END};
 const uint16_t PROGMEM lowertoggle_combo[]          = {LOW_SPC, MTCMD_ENT, COMBO_END};
-const uint16_t PROGMEM sleep_combo[]                = {KC_F2, KC_F9, KC_F10, KC_F11, COMBO_END};
-const uint16_t PROGMEM reset_combo  []                = {KC_BSPC, MTRCTLQUO, MTRSFTBSLS, COMBO_END};
+const uint16_t PROGMEM sleep_combo[]                = {KC_F7, KC_F8, KC_F9, KC_F10, COMBO_END};
+const uint16_t PROGMEM reset_combo  []              = {KC_BSPC, MTRCTLQUO, MTRSFTBSLS, COMBO_END};
 const uint16_t PROGMEM numlock_combo[]              = {KC_L, KC_U, KC_Y, COMBO_END};
 const uint16_t PROGMEM f12_combo[]                  = {KC_F1, KC_F2, COMBO_END};
 const uint16_t PROGMEM capsword_combo[]             = {KC_LSFT, MTRSFTBSLS, COMBO_END};
@@ -618,7 +618,7 @@ combo_t key_combos[] = {
     [DASH] = COMBO_ACTION(dash_combo),
     [EQUALSIGN] = COMBO_ACTION(equalsign_combo),
     [ATSYMB] = COMBO_ACTION(atsymb_combo),
-    [TWODQUOTE] = COMBO_ACTION(twodquote_combo),
+    [QUOTES] = COMBO_ACTION(QUOTES_combo),
     [LOWERTOGGLE] = COMBO_ACTION(lowertoggle_combo),
     [SLEEP] = COMBO_ACTION(sleep_combo),
     [RESETKEY] = COMBO_ACTION(reset_combo),
@@ -914,16 +914,15 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
                 tap_code16(KC_AT);
             }
             break;
-        case TWODQUOTE:
+        case QUOTES:
             if (pressed) {
                 clear_mods();  // Temporarily disable mods.
                 clear_oneshot_mods();
                 if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-                SEND_STRING("''");
+                SEND_STRING("'");
                 } else {
-                SEND_STRING("\"\"");
+                SEND_STRING("\"");
                 }
-                tap_code(KC_LEFT);  // Move cursor between braces.
                 set_mods(mods);  // Restore mods.
                 }
                 break;
