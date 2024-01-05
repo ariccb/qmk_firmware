@@ -68,6 +68,7 @@ enum layer_names {
 #define MTCMD_ENT MT(MOD_LGUI, KC_ENT)
 #define MTCTL_OSS MT(MOD_LCTL, KC_F24)
 #define MTLALT_Z MT(MOD_LALT, KC_Z)
+#define ALT_SLSH MT(MOD_LALT, KC_SLSH)
 // modifier tap keys
 #define MTALT_GLB MT(MOD_LALT, KC_GLOBE) // Alt on hold, Menu/Globe on tap
 #define MTLALT_LRBC MT(MOD_LALT, KC_LBRC) // Alt on hold, [ on tap
@@ -147,7 +148,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |CTL_TAB| FN_A|  R   |  S   |  T   |  G   |-------.                      .-------|  M   |  N   |  E   |  I   | FN_O |CTRL,'|
  * |------+------+------+------+------+------|Alt-Tab|                      | LALT  |------+------+------+------+------+------|
- * | SHIFT| GUI_Z|  X   |  C   |  D   |  V   |       |-->Play/Pause         | GRV`  |  K   |  H   |  ,   |  .   |  /   |SFT,\ |
+ * | SHIFT| ALT_Z|  X   |  C   |  D   |  V   |       |-->Play/Pause         | GRV`  |  K   |  H   |  ,   |  .   |ALT,/ |SFT,\ |
  * .-----------------------------------------|-------|   on Button Press    |-------|-----------------------------------------'
  *                      | ALT | CMD  |  LOW  / CTRL  /                       \Tab   \  LOW  |RAISE/ |Cursor Up/Down|
  *                      | APP | ENTER| SPACE/OSShft/                          \Switch\ SPACE| DEL   |DIAL2 | -> TOGGLE QWERTY On Press
@@ -157,7 +158,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   TERMINAL, KC_F1,   KC_F2,   KC_F3,     KC_F4,     KC_F5,                               KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   HYPERESC, KC_Q,     KC_W,   KC_F,      KC_P,      KC_B,                                KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, KC_BSPC,
   CTL_TAB,  FN_A,     KC_R,   KC_S,      KC_T,      KC_G,                                KC_M,    KC_N,    KC_E,    KC_I,   FN_O,    MTRCTLQUO,
-  KC_LSFT,  MTLALT_Z, KC_X,   KC_C,      KC_D,      KC_V,    KC_MPLY,          ALT_GRV,  KC_K,    KC_H,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
+  KC_LSFT,  MTLALT_Z, KC_X,   KC_C,      KC_D,      KC_V,    KC_MPLY,          ALT_GRV,  KC_K,    KC_H,    KC_COMM, KC_DOT, ALT_SLSH, MTRSFTBSLS,
                               MTALT_GLB, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        CTRL_TAB, LOW_SPC, RSE_DEL, TG(_QWERTY) //Mute Mic
 ),
 
@@ -169,7 +170,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |CTL_TAB|FN_A |  S   |  D   |  F  -@-  G  |-------.                      .-------|  H   |  J   |  K   |  L   | FN_; |CTRL,'|
  * |------+------+------+------+------+------|Alt-Tab|                      | LALT  |------+------+------+------+------+------|
- * | SHIFT| GUI_Z|  X   |  C   |  V   |  B   |       |-->Play/Pause         | GRV`  |  N   |  M   |  ,   |  .   |  /   |SFT,\ |
+ * | SHIFT| ALT_Z|  X   |  C   |  V   |  B   |       |-->Play/Pause         | GRV`  |  N   |  M   |  ,   |  .   |ALT,/ |SFT,\ |
  * .-----------------------------------------|-------|   on Button Press    |-------|-----------------------------------------'
  *                      | ALT | CMD  |  LOW  / CTRL /                        \GLOBE \  LOW  |RAISE| Cursor R/L|
  *                      | APP | ENTER| SPACE/ OSSft/                          \Mac FN\ SPACE| DEL | DIAL2 | -> TOGGLE QWERTY On Press
@@ -179,7 +180,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   TERMINAL, KC_F1,   KC_F2,     KC_F3,     KC_F4,     KC_F5,                               KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   HYPERESC, KC_Q,     KC_W,     KC_E,      KC_R,      KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_BSPC,
   CTL_TAB,  FN_A,     KC_S,     KC_D,      KC_F,      KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,   FN_SCLN, MTRCTLQUO,
-  KC_LSFT,  MTLALT_Z, KC_X,     KC_C,      KC_V,      KC_B,    KC_MPLY,          ALT_GRV,  KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, MTRSFTBSLS,
+  KC_LSFT,  MTLALT_Z, KC_X,     KC_C,      KC_V,      KC_B,    KC_MPLY,          ALT_GRV,  KC_N,    KC_M,    KC_COMM, KC_DOT, ALT_SLSH, MTRSFTBSLS,
                                 MTALT_GLB, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        CTRL_TAB, LOW_SPC, RSE_DEL, TG(_QWERTY)
 ),
 
@@ -213,7 +214,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+-------------|                                      |------+------+------+------+------+------|
  * |      |  #   | [,alt|(,sft |),gui | ],ctl|-------.                      .-------| Vol+ | MsLft| MDown|Mright| Mb3  |      |
  * |------+------+------+------+------+------|Undo/Redo|                    |       |------+------+------+------+------+------|
- * |      |  ~   |  $   |  {   |  }   |  %   | DIAL1 |--> Press for         | LLOCK | Vol- |BRACES2|SELWORD|BRACES|    |      |
+ * |      |  ~   |  $   |  {   |  }   |  %   | DIAL1 |--> Press for         | LLOCK | Vol- |SELWORD|BRACES2|BRACES|ARROW|     |
  * .-----------------------------------------|-------|  Next Track          |-------|-----------------------------------------'
  *                      | ALT | CMD  |  LOW  / LCTRL/                        \ Mouse\ Mouse |******|Search|
  *                      | APP | ENTER| Space/ OSSft/                          \ Btn 1\ Btn 3|******| DIAL2|--> //LAYER LOCK on Press
@@ -223,7 +224,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   CG_NORM, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                   KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    CG_SWAP,
   _____,   KC_EXLM, KC_LABK, KC_RABK, KC_EQL,  KC_CIRC,                                KC_MUTE, KC_BTN1, KC_MS_U, KC_BTN2, _____,   KC_BSPC,
   _____,   KC_HASH, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC,                                KC_VOLU, KC_MS_L, KC_MS_D, KC_MS_R, KC_BTN3, _____,
-  _____,   KC_TILD, KC_DLR,  KC_LCBR, KC_RCBR, KC_PERC, KC_MNXT,                _____,   KC_VOLD, BRACES2, SELWORD, BRACES,  _____,   _____,
+  _____,   KC_TILD, KC_DLR,  KC_LCBR, KC_RCBR, KC_PERC, KC_MNXT,              _____,   KC_VOLD, SELWORD, BRACES2, BRACES,  ARROW,   _____,
                                   _____, LGUI(KC_ENT),  _____, _____,         KC_BTN1, KC_BTN3, _____,   LLOCK //LAYER LOCK on Press
 ),
 
@@ -506,9 +507,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 };
 
 enum combo_events {
-    EM_EMAIL,
+    EM_PERSONAL_EMAIL,
     EM_WORK_EMAIL,
+    EM_HELIXIR_EMAIL,
+    EM_ICLOUD_EMAIL,
+    EM_OUTLOOK_EMAIL,
     HOME_ADDRESS,
+    ARROW_FUNCTION,
     HTML_P,
     HTML_TITLE,
     HTML_DIV,
@@ -548,9 +553,13 @@ enum combo_events {
 
 uint16_t COMBO_LEN = COMBO_LENGTH; // remove the COMBO_COUNT define and use this instead
 
-const uint16_t PROGMEM email_combo[]                = {KC_J, KC_L, COMBO_END};
+const uint16_t PROGMEM email_personal_combo[]       = {KC_J, KC_L, COMBO_END};
 const uint16_t PROGMEM email_work_combo[]           = {KC_M, KC_N, COMBO_END};
+const uint16_t PROGMEM email_helixir_combo[]        = {KC_K, KC_H, COMBO_END};
+const uint16_t PROGMEM email_icloud_combo[]         = {KC_B, KC_J, COMBO_END};
+const uint16_t PROGMEM email_outlook_combo[]        = {KC_P, KC_J, COMBO_END};
 const uint16_t PROGMEM home_address_combo[]         = {KC_E, KC_J, COMBO_END};
+const uint16_t PROGMEM arrow_function_combo[]       = {FN_A, KC_DOT, COMBO_END};
 const uint16_t PROGMEM html_p_combo[]               = {KC_P, KC_DOT, COMBO_END};
 const uint16_t PROGMEM html_title_combo[]           = {KC_T, KC_DOT, COMBO_END};
 const uint16_t PROGMEM html_div_combo[]             = {KC_D, KC_DOT, COMBO_END};
@@ -558,8 +567,8 @@ const uint16_t PROGMEM html_html_combo[]            = {KC_Q, KC_DOT, COMBO_END};
 const uint16_t PROGMEM html_head_combo[]            = {KC_W, KC_DOT, COMBO_END};
 const uint16_t PROGMEM html_body_combo[]            = {KC_R, KC_DOT, COMBO_END};
 const uint16_t PROGMEM html_footer_combo[]          = {KC_X, KC_DOT, COMBO_END};
-const uint16_t PROGMEM html_a_href_combo[]          = {KC_A, KC_DOT, COMBO_END};
-const uint16_t PROGMEM html_img_combo[]             = {KC_F, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_a_href_combo[]          = {KC_F, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_img_combo[]             = {KC_I, KC_DOT, COMBO_END};
 const uint16_t PROGMEM css_style_combo[]            = {KC_S, KC_DOT, COMBO_END};
 const uint16_t PROGMEM html_generic_tag_combo[]     = {KC_G, KC_DOT, COMBO_END};
 const uint16_t PROGMEM undo_combo[]                 = {KC_W, KC_F, COMBO_END};
@@ -570,8 +579,8 @@ const uint16_t PROGMEM paste_combo[]                = {KC_C, KC_D, COMBO_END};
 const uint16_t PROGMEM pasteclip_combo[]            = {KC_X, KC_D, COMBO_END};
 const uint16_t PROGMEM pastetxt_combo[]             = {KC_X, KC_V, COMBO_END};
 const uint16_t PROGMEM selectall_combo[]            = {MTLALT_Z, KC_D, COMBO_END};
-const uint16_t PROGMEM questionmark_combo[]         = {KC_DOT, KC_SLSH, COMBO_END};
-const uint16_t PROGMEM exclamationmark_combo[]      = {KC_SLSH, MTRSFTBSLS, COMBO_END};
+const uint16_t PROGMEM questionmark_combo[]         = {KC_DOT, ALT_SLSH, COMBO_END};
+const uint16_t PROGMEM exclamationmark_combo[]      = {ALT_SLSH, MTRSFTBSLS, COMBO_END};
 const uint16_t PROGMEM dquote_combo[]               = {KC_O, MTRCTLQUO, COMBO_END};
 const uint16_t PROGMEM underscore_combo[]           = {KC_COMMA, KC_DOT, COMBO_END};
 const uint16_t PROGMEM dash_combo[]                 = {KC_U, KC_Y, COMBO_END};
@@ -585,14 +594,17 @@ const uint16_t PROGMEM numlock_combo[]              = {KC_L, KC_U, KC_Y, COMBO_E
 const uint16_t PROGMEM f12_combo[]                  = {KC_F1, KC_F2, COMBO_END};
 const uint16_t PROGMEM capsword_combo[]             = {KC_LSFT, MTRSFTBSLS, COMBO_END};
 
-
-// const uint8_t combo_mods = get_mods();r
+// const uint8_t combo_mods = get_mods();
 // const uint8_t combo_oneshot_mods = get_oneshot_mods();
 
 combo_t key_combos[] = {
-    [EM_EMAIL] = COMBO_ACTION(email_combo),
+    [EM_PERSONAL_EMAIL] = COMBO_ACTION(email_personal_combo),
     [EM_WORK_EMAIL] = COMBO_ACTION(email_work_combo),
+    [EM_HELIXIR_EMAIL] = COMBO_ACTION(email_helixir_combo),
+    [EM_ICLOUD_EMAIL] = COMBO_ACTION(email_icloud_combo),
+    [EM_OUTLOOK_EMAIL] = COMBO_ACTION(email_outlook_combo),
     [HOME_ADDRESS] = COMBO_ACTION(home_address_combo),
+    [ARROW_FUNCTION] = COMBO_ACTION(arrow_function_combo),
     [HTML_P] = COMBO_ACTION(html_p_combo),
     [HTML_TITLE] = COMBO_ACTION(html_title_combo),
     [HTML_DIV] = COMBO_ACTION(html_div_combo),
@@ -634,9 +646,10 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     const uint8_t oneshot_mods = get_oneshot_mods();
 
     switch(combo_index) {
-        case EM_EMAIL:
+// Email Combos
+        case EM_PERSONAL_EMAIL:
             if (pressed) {
-                SEND_STRING("contact@ariccb.dev");
+                SEND_STRING("aric@ariccb.dev");
             }
             break;
         case EM_WORK_EMAIL:
@@ -644,9 +657,34 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
                 SEND_STRING("aric@collegiumbuilt.com");
             }
             break;
+        case EM_HELIXIR_EMAIL:
+            if (pressed) {
+                SEND_STRING("aric@helixirlabs.com");
+            }
+            break;
+        case EM_ICLOUD_EMAIL:
+            if (pressed) {
+                SEND_STRING("aricbouwers@icloud.com");
+            }
+            break;
+        case EM_OUTLOOK_EMAIL:
+            if (pressed) {
+                SEND_STRING("aricbouwers@outlook.com");
+            }
+            break;
         case HOME_ADDRESS:
             if (pressed) {
                 SEND_STRING("111 Highview Gate SE");
+            }
+            break;
+// Dot (period) Combos
+        case ARROW_FUNCTION:
+            if (pressed) {
+                if (pressed) {
+                SEND_STRING("() => {}");
+                for (int i = 0; i < 8; i++) {
+                tap_code16(KC_LEFT);
+                }
             }
             break;
         case HTML_DIV:
@@ -964,6 +1002,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             break;
         case CAPSWORD:
             caps_word_on();
-        break;
+            break;
     }
 };
