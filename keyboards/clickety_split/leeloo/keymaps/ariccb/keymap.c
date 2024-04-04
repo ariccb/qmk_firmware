@@ -26,99 +26,86 @@
 #include "features/layer_lock.h"
 #include "guess_os.h"
 
-//#include "features/caps_word.h"
-//#include "features/autocorrection.h"
+// #include "features/caps_word.h"
+// #include "features/autocorrection.h"
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skiep them
 // entirely and just use numbers.
-enum layer_names {
-    _COLEMAKDH,
-    _QWERTY,
-    _LOWER,
-    _RAISE,
-    _ADJUST
-};
+enum layer_names { _COLEMAKDH, _QWERTY, _LOWER, _RAISE, _ADJUST };
 
-#if (host_os == OS_MACOS || host_os == OS_IOS)// if the os is iOS or MacOS
-#define MAC_HOTKEYS
+#if (host_os == OS_MACOS || host_os == OS_IOS) // if the os is iOS or MacOS
+#    define MAC_HOTKEYS
 #endif
 
 #define XXXXX KC_NO
 #define _____ KC_TRNS
 #define HYPERESC MT(MOD_LCTL | MOD_LGUI | MOD_LALT | MOD_LSFT, KC_ESC) // Hyper on hold, Esc on tap
-#define LOW_SPC LT(_LOWER, KC_SPC)   // lower on hold, One Shot Shift on tap
-#define RSE_DEL LT(_RAISE, KC_DEL)  // raise on hold, Delete on tap
-#define ALT_GRV MT(MOD_LALT, KC_GRV) // alt on hold, grave ` on tap
-#define MTLGUI_STAB MT(MOD_LGUI, LSFT(KC_TAB))  // GUI on hold, Shift Tab on tap
-#define MTRSFTBSLS MT(MOD_RSFT, KC_BSLS) // Shift on hold, \ on tap
-#define MTRCTLQUO MT(MOD_RCTL, KC_QUOT) // Ctrl on hold, " on tap
-#define CTL_TAB  MT(MOD_LCTL, KC_TAB) // Ctrl on hold, Tab on tap
+#define LOW_SPC LT(_LOWER, KC_SPC)                                     // lower on hold, One Shot Shift on tap
+#define RSE_DEL LT(_RAISE, KC_DEL)                                     // raise on hold, Delete on tap
+#define ALT_GRV MT(MOD_LALT, KC_GRV)                                   // alt on hold, grave ` on tap
+#define MTLGUI_STAB MT(MOD_LGUI, LSFT(KC_TAB))                         // GUI on hold, Shift Tab on tap
+#define MTRSFTBSLS MT(MOD_RSFT, KC_BSLS)                               // Shift on hold, \ on tap
+#define MTRCTLQUO MT(MOD_RCTL, KC_QUOT)                                // Ctrl on hold, " on tap
+#define CTL_TAB MT(MOD_LCTL, KC_TAB)                                   // Ctrl on hold, Tab on tap
 #define FN_A LT(_ADJUST, KC_A)
 #define FN_O LT(_ADJUST, KC_O)
 #define FN_SCLN LT(_ADJUST, KC_SCLN)
 
-
 #ifdef MAC_HOTKEYS
 // Mac Specific Hotkeys
-#define TERMINAL LCTL(KC_GRV)
-#define DESKTR LCTL(KC_RGHT)  // move one virtual desktop to the right
-#define DESKTL LCTL(KC_LEFT)  // move one virtual desktop to the left
-#define MTCMD_ENT MT(MOD_LGUI, KC_ENT)
-#define MTCTL_OSS MT(MOD_LCTL, KC_F24)
-#define MTLALT_Z MT(MOD_LALT, KC_Z)
-#define ALT_SLSH MT(MOD_LALT, KC_SLSH)
+#    define TERMINAL LCTL(KC_GRV)
+#    define DESKTR LCTL(KC_RGHT) // move one virtual desktop to the right
+#    define DESKTL LCTL(KC_LEFT) // move one virtual desktop to the left
+#    define MTCMD_ENT MT(MOD_LGUI, KC_ENT)
+#    define MTCTL_OSS MT(MOD_LCTL, KC_F24)
+#    define MTLALT_Z MT(MOD_LALT, KC_Z)
+#    define ALT_SLSH MT(MOD_LALT, KC_SLSH)
 // modifier tap keys
-#define MTALT_GLB MT(MOD_LALT, KC_GLOBE) // Alt on hold, Menu/Globe on tap
-#define MTLALT_LRBC MT(MOD_LALT, KC_LBRC) // Alt on hold, [ on tap
-#define MTLSFT_LPRN MT(MOD_LSFT, KC_LPRN) // Shift on hold, ( on tap
-#define MTLGUI_RPRN MT(MOD_LGUI, KC_RPRN) // GUI on hold, ) on tap
-#define MTLCTL_RBRC MT(MOD_LCTL, KC_RBRC) // Ctrl on hold, ] on tap
-#define MTALT_F5 MT(MOD_LALT, KC_F5) // alt on hold, F5 on tap
-#define MTLSFT_F6 MT(MOD_LSFT, KC_F6) // shift on hold, F6 on tap
-#define MTGUI_F7 MT(MOD_LGUI, KC_F7) // gui on hold, F7 on tap
-#define MTCTL_F8 MT(MOD_LCTL, KC_F8) // ctrl on hold, F8 on tap
-#define MTALT_RHGT MT(MOD_LALT, KC_RGHT) // alt on hold, mouse right on tap
-#define MTLSFT_DN MT(MOD_LSFT, KC_DOWN) // shift on hold, down arrow on tap
-#define MTGUI_LEFT MT(MOD_LGUI, KC_LEFT) // gui on hold, left arrow on tap
-#define MTCTL_RCLCK MT(MOD_LCTL, KC_M) // ctrl on hold, right arrow on tap
-#define FIND_F3 KC_F3 // search on page
-#define BWSRLEFT LGUI(KC_LEFT)
-#define BWSRRHGT LGUI(KC_RGHT)
-#define CRSR_UP LGUI(LALT(KC_UP)) // add cursor above
-#define CRSR_DN LGUI(LALT(KC_DOWN)) // add cursor below
-#define SEARCH LGUI(KC_F) // search on page
-#define ZOOM_RESET LGUI(KC_0) // reset zoom
-
+#    define MTALT_GLB MT(MOD_LALT, KC_GLOBE)  // Alt on hold, Menu/Globe on tap
+#    define MTLALT_LRBC MT(MOD_LALT, KC_LBRC) // Alt on hold, [ on tap
+#    define MTLSFT_LPRN MT(MOD_LSFT, KC_LPRN) // Shift on hold, ( on tap
+#    define MTLGUI_RPRN MT(MOD_LGUI, KC_RPRN) // GUI on hold, ) on tap
+#    define MTLCTL_RBRC MT(MOD_LCTL, KC_RBRC) // Ctrl on hold, ] on tap
+#    define MTALT_F5 MT(MOD_LALT, KC_F5)      // alt on hold, F5 on tap
+#    define MTLSFT_F6 MT(MOD_LSFT, KC_F6)     // shift on hold, F6 on tap
+#    define MTGUI_F7 MT(MOD_LGUI, KC_F7)      // gui on hold, F7 on tap
+#    define MTCTL_F8 MT(MOD_LCTL, KC_F8)      // ctrl on hold, F8 on tap
+#    define MTALT_RHGT MT(MOD_LALT, KC_RGHT)  // alt on hold, mouse right on tap
+#    define MTLSFT_DN MT(MOD_LSFT, KC_DOWN)   // shift on hold, down arrow on tap
+#    define MTGUI_LEFT MT(MOD_LGUI, KC_LEFT)  // gui on hold, left arrow on tap
+#    define MTCTL_RCLCK MT(MOD_LCTL, KC_M)    // ctrl on hold, right arrow on tap
+#    define FIND_F3 KC_F3                     // search on page
+#    define BWSRLEFT LGUI(KC_LEFT)
+#    define BWSRRHGT LGUI(KC_RGHT)
+#    define CRSR_UP LGUI(LALT(KC_UP))   // add cursor above
+#    define CRSR_DN LGUI(LALT(KC_DOWN)) // add cursor below
+#    define SEARCH LGUI(KC_F)           // search on page
+#    define ZOOM_RESET LGUI(KC_0)       // reset zoom
 
 #else
 // Windows Specific Hotkeys
-#define TERMINAL LGUI(KC_GRV)
-#define DESKTR LGUI(LCTL(KC_RGHT))  // move one virtual desktop to the right
-#define DESKTL LGUI(LCTL(KC_LEFT))  // move one virtual desktop to the left
-#define MTLALT_LRBC MT(MOD_LCTL, KC_LBRC) // Ctrl (for windows) on hold, [ on tap
-#define MTLSFT_LPRN MT(MOD_LSFT, KC_LPRN) // Shift on hold, ( on tap
-#define MTLGUI_RPRN MT(MOD_LALT, KC_RPRN) // Alt (for windows) on hold, ) on tap
-#define MTLCTL_RBRC MT(MOD_LGUI, KC_RBRC) // Win/GUI (for windows) on hold, ] on tap
-#define MTLALT_Z MT(MOD_LGUI, KC_Z)
-#define MTALT_GLB MT(MOD_LALT, KC_APP) // Alt on hold, Menu on tap
-#define MTCMD_ENT MT(MOD_LCTL, KC_ENT)
-#define MTCTL_OSS MT(MOD_LGUI, KC_F24)
-#define FIND_F3 KC_F3 // search on page
-#define BWSRLEFT A(KC_LEFT)
-#define BWSRRHGT A(KC_RGHT)
-#define CRSR_UP LCTL(LALT(KC_UP)) // add cursor above
-#define CRSR_DN LCTL(LALT(KC_DOWN)) // add cursor below
-#define SEARCH LCTL(KC_F) // search on page
-#define ZOOM_RESET LCTL(KC_0) // reset zoom
+#    define TERMINAL LGUI(KC_GRV)
+#    define DESKTR LGUI(LCTL(KC_RGHT))        // move one virtual desktop to the right
+#    define DESKTL LGUI(LCTL(KC_LEFT))        // move one virtual desktop to the left
+#    define MTLALT_LRBC MT(MOD_LCTL, KC_LBRC) // Ctrl (for windows) on hold, [ on tap
+#    define MTLSFT_LPRN MT(MOD_LSFT, KC_LPRN) // Shift on hold, ( on tap
+#    define MTLGUI_RPRN MT(MOD_LALT, KC_RPRN) // Alt (for windows) on hold, ) on tap
+#    define MTLCTL_RBRC MT(MOD_LGUI, KC_RBRC) // Win/GUI (for windows) on hold, ] on tap
+#    define MTLALT_Z MT(MOD_LGUI, KC_Z)
+#    define MTALT_GLB MT(MOD_LALT, KC_APP) // Alt on hold, Menu on tap
+#    define MTCMD_ENT MT(MOD_LCTL, KC_ENT)
+#    define MTCTL_OSS MT(MOD_LGUI, KC_F24)
+#    define FIND_F3 KC_F3 // search on page
+#    define BWSRLEFT A(KC_LEFT)
+#    define BWSRRHGT A(KC_RGHT)
+#    define CRSR_UP LCTL(LALT(KC_UP))   // add cursor above
+#    define CRSR_DN LCTL(LALT(KC_DOWN)) // add cursor below
+#    define SEARCH LCTL(KC_F)           // search on page
+#    define ZOOM_RESET LCTL(KC_0)       // reset zoom
 
-
-
-#endif  // MAC_HOTKEYS
-
-
-
+#endif // MAC_HOTKEYS
 
 enum planck_keycodes {
     COLEMAKDH = SAFE_RANGE,
@@ -138,11 +125,11 @@ enum planck_keycodes {
     LLOCK,
     SELWLEFT,
 };
-
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* MIT Layout (COLEMAKH-DH)
  * .-----------------------------------------.                                      .-----------------------------------------.
- * |TRMNAL| F1 -F12- F2 |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  |  F10 |  F11 |
+ * |NON-US#| 1 -F12- 2  |  3   |  4   |  5   |                                      |  6   |  7   |  8   |  9   |  0   |TRMNAL|
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |HYP,ESC| Q   |  W   |  F   |  P   |  B   |                                      |  J   |  L   |  U   |  Y   |  ;   | BSPC |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
@@ -155,16 +142,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                      `-------------------------'                            '--------------------------'
  */
   [_COLEMAKDH] = LAYOUT(
-  TERMINAL, KC_F1,   KC_F2,   KC_F3,     KC_F4,     KC_F5,                               KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
-  HYPERESC, KC_Q,     KC_W,   KC_F,      KC_P,      KC_B,                                KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, KC_BSPC,
-  CTL_TAB,  FN_A,     KC_R,   KC_S,      KC_T,      KC_G,                                KC_M,    KC_N,    KC_E,    KC_I,   FN_O,    MTRCTLQUO,
+  KC_NUHS, KC_1,      KC_2,   KC_3,      KC_4,      KC_5,                                KC_6,    KC_7,    KC_8,    KC_9,   KC_0,     TERMINAL,
+  HYPERESC, KC_Q,     KC_W,   KC_F,      KC_P,      KC_B,                                KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN,  KC_BSPC,
+  CTL_TAB,  FN_A,     KC_R,   KC_S,      KC_T,      KC_G,                                KC_M,    KC_N,    KC_E,    KC_I,   KC_O,     MTRCTLQUO,
   KC_LSFT,  MTLALT_Z, KC_X,   KC_C,      KC_D,      KC_V,    KC_MPLY,          ALT_GRV,  KC_K,    KC_H,    KC_COMM, KC_DOT, ALT_SLSH, MTRSFTBSLS,
                               MTALT_GLB, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        CTRL_TAB, LOW_SPC, RSE_DEL, TG(_QWERTY) //Mute Mic
 ),
 
 /* MIT Layout (QWERTY)
  * .-----------------------------------------.                                      .-----------------------------------------.
- * |TRMNAL| F1 -F12- F2 |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  |  F10 |  F11 |
+ * |NON-US#| 1 -F12- 2  |  3   |  4   |  5   |                                      |  6   |  7   |  8   |  9   |  0   |TRMNAL|
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |HYP,ESC| Q   |  W   |  E   |  R   |  T   |                                      |  Y   |  U   |  I   |  O   |  P   | BSPC |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
@@ -177,11 +164,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                      `-------------------------'                            '-------------------------'
  */
   [_QWERTY] = LAYOUT(
-  TERMINAL, KC_F1,   KC_F2,     KC_F3,     KC_F4,     KC_F5,                               KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
-  HYPERESC, KC_Q,     KC_W,     KC_E,      KC_R,      KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_BSPC,
-  CTL_TAB,  FN_A,     KC_S,     KC_D,      KC_F,      KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,   FN_SCLN, MTRCTLQUO,
-  KC_LSFT,  MTLALT_Z, KC_X,     KC_C,      KC_V,      KC_B,    KC_MPLY,          ALT_GRV,  KC_N,    KC_M,    KC_COMM, KC_DOT, ALT_SLSH, MTRSFTBSLS,
-                                MTALT_GLB, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        CTRL_TAB, LOW_SPC, RSE_DEL, TG(_QWERTY)
+  KC_NUHS, KC_1,      KC_2,   KC_3,      KC_4,      KC_5,                                KC_6,    KC_7,    KC_8,    KC_9,   KC_0,     TERMINAL,
+  HYPERESC, KC_Q,     KC_W,   KC_E,      KC_R,      KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,     KC_BSPC,
+  CTL_TAB,  FN_A,     KC_S,   KC_D,      KC_F,      KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN,  MTRCTLQUO,
+  KC_LSFT,  MTLALT_Z, KC_X,   KC_C,      KC_V,      KC_B,    KC_MPLY,          ALT_GRV,  KC_N,    KC_M,    KC_COMM, KC_DOT, ALT_SLSH, MTRSFTBSLS,
+                              MTALT_GLB, MTCMD_ENT, LOW_SPC, MTCTL_OSS,        CTRL_TAB, LOW_SPC, RSE_DEL, TG(_QWERTY)
 ),
 
 /* MIT Layout (LOWER) // couldn't get mod-tap to work with LPRN and RPRN
@@ -192,7 +179,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+-------------|                                      |------+------+------+------+------+------|
  * |S(TAB)|  #   | [,alt|(,sft |),gui | ],ctl|-------.                      .-------|   &  |   4  |   5  |   6  |   -  |  +   |
  * |------+------+------+------+------+------|Volume |                      |       |------+------+------+------+------+------|
- * |SHIFT |  ~   |  $   |  {   |  }   |  %   | DIAL1 |--> Press for         |       |   |  |   1  |   2  |   3  |   /  |  |   |
+ * |SHIFT |  @   |  $   |  {   |  }   |  %   | DIAL1 |--> Press for         |   ~   |   |  |   1  |   2  |   3  |   /  |  |   |
  * .-----------------------------------------|-------|   ZOOM_RESET         |-------|-----------------------------------------'
  *                      | ALT | CMD  |  LOW  /      /                        \       \      |     |ZOOM IN/OUT|
  *                      | APP | ENTER| SPACE/ OSSft/                          \ SPACE \  0  |  .  | DIAL2|--> LAYER LOCK on Press
@@ -202,7 +189,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_NUHS,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                KC_6,    KC_7,   KC_8,  KC_9,  KC_0,    TG(_QWERTY),
   KC_GRV,    KC_EXLM, KC_LABK, KC_RABK, KC_EQL,  KC_CIRC,                             KC_ASTR, KC_7,   KC_8,  KC_9,  KC_COLN, KC_BSPC,
   S(KC_TAB), KC_HASH, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC,                             KC_AMPR, KC_4,   KC_5,  KC_6,  KC_PMNS, KC_PPLS,
-  KC_LSFT,   KC_TILD, KC_DLR,  KC_LCBR, KC_RCBR, KC_PERC, ZOOM_RESET,        KC_TILD, KC_PIPE, KC_1,   KC_2,  KC_3,  KC_PSLS, KC_PIPE,
+  KC_LSFT,   KC_AT,   KC_DLR,  KC_LCBR, KC_RCBR, KC_PERC, ZOOM_RESET,        KC_TILD, KC_PIPE, KC_1,   KC_2,  KC_3,  KC_PSLS, KC_PIPE,
                                _____,   _____,   _____,   _____,             KC_SPC,  KC_0,    KC_DOT, LLOCK //LAYER LOCK on Press
 ),
 
@@ -250,16 +237,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _____,     _____,    _____,    _____,            CTRL_TAB, _____,      _____,    LLOCK //LAYER LOCK on Press
 )
 };
-
-static fast_timer_t last_encoding_time = 0;
-static const fast_timer_t ENCODER_DEBOUNCE = 50;
+// clang-format on
+static fast_timer_t       last_encoding_time = 0;
+static const fast_timer_t ENCODER_DEBOUNCE   = 50;
 
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (TIMER_DIFF_FAST(timer_read_fast(), last_encoding_time) >= ENCODER_DEBOUNCE) {
         last_encoding_time = timer_read_fast();
-    }
-    else {
+    } else {
         return false;
     }
     // then goes the rest of your rotary encoder handling code.
@@ -267,7 +253,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
         uint8_t mod_state = get_mods();
         switch (biton32(layer_state)) {
             case _LOWER:
-            // Volume Up/Down or Brightness up/ down with shift
+                // Volume Up/Down or Brightness up/ down with shift
                 if (mod_state & MOD_MASK_SHIFT) {
                     unregister_mods(mod_state);
                     wait_ms(100);
@@ -291,12 +277,12 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
                 // CMD/ALT Tab through open windows
                 if (!clockwise) {
                     tabtimer = timer_read();
-                    if(!tabbing) {
-#ifdef MAC_HOTKEYS
+                    if (!tabbing) {
+#    ifdef MAC_HOTKEYS
                         register_code(KC_LGUI);
-#else
+#    else
                         register_code(KC_LALT);
-#endif  // MAC_HOTKEYS
+#    endif // MAC_HOTKEYS
                         register_code(KC_TAB);
                         unregister_code(KC_TAB);
                         tabbing = true;
@@ -304,12 +290,12 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
                     tap_code(KC_RGHT);
                 } else {
                     tabtimer = timer_read();
-                    if(!tabbing) {
-#ifdef MAC_HOTKEYS
+                    if (!tabbing) {
+#    ifdef MAC_HOTKEYS
                         register_code(KC_LGUI);
-#else
+#    else
                         register_code(KC_LALT);
-#endif  // MAC_HOTKEYS
+#    endif // MAC_HOTKEYS
                         register_code(KC_TAB);
                         unregister_code(KC_TAB);
                         tabbing = true;
@@ -319,63 +305,63 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
                 break;
                 //  on press,
             default:
-              // CTRL_TAB through open Tabs
+                // CTRL_TAB through open Tabs
                 if (!clockwise) {
                     ctrl_tabtimer = timer_read();
-                    if(!ctrl_tabbing) {
+                    if (!ctrl_tabbing) {
                         register_code(KC_LCTL);
                         ctrl_tabbing = true;
                     }
                     tap_code(KC_TAB);
                 } else {
                     ctrl_tabtimer = timer_read();
-                    if(!ctrl_tabbing) {
+                    if (!ctrl_tabbing) {
                         register_code(KC_LCTL);
-                    ctrl_tabbing = true;
+                        ctrl_tabbing = true;
                     }
                     register_code(KC_LSFT);
                     tap_code(KC_TAB);
                     unregister_code(KC_LSFT);
-                    }
-                    break;
+                }
+                break;
         }
     } else if (index == 1) {
         switch (biton32(layer_state)) {
             case _LOWER:
-            // Zoom in / Zoom Out
-#ifdef MAC_HOTKEYS
+                // Zoom in / Zoom Out
+#    ifdef MAC_HOTKEYS
                 if (!clockwise) {
                     tap_code16(LGUI(KC_PMNS));
                 } else {
                     tap_code16(LGUI(KC_PPLS));
                 }
-#else
+#    else
                 if (!clockwise) {
                     tap_code16(LCTL(KC_PMNS));
                 } else {
                     tap_code16(LCTL(KC_PPLS));
                 }
-#endif
+#    endif
                 break;
             case _RAISE:
-            // Undo / Redo - Revision History
-#ifdef MAC_HOTKEYS
+                // Undo / Redo - Revision History
+#    ifdef MAC_HOTKEYS
                 if (!clockwise) {
                     tap_code16(LGUI(KC_Z));
                 } else {
                     tap_code16(LGUI(LSFT(KC_Z)));
                 }
-#else
+#    else
                 if (!clockwise) {
                     tap_code16(LCTL(KC_Z));
                 } else {
                     tap_code16(LCTL(KC_Y));
                 }
-#endif
-              //  on press, LAYER LOCK
+#    endif
+                //  on press, LAYER LOCK
                 break;
             case _ADJUST:
-               // Move cursor up and down
+                // Move cursor up and down
                 if (!clockwise) {
                     tap_code16(KC_WH_L);
                 } else {
@@ -384,7 +370,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
                 break;
                 // on press, LAYER LOCK
             default:
-               // Move cursor left and right
+                // Move cursor left and right
                 if (!clockwise) {
                     tap_code16(KC_WH_U);
                 } else {
@@ -399,59 +385,65 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 #endif
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_layer_lock(keycode, record, LLOCK)) { return false; }
-    if (!process_select_word(keycode, record, SELWORD)) { return false; }
-    if (!process_adaptive_key(keycode, record)) { return false; }
- // if (!process_caps_word(keycode, record)) { return false; }
-  //if (!process_autocorrection(keycode, record)) { return false; }
+    if (!process_layer_lock(keycode, record, LLOCK)) {
+        return false;
+    }
+    if (!process_select_word(keycode, record, SELWORD)) {
+        return false;
+    }
+    if (!process_adaptive_key(keycode, record)) {
+        return false;
+    }
+    // if (!process_caps_word(keycode, record)) { return false; }
+    // if (!process_autocorrection(keycode, record)) { return false; }
 
-    const uint8_t mods = get_mods();
+    const uint8_t mods         = get_mods();
     const uint8_t oneshot_mods = get_oneshot_mods();
 
     switch (keycode) {
-        case BRACES:  // Types (), or {}, and puts cursor between braces.
+        case BRACES: // Types (), or {}, and puts cursor between braces.
             if (record->event.pressed) {
-                clear_mods();  // Temporarily disable mods.
+                clear_mods(); // Temporarily disable mods.
                 clear_oneshot_mods();
                 if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-                SEND_STRING("<>");
+                    SEND_STRING("<>");
                 } else {
-                SEND_STRING("()");
+                    SEND_STRING("()");
                 }
-                tap_code(KC_LEFT);  // Move cursor between braces.
-                set_mods(mods);  // Restore mods.
+                tap_code(KC_LEFT); // Move cursor between braces.
+                set_mods(mods);    // Restore mods.
             }
             return false;
             break;
-        case BRACES2:  // Types [], or <>, and puts cursor between braces.
+        case BRACES2: // Types [], or <>, and puts cursor between braces.
             if (record->event.pressed) {
-                clear_mods();  // Temporarily disable mods.
+                clear_mods(); // Temporarily disable mods.
                 clear_oneshot_mods();
                 if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-                SEND_STRING("{}");
+                    SEND_STRING("{}");
                 } else {
-                SEND_STRING("[]");
+                    SEND_STRING("[]");
                 }
-                tap_code(KC_LEFT);  // Move cursor between braces.
-                set_mods(mods);  // Restore mods.
+                tap_code(KC_LEFT); // Move cursor between braces.
+                set_mods(mods);    // Restore mods.
             }
             return false;
             break;
-        case ARROW:  // Arrow macro, types -> or =>.
+        case ARROW: // Arrow macro, types -> or =>.
             if (record->event.pressed) {
-                if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {  // Is shift held?
-                    del_mods(MOD_MASK_SHIFT);  // Temporarily delete shift.
+                if ((mods | oneshot_mods) & MOD_MASK_SHIFT) { // Is shift held?
+                    del_mods(MOD_MASK_SHIFT);                 // Temporarily delete shift.
                     del_oneshot_mods(MOD_MASK_SHIFT);
                     SEND_STRING("const yourFuncVariable = (x,y) => x + y.method;");
-                for (int counter = 0; counter <= 24; counter++){
-                    tap_code(KC_LEFT);
-                }
+                    for (int counter = 0; counter <= 24; counter++) {
+                        tap_code(KC_LEFT);
+                    }
 #ifdef MAC_HOTKEYS
-                tap_code16(LALT(LSFT(KC_LEFT)));
+                    tap_code16(LALT(LSFT(KC_LEFT)));
 #else
-                tap_code16(LCTL(LSFT(KC_LEFT)));
-#endif  // MAC_HOTKEYS
-                set_mods(mods);  // Restore mods.
+                    tap_code16(LCTL(LSFT(KC_LEFT)));
+#endif                              // MAC_HOTKEYS
+                    set_mods(mods); // Restore mods.
                 } else {
                     SEND_STRING("() => ");
                     tap_code(KC_LEFT);
@@ -467,26 +459,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case CTRL_TAB:
             if (record->event.pressed) {
                 ctrl_tabtimer = timer_read_fast();
-                if(!ctrl_tabbing) {
+                if (!ctrl_tabbing) {
                     register_code(KC_LCTL);
                     ctrl_tabbing = true;
                 }
-            tap_code(KC_TAB);
+                tap_code(KC_TAB);
             }
             return false;
             break;
         case CMD_TAB:
             if (record->event.pressed) {
                 tabtimer = timer_read_fast();
-                if(!tabbing) {
+                if (!tabbing) {
 #ifdef MAC_HOTKEYS
                     register_code(KC_LGUI);
 #else
                     register_code(KC_LALT);
-#endif  // MAC_HOTKEYS
+#endif // MAC_HOTKEYS
                     tabbing = true;
                 }
-            tap_code(KC_TAB);
+                tap_code(KC_TAB);
             }
             return false;
             break;
@@ -506,147 +498,103 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 };
 
-enum combo_events {
-    EM_PERSONAL_EMAIL,
-    EM_WORK_EMAIL,
-    EM_HELIXIR_EMAIL,
-    EM_ICLOUD_EMAIL,
-    EM_OUTLOOK_EMAIL,
-    HOME_ADDRESS,
-    ARROW_FUNCTION,
-    HTML_P,
-    HTML_TITLE,
-    HTML_DIV,
-    HTML_HTML,
-    HTML_HEAD,
-    HTML_BODY,
-    HTML_FOOTER,
-    HTML_A_HREF,
-    HTML_IMG,
-    CSS_STYLE,
-    HTML_GENERIC_TAG,
-    UNDO,
-    REDO,
-    CUT,
-    COPY,
-    PASTE,
-    PASTECLIPBOARD,
-    PASTETEXT,
-    SELECTALL,
-    QUESTIONMARK,
-    EXCLAMATIONMARK,
-    DQUOTE,
-    UNDERSCORE,
-    DASH,
-    EQUALSIGN,
-    ATSYMB,
-    QUOTES,
-    LOWERTOGGLE,
-    SLEEP,
-    RESETKEY,
-    NUMLOCKC,
-    F12COMBO,
-    CAPSWORD,
-    COMBO_LENGTH
-};
+enum combo_events { EM_PERSONAL_EMAIL, EM_WORK_EMAIL, EM_HELIXIR_EMAIL, EM_ICLOUD_EMAIL, EM_OUTLOOK_EMAIL, HOME_ADDRESS, ARROW_FUNCTION, HTML_P, HTML_TITLE, HTML_DIV, HTML_HTML, HTML_HEAD, HTML_BODY, HTML_FOOTER, HTML_A_HREF, HTML_IMG, CSS_STYLE, HTML_GENERIC_TAG, UNDO, REDO, CUT, COPY, PASTE, PASTECLIPBOARD, PASTETEXT, SELECTALL, QUESTIONMARK, EXCLAMATIONMARK, DQUOTE, UNDERSCORE, DASH, EQUALSIGN, ATSYMB, QUOTES, LOWERTOGGLE, SLEEP, RESETKEY, NUMLOCKC, F12COMBO, CAPSWORD, COMBO_LENGTH };
 
-
+// Combos
 uint16_t COMBO_LEN = COMBO_LENGTH; // remove the COMBO_COUNT define and use this instead
 
-const uint16_t PROGMEM email_personal_combo[]       = {KC_J, KC_L, COMBO_END};
-const uint16_t PROGMEM email_work_combo[]           = {KC_M, KC_N, COMBO_END};
-const uint16_t PROGMEM email_helixir_combo[]        = {KC_K, KC_H, COMBO_END};
-const uint16_t PROGMEM email_icloud_combo[]         = {KC_B, KC_J, COMBO_END};
-const uint16_t PROGMEM email_outlook_combo[]        = {KC_P, KC_J, COMBO_END};
-const uint16_t PROGMEM home_address_combo[]         = {KC_E, KC_J, COMBO_END};
-const uint16_t PROGMEM arrow_function_combo[]       = {FN_A, KC_DOT, COMBO_END};
-const uint16_t PROGMEM html_p_combo[]               = {KC_P, KC_DOT, COMBO_END};
-const uint16_t PROGMEM html_title_combo[]           = {KC_T, KC_DOT, COMBO_END};
-const uint16_t PROGMEM html_div_combo[]             = {KC_D, KC_DOT, COMBO_END};
-const uint16_t PROGMEM html_html_combo[]            = {KC_Q, KC_DOT, COMBO_END};
-const uint16_t PROGMEM html_head_combo[]            = {KC_W, KC_DOT, COMBO_END};
-const uint16_t PROGMEM html_body_combo[]            = {KC_R, KC_DOT, COMBO_END};
-const uint16_t PROGMEM html_footer_combo[]          = {KC_X, KC_DOT, COMBO_END};
-const uint16_t PROGMEM html_a_href_combo[]          = {KC_F, KC_DOT, COMBO_END};
-const uint16_t PROGMEM html_img_combo[]             = {KC_I, KC_DOT, COMBO_END};
-const uint16_t PROGMEM css_style_combo[]            = {KC_S, KC_DOT, COMBO_END};
-const uint16_t PROGMEM html_generic_tag_combo[]     = {KC_G, KC_DOT, COMBO_END};
-const uint16_t PROGMEM undo_combo[]                 = {KC_W, KC_F, COMBO_END};
-const uint16_t PROGMEM redo_combo[]                 = {KC_F, KC_P, COMBO_END};
-const uint16_t PROGMEM cut_combo[]                  = {MTLALT_Z, KC_X, COMBO_END};
-const uint16_t PROGMEM copy_combo[]                 = {KC_X, KC_C, COMBO_END};
-const uint16_t PROGMEM paste_combo[]                = {KC_C, KC_D, COMBO_END};
-const uint16_t PROGMEM pasteclip_combo[]            = {KC_X, KC_D, COMBO_END};
-const uint16_t PROGMEM pastetxt_combo[]             = {KC_X, KC_V, COMBO_END};
-const uint16_t PROGMEM selectall_combo[]            = {MTLALT_Z, KC_D, COMBO_END};
-const uint16_t PROGMEM questionmark_combo[]         = {KC_DOT, ALT_SLSH, COMBO_END};
-const uint16_t PROGMEM exclamationmark_combo[]      = {ALT_SLSH, MTRSFTBSLS, COMBO_END};
-const uint16_t PROGMEM dquote_combo[]               = {KC_O, MTRCTLQUO, COMBO_END};
-const uint16_t PROGMEM underscore_combo[]           = {KC_COMMA, KC_DOT, COMBO_END};
-const uint16_t PROGMEM dash_combo[]                 = {KC_U, KC_Y, COMBO_END};
-const uint16_t PROGMEM equalsign_combo[]            = {KC_E, KC_I, COMBO_END};
-const uint16_t PROGMEM atsymb_combo[]               = {KC_T, KC_G, COMBO_END};
-const uint16_t PROGMEM QUOTES_combo[]               = {KC_H, KC_COMMA, COMBO_END};
-const uint16_t PROGMEM lowertoggle_combo[]          = {LOW_SPC, MTCMD_ENT, COMBO_END};
-const uint16_t PROGMEM sleep_combo[]                = {KC_F7, KC_F8, KC_F9, KC_F10, COMBO_END};
-const uint16_t PROGMEM reset_combo  []              = {KC_BSPC, MTRCTLQUO, MTRSFTBSLS, COMBO_END};
-const uint16_t PROGMEM numlock_combo[]              = {KC_L, KC_U, KC_Y, COMBO_END};
-const uint16_t PROGMEM f12_combo[]                  = {KC_F1, KC_F2, COMBO_END};
-const uint16_t PROGMEM capsword_combo[]             = {KC_LSFT, MTRSFTBSLS, COMBO_END};
+const uint16_t PROGMEM email_personal_combo[]   = {KC_J, KC_L, COMBO_END};
+const uint16_t PROGMEM email_work_combo[]       = {KC_M, KC_N, COMBO_END};
+const uint16_t PROGMEM email_helixir_combo[]    = {KC_K, KC_H, COMBO_END};
+const uint16_t PROGMEM email_icloud_combo[]     = {KC_B, KC_J, COMBO_END};
+const uint16_t PROGMEM email_outlook_combo[]    = {KC_P, KC_J, COMBO_END};
+const uint16_t PROGMEM home_address_combo[]     = {KC_E, KC_J, COMBO_END};
+const uint16_t PROGMEM arrow_function_combo[]   = {FN_A, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_p_combo[]           = {KC_P, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_title_combo[]       = {KC_T, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_div_combo[]         = {KC_D, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_html_combo[]        = {KC_Q, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_head_combo[]        = {KC_W, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_body_combo[]        = {KC_R, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_footer_combo[]      = {KC_X, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_a_href_combo[]      = {KC_F, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_img_combo[]         = {KC_I, KC_DOT, COMBO_END};
+const uint16_t PROGMEM css_style_combo[]        = {KC_S, KC_DOT, COMBO_END};
+const uint16_t PROGMEM html_generic_tag_combo[] = {KC_G, KC_DOT, COMBO_END};
+const uint16_t PROGMEM undo_combo[]             = {KC_W, KC_F, COMBO_END};
+const uint16_t PROGMEM redo_combo[]             = {KC_F, KC_P, COMBO_END};
+const uint16_t PROGMEM cut_combo[]              = {MTLALT_Z, KC_X, COMBO_END};
+const uint16_t PROGMEM copy_combo[]             = {KC_X, KC_C, COMBO_END};
+const uint16_t PROGMEM paste_combo[]            = {KC_C, KC_D, COMBO_END};
+const uint16_t PROGMEM pasteclip_combo[]        = {KC_X, KC_D, COMBO_END};
+const uint16_t PROGMEM pastetxt_combo[]         = {KC_X, KC_V, COMBO_END};
+const uint16_t PROGMEM selectall_combo[]        = {MTLALT_Z, KC_D, COMBO_END};
+const uint16_t PROGMEM questionmark_combo[]     = {KC_DOT, ALT_SLSH, COMBO_END};
+const uint16_t PROGMEM exclamationmark_combo[]  = {ALT_SLSH, MTRSFTBSLS, COMBO_END};
+const uint16_t PROGMEM dquote_combo[]           = {KC_O, MTRCTLQUO, COMBO_END};
+const uint16_t PROGMEM underscore_combo[]       = {KC_COMMA, KC_DOT, COMBO_END};
+const uint16_t PROGMEM dash_combo[]             = {KC_U, KC_Y, COMBO_END};
+const uint16_t PROGMEM equalsign_combo[]        = {KC_E, KC_I, COMBO_END};
+const uint16_t PROGMEM atsymb_combo[]           = {KC_T, KC_G, COMBO_END};
+const uint16_t PROGMEM QUOTES_combo[]           = {KC_H, KC_COMMA, COMBO_END};
+const uint16_t PROGMEM lowertoggle_combo[]      = {LOW_SPC, MTCMD_ENT, COMBO_END};
+const uint16_t PROGMEM sleep_combo[]            = {KC_F7, KC_F8, KC_F9, KC_F10, COMBO_END};
+const uint16_t PROGMEM reset_combo[]            = {KC_BSPC, MTRCTLQUO, MTRSFTBSLS, COMBO_END};
+const uint16_t PROGMEM numlock_combo[]          = {KC_L, KC_U, KC_Y, COMBO_END};
+const uint16_t PROGMEM f12_combo[]              = {KC_1, KC_2, COMBO_END};
+const uint16_t PROGMEM capsword_combo[]         = {KC_LSFT, MTRSFTBSLS, COMBO_END};
 
 // const uint8_t combo_mods = get_mods();
 // const uint8_t combo_oneshot_mods = get_oneshot_mods();
 
-combo_t key_combos[] = {
-    [EM_PERSONAL_EMAIL] = COMBO_ACTION(email_personal_combo),
-    [EM_WORK_EMAIL] = COMBO_ACTION(email_work_combo),
-    [EM_HELIXIR_EMAIL] = COMBO_ACTION(email_helixir_combo),
-    [EM_ICLOUD_EMAIL] = COMBO_ACTION(email_icloud_combo),
-    [EM_OUTLOOK_EMAIL] = COMBO_ACTION(email_outlook_combo),
-    [HOME_ADDRESS] = COMBO_ACTION(home_address_combo),
-    [ARROW_FUNCTION] = COMBO_ACTION(arrow_function_combo),
-    [HTML_P] = COMBO_ACTION(html_p_combo),
-    [HTML_TITLE] = COMBO_ACTION(html_title_combo),
-    [HTML_DIV] = COMBO_ACTION(html_div_combo),
-    [HTML_HTML] = COMBO_ACTION(html_html_combo),
-    [HTML_HEAD] = COMBO_ACTION(html_head_combo),
-    [HTML_BODY] = COMBO_ACTION(html_body_combo),
-    [HTML_FOOTER] = COMBO_ACTION(html_footer_combo),
-    [HTML_A_HREF] = COMBO_ACTION(html_a_href_combo),
-    [HTML_IMG] = COMBO_ACTION(html_img_combo),
-    [CSS_STYLE] = COMBO_ACTION(css_style_combo),
-    [HTML_GENERIC_TAG] = COMBO_ACTION(html_generic_tag_combo),
-    [UNDO] = COMBO_ACTION(undo_combo),
-    [REDO] = COMBO_ACTION(redo_combo),
-    [CUT] = COMBO_ACTION(cut_combo),
-    [COPY] = COMBO_ACTION(copy_combo),
-    [PASTE] = COMBO_ACTION(paste_combo),
-    [PASTECLIPBOARD] = COMBO_ACTION(pasteclip_combo),
-    [PASTETEXT] = COMBO_ACTION(pastetxt_combo),
-    [SELECTALL] = COMBO_ACTION(selectall_combo),
-    [QUESTIONMARK] = COMBO_ACTION(questionmark_combo),
-    [EXCLAMATIONMARK] = COMBO_ACTION(exclamationmark_combo),
-    [DQUOTE] = COMBO_ACTION(dquote_combo),
-    [UNDERSCORE] = COMBO_ACTION(underscore_combo),
-    [DASH] = COMBO_ACTION(dash_combo),
-    [EQUALSIGN] = COMBO_ACTION(equalsign_combo),
-    [ATSYMB] = COMBO_ACTION(atsymb_combo),
-    [QUOTES] = COMBO_ACTION(QUOTES_combo),
-    [LOWERTOGGLE] = COMBO_ACTION(lowertoggle_combo),
-    [SLEEP] = COMBO_ACTION(sleep_combo),
-    [RESETKEY] = COMBO_ACTION(reset_combo),
-    [NUMLOCKC] = COMBO_ACTION(numlock_combo),
-    [F12COMBO] = COMBO_ACTION(f12_combo),
-    [CAPSWORD] = COMBO_ACTION(capsword_combo)
-};
+combo_t key_combos[] = {[EM_PERSONAL_EMAIL] = COMBO_ACTION(email_personal_combo),
+                        [EM_WORK_EMAIL]     = COMBO_ACTION(email_work_combo),
+                        [EM_HELIXIR_EMAIL]  = COMBO_ACTION(email_helixir_combo),
+                        [EM_ICLOUD_EMAIL]   = COMBO_ACTION(email_icloud_combo),
+                        [EM_OUTLOOK_EMAIL]  = COMBO_ACTION(email_outlook_combo),
+                        [HOME_ADDRESS]      = COMBO_ACTION(home_address_combo),
+                        [ARROW_FUNCTION]    = COMBO_ACTION(arrow_function_combo),
+                        [HTML_P]            = COMBO_ACTION(html_p_combo),
+                        [HTML_TITLE]        = COMBO_ACTION(html_title_combo),
+                        [HTML_DIV]          = COMBO_ACTION(html_div_combo),
+                        [HTML_HTML]         = COMBO_ACTION(html_html_combo),
+                        [HTML_HEAD]         = COMBO_ACTION(html_head_combo),
+                        [HTML_BODY]         = COMBO_ACTION(html_body_combo),
+                        [HTML_FOOTER]       = COMBO_ACTION(html_footer_combo),
+                        [HTML_A_HREF]       = COMBO_ACTION(html_a_href_combo),
+                        [HTML_IMG]          = COMBO_ACTION(html_img_combo),
+                        [CSS_STYLE]         = COMBO_ACTION(css_style_combo),
+                        [HTML_GENERIC_TAG]  = COMBO_ACTION(html_generic_tag_combo),
+                        [UNDO]              = COMBO_ACTION(undo_combo),
+                        [REDO]              = COMBO_ACTION(redo_combo),
+                        [CUT]               = COMBO_ACTION(cut_combo),
+                        [COPY]              = COMBO_ACTION(copy_combo),
+                        [PASTE]             = COMBO_ACTION(paste_combo),
+                        [PASTECLIPBOARD]    = COMBO_ACTION(pasteclip_combo),
+                        [PASTETEXT]         = COMBO_ACTION(pastetxt_combo),
+                        [SELECTALL]         = COMBO_ACTION(selectall_combo),
+                        [QUESTIONMARK]      = COMBO_ACTION(questionmark_combo),
+                        [EXCLAMATIONMARK]   = COMBO_ACTION(exclamationmark_combo),
+                        [DQUOTE]            = COMBO_ACTION(dquote_combo),
+                        [UNDERSCORE]        = COMBO_ACTION(underscore_combo),
+                        [DASH]              = COMBO_ACTION(dash_combo),
+                        [EQUALSIGN]         = COMBO_ACTION(equalsign_combo),
+                        [ATSYMB]            = COMBO_ACTION(atsymb_combo),
+                        [QUOTES]            = COMBO_ACTION(QUOTES_combo),
+                        [LOWERTOGGLE]       = COMBO_ACTION(lowertoggle_combo),
+                        [SLEEP]             = COMBO_ACTION(sleep_combo),
+                        [RESETKEY]          = COMBO_ACTION(reset_combo),
+                        [NUMLOCKC]          = COMBO_ACTION(numlock_combo),
+                        [F12COMBO]          = COMBO_ACTION(f12_combo),
+                        [CAPSWORD]          = COMBO_ACTION(capsword_combo)};
 /* COMBO_ACTION(x) is same as COMBO(x, XXXXX) */
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
-    const uint8_t mods = get_mods();
+    const uint8_t mods         = get_mods();
     const uint8_t oneshot_mods = get_oneshot_mods();
 
-    switch(combo_index) {
-// Email Combos
+    switch (combo_index) {
+            // Email Combos
         case EM_PERSONAL_EMAIL:
             if (pressed) {
                 SEND_STRING("aric@ariccb.dev");
@@ -677,13 +625,12 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
                 SEND_STRING("111 Highview Gate SE");
             }
             break;
-// Dot (period) Combos
+            // Dot (period) Combos
         case ARROW_FUNCTION:
             if (pressed) {
-                if (pressed) {
                 SEND_STRING("() => {}");
                 for (int i = 0; i < 8; i++) {
-                tap_code16(KC_LEFT);
+                    tap_code16(KC_LEFT);
                 }
             }
             break;
@@ -691,7 +638,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             if (pressed) {
                 SEND_STRING("<div></div>");
                 for (int i = 0; i < 6; i++) {
-                tap_code16(KC_LEFT);
+                    tap_code16(KC_LEFT);
                 }
             }
             break;
@@ -699,7 +646,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             if (pressed) {
                 SEND_STRING("<p></p>");
                 for (int i = 0; i < 4; i++) {
-                tap_code16(KC_LEFT);
+                    tap_code16(KC_LEFT);
                 }
             }
             break;
@@ -707,7 +654,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             if (pressed) {
                 SEND_STRING("<title></title>");
                 for (int i = 0; i < 8; i++) {
-                tap_code16(KC_LEFT);
+                    tap_code16(KC_LEFT);
                 }
             }
             break;
@@ -715,7 +662,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             if (pressed) {
                 SEND_STRING("<style></style>");
                 for (int i = 0; i < 8; i++) {
-                tap_code16(KC_LEFT);
+                    tap_code16(KC_LEFT);
                 }
             }
             break;
@@ -723,7 +670,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             if (pressed) {
                 SEND_STRING("<html lang=\"en\"></html>");
                 for (int i = 0; i < 7; i++) {
-                tap_code16(KC_LEFT);
+                    tap_code16(KC_LEFT);
                 }
             }
             break;
@@ -731,7 +678,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             if (pressed) {
                 SEND_STRING("<head></head>");
                 for (int i = 0; i < 7; i++) {
-                tap_code16(KC_LEFT);
+                    tap_code16(KC_LEFT);
                 }
             }
             break;
@@ -739,7 +686,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             if (pressed) {
                 SEND_STRING("<body></body>");
                 for (int i = 0; i < 7; i++) {
-                tap_code16(KC_LEFT);
+                    tap_code16(KC_LEFT);
                 }
             }
             break;
@@ -747,7 +694,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             if (pressed) {
                 SEND_STRING("<footer></footer>");
                 for (int i = 0; i < 9; i++) {
-                tap_code16(KC_LEFT);
+                    tap_code16(KC_LEFT);
                 }
             }
             break;
@@ -756,7 +703,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
                 SEND_STRING("<a href=\"link_goes_here\">name_of_link_goes_here</a>");
                 tap_code16(KC_HOME);
                 for (int i = 0; i < 10; i++) {
-                tap_code16(KC_RGHT);
+                    tap_code16(KC_RGHT);
                 }
             }
             break;
@@ -765,7 +712,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
                 SEND_STRING("<img src=\"image_source_or_link_goes_here\" alt=\"name_if_cant_load\" width=\"num_pixels\" height=\"num_pixels\">");
                 tap_code16(KC_HOME);
                 for (int i = 0; i < 11; i++) {
-                tap_code16(KC_RGHT);
+                    tap_code16(KC_RGHT);
                 }
             }
             break;
@@ -774,7 +721,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
                 SEND_STRING("<TAG></TAG>");
                 tap_code16(KC_ESC);
                 for (int i = 0; i < 9; i++) {
-                tap_code16(KC_LEFT);
+                    tap_code16(KC_LEFT);
                 }
 
 #ifdef MAC_HOTKEYS
@@ -783,7 +730,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 #else
                 tap_code16(LCTL(KC_D));
                 tap_code16(LCTL(KC_D));
-#endif  // MAC_HOTKEYS
+#endif // MAC_HOTKEYS
                 tap_code16(KC_BSPC);
             }
             break;
@@ -866,7 +813,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             break;
         case PASTECLIPBOARD:
             if (pressed) {
-                #ifdef MAC_HOTKEYS
+#ifdef MAC_HOTKEYS
                 register_code(KC_LALT);
                 register_code(KC_LSFT);
                 register_code(KC_LGUI);
@@ -905,7 +852,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             break;
         case SELECTALL:
             if (pressed) {
-                #ifdef MAC_HOTKEYS
+#ifdef MAC_HOTKEYS
                 register_code(KC_LGUI);
                 register_code(KC_A);
                 unregister_code(KC_LGUI);
@@ -955,28 +902,28 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             break;
         case QUOTES:
             if (pressed) {
-                clear_mods();  // Temporarily disable mods.
+                clear_mods(); // Temporarily disable mods.
                 clear_oneshot_mods();
                 if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-                SEND_STRING("'");
+                    SEND_STRING("'");
                 } else {
-                SEND_STRING("\"");
+                    SEND_STRING("\"");
                 }
-                set_mods(mods);  // Restore mods.
-                }
-                break;
+                set_mods(mods); // Restore mods.
+            }
+            break;
         case LOWERTOGGLE:
             if (pressed) {
                 layer_invert(_LOWER);
-                if(IS_LAYER_ON(_LOWER)){
-                #ifdef AUDIO_ENABLE
+                if (IS_LAYER_ON(_LOWER)) {
+#ifdef AUDIO_ENABLE
                     PLAY_SONG(tone_startup);
-                #endif
+#endif
                 }
-                if(IS_LAYER_OFF(_LOWER)){
-                #ifdef AUDIO_ENABLE
+                if (IS_LAYER_OFF(_LOWER)) {
+#ifdef AUDIO_ENABLE
                     PLAY_SONG(tone_goodbye);
-                #endif
+#endif
                 }
             }
             break;
@@ -1001,7 +948,9 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             }
             break;
         case CAPSWORD:
-            caps_word_on();
+            if (pressed) {
+                caps_word_on();
+            }
             break;
     }
-};
+}
