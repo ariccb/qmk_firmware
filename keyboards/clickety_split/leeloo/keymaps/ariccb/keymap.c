@@ -962,12 +962,12 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             break;
         case NEXTTERMINAL:
             if (pressed) {
-                tap_code16(LSFT(LGUI(KC_RBRC)));
+                tap_code16(LSFT(LGUI(KC_LBRC)));
             }
             break;
         case PREVTERMINAL:
             if (pressed) {
-                tap_code16(LSFT(LGUI(KC_LBRC)));
+                tap_code16(LSFT(LGUI(KC_RBRC)));
             }
             break;
         case NEWTERMINAL:
