@@ -19,10 +19,9 @@
 #include "select_word.h"
 #include "guess_os.h"
 
-
 // Mac users, uncomment this line:
-#if (host_os == OS_MACOS || host_os == OS_IOS)// if the os is iOS or MacOS
-#define MAC_HOTKEYS
+#if (host_os == OS_MACOS || host_os == OS_IOS) // if the os is iOS or MacOS
+#    define MAC_HOTKEYS
 #endif
 
 enum { STATE_NONE, STATE_SELECTED, STATE_WORD, STATE_FIRST_LINE, STATE_LINE };
@@ -30,34 +29,36 @@ enum { STATE_NONE, STATE_SELECTED, STATE_WORD, STATE_FIRST_LINE, STATE_LINE };
 bool process_select_word(uint16_t keycode, keyrecord_t* record, uint16_t sel_keycode) {
     static uint8_t state = STATE_NONE;
 
-    if (keycode == KC_LSFT || keycode == KC_RSFT) { return true; }
+    if (keycode == KC_LSFT || keycode == KC_RSFT) {
+        return true;
+    }
 
-    if (keycode == sel_keycode && record->event.pressed) {  // On key press.
-    const uint8_t mods = get_mods();
+    if (keycode == sel_keycode && record->event.pressed) { // On key press.
+        const uint8_t mods = get_mods();
 #ifndef NO_ACTION_ONESHOT
-    const uint8_t all_mods = mods | get_oneshot_mods();
+        const uint8_t all_mods = mods | get_oneshot_mods();
 #else
-    const uint8_t all_mods = mods;
-#endif  // NO_ACTION_ONESHOT
-    if ((all_mods & MOD_MASK_SHIFT) == 0) {  // Select word.
+        const uint8_t all_mods = mods;
+#endif                                          // NO_ACTION_ONESHOT
+        if ((all_mods & MOD_MASK_SHIFT) == 0) { // Select word.
 #ifdef MAC_HOTKEYS
-        register_code(KC_LALT);
+            register_code(KC_LALT);
 #else
-        register_code(KC_LCTL);
-#endif  // MAC_HOTKEYS
-        if (state == STATE_NONE) {
-            tap_code(KC_RGHT);
-            tap_code(KC_LEFT);
-        }
-        register_code(KC_LSFT);
-        register_code(KC_RGHT);
-        state = STATE_WORD;
-        } else {  // Select line.
+            register_code(KC_LCTL);
+#endif // MAC_HOTKEYS
+            if (state == STATE_NONE) {
+                tap_code(KC_RGHT);
+                tap_code(KC_LEFT);
+            }
+            register_code(KC_LSFT);
+            register_code(KC_RGHT);
+            state = STATE_WORD;
+        } else { // Select line.
             if (state == STATE_NONE) {
                 clear_mods();
 #ifndef NO_ACTION_ONESHOT
                 clear_oneshot_mods();
-#endif  // NO_ACTION_ONESHOT
+#endif // NO_ACTION_ONESHOT
 #ifdef MAC_HOTKEYS
                 register_code16(LCTL(KC_A));
                 unregister_code16(LCTL(KC_A));
@@ -70,7 +71,7 @@ bool process_select_word(uint16_t keycode, keyrecord_t* record, uint16_t sel_key
                 unregister_code16(LCTL(KC_A));
                 tap_code(KC_HOME);
                 tap_code16(LSFT(KC_END));
-#endif  // MAC_HOTKEYS
+#endif // MAC_HOTKEYS
                 set_mods(mods);
                 state = STATE_FIRST_LINE;
             } else {
@@ -81,7 +82,7 @@ bool process_select_word(uint16_t keycode, keyrecord_t* record, uint16_t sel_key
         return false;
     }
 
-  // `sel_keycode` was released, or another key was pressed.
+    // `sel_keycode` was released, or another key was pressed.
     switch (state) {
         case STATE_WORD:
             unregister_code(KC_RGHT);
@@ -90,7 +91,7 @@ bool process_select_word(uint16_t keycode, keyrecord_t* record, uint16_t sel_key
             unregister_code(KC_LALT);
 #else
             unregister_code(KC_LCTL);
-#endif  // MAC_HOTKEYS
+#endif // MAC_HOTKEYS
             state = STATE_SELECTED;
             break;
 
@@ -109,8 +110,8 @@ bool process_select_word(uint16_t keycode, keyrecord_t* record, uint16_t sel_key
                 state = STATE_NONE;
                 return false;
             }
-            // Fallthrough.
-            default:
+        // Fallthrough.
+        default:
             state = STATE_NONE;
     }
     return true;
