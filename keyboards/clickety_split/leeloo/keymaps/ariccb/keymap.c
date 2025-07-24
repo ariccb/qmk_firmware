@@ -29,6 +29,10 @@
 // #include "features/caps_word.h"
 // #include "features/autocorrection.h"
 
+// Variables for repeat key functionality
+static uint16_t last_keycode = KC_NO;
+static keyrecord_t last_record;
+
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skiep them
@@ -290,7 +294,11 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 
         case _ADJUST:
             if (index == 0) { // LEFT ENCODER at ADJUST layer
-                tap_code16(clockwise ? tap_code16(CTRL_S_TAB) : tap_code16(CTRL_TAB)); // scroll tabs
+                if (clockwise) {
+                    tap_code16(CTRL_S_TAB);
+                } else {
+                    tap_code16(CTRL_TAB);
+                }
             } else if (index == 1) { // RIGHT ENCODER at ADJUST layer
 #    ifdef MAC_HOTKEYS
 tap_code16(clockwise ? LGUI(LCTL(LSFT(KC_LEFT))) : LGUI(LCTL(LSFT(KC_RGHT)))); // expand selection in vsCode
@@ -339,6 +347,16 @@ bool remember_last_key_user(uint16_t keycode, keyrecord_t* record,
   return true;
 }
 
+// Simple repeat key implementation
+void repeat_key_invoke(keyevent_t* event) {
+    if (last_keycode != KC_NO) {
+        // Create a new record with the last keycode but current event
+        keyrecord_t repeat_record = last_record;
+        repeat_record.event = *event;
+        process_record(&repeat_record);
+    }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_layer_lock(keycode, record, LLOCK)) {
         return false;
@@ -348,6 +366,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     if (!process_adaptive_key(keycode, record)) {
         return false;
+    }
+
+    // Remember the last key for repeat functionality (exclude MT_REP itself)
+    if (record->event.pressed && keycode != MT_REP && keycode >= KC_A && keycode <= KC_Z) {
+        last_keycode = keycode;
+        last_record = *record;
     }
 
     const uint8_t mods         = get_mods();
