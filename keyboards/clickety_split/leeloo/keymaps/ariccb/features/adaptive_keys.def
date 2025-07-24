@@ -18,8 +18,6 @@ AK_SND_ONLY_START(KC_S) // fixes SC bigram
     R_SND(KC_V, KC_C)
 AK_SND_ONLY_START(KC_C) // fixes CS bigram
     R_SND(KC_X, KC_S)
-// AK_SND_ONLY_START(KC_P)   // fixes PT bigram
-//      R_SND(KC_F, KC_T)
 AK_SND_ONLY_START(KC_P) // fixes PT bigram
     R_SND(KC_F, KC_T)
 AK_SND_ONLY_START(KC_F)   // fixes FS bigram
