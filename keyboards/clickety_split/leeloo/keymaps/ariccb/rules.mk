@@ -1,7 +1,7 @@
 # Overrides from default rules.mk
 MOUSEKEY_ENABLE = yes         # Mouse keys
 EXTRAKEY_ENABLE = yes         # Audio control and System control
-TAP_DANCE_ENABLE = no         # Enable Tap Dance
+TAP_DANCE_ENABLE = yes        # Enable Tap Dance
 COMBO_ENABLE = yes            # Enable Combos
 BACKLIGHT_ENABLE = no	      # Backlighting
 DEBOUNCE_TYPE = sym_defer_g   # Debouncing - trying to stop double space bar from being hit

@@ -22,7 +22,7 @@
 // #define MASTER_RIGHT
 // #define EE_HANDS
 
-#define COMBO_ONLY_FROM_LAYER 0
+#define COMBO_ONLY_FROM_LAYER 0  // Commented out to allow combos on all layers
 #define COMBO_TERM (TAPPING_TERM/5)
 #define ADAPTIVE_TERM 350
 #define ONESHOT_TIMEOUT 1000  //Time (in ms) before the one shot key is released

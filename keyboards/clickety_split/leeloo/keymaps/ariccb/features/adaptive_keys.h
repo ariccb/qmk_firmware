@@ -151,6 +151,17 @@ void matrix_scan_user(void) {
             ctrl_tabbing = false;
         }
     }
+
+    // Handle super app tab timeout (declared in keymap.c)
+    extern bool super_app_tabbing;
+    extern fast_timer_t super_app_timer;
+    extern void super_app_tab_stop(void);
+
+    if (super_app_tabbing) {
+        if (timer_elapsed_fast(super_app_timer) > 2500) {  // 2.5 seconds
+            super_app_tab_stop();
+        }
+    }
 }
 
 #undef AK_BOTH_START
