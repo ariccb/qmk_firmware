@@ -7,6 +7,7 @@ BACKLIGHT_ENABLE = no	      # Backlighting
 DEBOUNCE_TYPE = sym_defer_g   # Debouncing - trying to stop double space bar from being hit
 CAPS_WORD_ENABLE = yes		  # enabling qmk-official caps-word feature instead of custom version
 SPACE_CADET_ENABLE = no
+REPEAT_KEY_ENABLE = yes
 
 COMMAND_ENABLE = no
 CONSOLE_ENABLE = no

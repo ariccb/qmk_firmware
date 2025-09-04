@@ -61,7 +61,7 @@ void lgui_rprn_reset(qk_tap_dance_state_t *state, void *user_data);
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skiep them
 // entirely and just use numbers.
-enum layer_names { _COLEMAKDH, _QWERTY, _CANARY, _LOWER, _RAISE, _ADJUST };
+enum layer_names { _COLEMAKDH, _QWERTY, _CANARY, _LOWER, _RAISE, _ADJUST, _NAV };
 
 #if (host_os == OS_MACOS || host_os == OS_IOS) // if the os is iOS or MacOS
 #    define MAC_HOTKEYS
@@ -72,9 +72,10 @@ enum layer_names { _COLEMAKDH, _QWERTY, _CANARY, _LOWER, _RAISE, _ADJUST };
 #define HYPERESC MT(MOD_LCTL | MOD_LGUI | MOD_LALT | MOD_LSFT, KC_ESC) // Hyper on hold, Esc on tap
 #define RSE_SPC LT(_RAISE, KC_SPC)                                     // Raise on hold, One Shot Shift on tap
 #define LOW_SPC LT(_LOWER, KC_SPC)                                     // lower on hold, One Shot Shift on tap
-#define RSE_DEL LT(_RAISE, KC_DEL)                                     // raise on hold, Delete on tap
-#define L_ADJ_0 LT(_ADJUST, KC_0)                                  // Adjust Layer on hold, Dot on tap
-#define L_ADJ_SPC LT(_ADJUST, KC_SPC)                                  // Adjust Layer on hold, Space on tap
+#define RSE_SPC LT(_RAISE, KC_SPC)                                     // lower on hold, One Shot Shift on tap
+#define LOW_DEL LT(_LOWER, KC_DEL)                                     // raise on hold, Delete on tap
+#define L_NAV_0 LT(_NAV, KC_0)                                  // Adjust Layer on hold, Dot on tap
+#define L_NAV_SPC LT(_NAV, KC_SPC)                                  // Adjust Layer on hold, Space on tap
 #define ALT_GRV MT(MOD_LALT, KC_GRV)                                   // alt on hold, grave ` on tap
 #define MTLGUI_STAB MT(MOD_LGUI, LSFT(KC_TAB))                         // GUI on hold, Shift Tab on tap
 #define MTRSFTBSLS MT(MOD_RSFT, KC_BSLS)                               // Shift on hold, \ on tap
@@ -150,6 +151,8 @@ enum planck_keycodes {
     LOWER,
     RAISE,
     ADJUST,
+
+
     NUMPAD,
     GAMING,
     EXT_NUM,
@@ -177,7 +180,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|Select |                      | LALT  |------+------+------+------+------+------|
  * | SHIFT| ALT_Z|  X   |  C   |  D   |  V   |Words l/r|-->Toggle Microphone| GRV`  |  K   |  H   |  ,   |  .   |ALT,/ |SFT,\ |
  * .-----------------------------------------|-------|   on Button Press    |-------|-----------------------------------------'
- *                      | ALT | CMD  |  LOW  / CTRL  /                       \Repeat   \  LOW  |RAISE/ |Volume Up/Down|
+ *                      | ALT | CMD  |  LOW  / CTRL  /                       \Repeat   \ RAISE | LOW   |Volume Up/Down|
  *                      | APP | ENTER| SPACE/OSShft/                          \Key      \ SPACE| DEL   |DIAL2 | -> TOGGLE play/pause On Press
  *                      `-------------------------'                            '--------------------------'
  */
@@ -186,7 +189,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   HYPERESC, KC_Q,     KC_W,   KC_F,      KC_P,      KC_B,                                KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN,  KC_BSPC,
   CO_TAB,   FN_A,     KC_R,   KC_S,      KC_T,      KC_G,                                KC_M,    KC_N,    KC_E,    KC_I,   KC_O,     MTRCTLQUO,
   KC_LSFT,  MTLALT_Z, KC_X,   KC_C,      KC_D,      KC_V,   C(A(G(KC_M))),     ALT_GRV, KC_K,    KC_H,    KC_COMM, KC_DOT, ALT_SLSH, MTRSFTBSLS,
-                              MTALT_TS, MTCMD_ENT, LOW_SPC, MTCTL_OSS,         MT_REP,  LOW_SPC, RSE_DEL, KC_MPLY
+                              MTALT_TS, MTCMD_ENT, LOW_SPC, MTCTL_OSS,         QK_REP,  RSE_SPC, LOW_DEL, KC_MPLY
 ),
 
 /* MIT Layout (QWERTY)
@@ -199,7 +202,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|Select |                      | LALT  |------+------+------+------+------+------|
  * | SHIFT| ALT_Z|  X   |  C   |  V   |  B   |Words l/r|-->Toggle Microphone| GRV`  |  N   |  M   |  ,   |  .   |ALT,/ |SFT,\ |
  * .-----------------------------------------|-------|   on Button Press    |-------|-----------------------------------------'
- *                      | ALT | CMD  |  LOW  / CTRL  /                      \Repeat \  LOW  |RAISE/ |Volume Up/Down|
+ *                      | ALT | CMD  |  LOW  / CTRL  /                      \Repeat \  RAISE |LOW   |Volume Up/Down|
  *                      | APP | ENTER| SPACE/OSShft/                         \Key    \ SPACE| DEL   |DIAL2 | -> TOGGLE play/pause On Press
  *                      `-------------------------'                           '-------------------------'
  */
@@ -208,11 +211,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   HYPERESC, KC_Q,     KC_W,   KC_E,      KC_R,      KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,     KC_BSPC,
   CO_TAB,   FN_A,     KC_S,   KC_D,      KC_F,      KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN,  MTRCTLQUO,
   KC_LSFT,  MTLALT_Z, KC_X,   KC_C,      KC_V,      KC_B,   C(A(G(KC_M))),     ALT_GRV,  KC_N,    KC_M,    KC_COMM, KC_DOT, ALT_SLSH, MTRSFTBSLS,
-                              MTALT_TS, MTCMD_ENT, LOW_SPC, MTCTL_OSS,         MT_REP,   LOW_SPC, RSE_DEL, KC_MPLY // Toggle microphone
+                              MTALT_TS, MTCMD_ENT, LOW_SPC, MTCTL_OSS,         QK_REP,   RSE_SPC, LOW_DEL, KC_MPLY // Toggle microphone
 ),
 /* MIT Layout (CANARY)
  * .-----------------------------------------.                                      .-----------------------------------------.          Slightly modified: Q and W swap
- * |NON-US#| F1 -F12- F2 |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  |  F10  |COLEMAKDH|
+ * |NON-US#| F1 -F12- F2 |  F3  |  F4  |  F5  |                                     |  F6  |  F7  |  F8  |  F9  |  F10  |COLEMAKDH|
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |HYP,ESC|  Q   |  L   |  Y   |  P   |  B   |                                      |  Z   |  F   |  O   |  U   |  ;   | BSPC |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
@@ -220,18 +223,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|Select |                      | LALT  |------+------+------+------+------+------|
  * | SHIFT| ALT_W|  J   |  V   |  D   |  K   |Words l/r|-->Toggle Microphone| GRV`  |  X   |  H   |  ,   |  .   |ALT,/ |SFT,\ |
  * .-----------------------------------------|-------|   on Button Press    |-------|-----------------------------------------'
- *                      | ALT | CMD  |  LOW  / CTRL  /                      \Repeat \  LOW  |RAISE/ |Volume Up/Down|
- *                      | APP | ENTER| SPACE/OSShft/                         \Key    \ SPACE| DEL   |DIAL2 | -> TOGGLE play/pause On Press
+ *                      | ALT | CMD  |  LOW  / CTRL  /                      \Repeat \  RAISE | LOW  |Volume Up/Down|
+ *                      | APP | ENTER| SPACE/OSShft/                         \Key    \ SPACE|  DEL  |DIAL2 | -> TOGGLE play/pause On Press
  *                      `-------------------------'                           '-------------------------'
  */
   [_CANARY] = LAYOUT(
-  KC_NUHS,  KC_F1,    KC_F2,  KC_F3,     KC_F4,     KC_F5,                                KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  COLEMAKDH,
+  KC_NUHS,  KC_F1,    KC_F2,  KC_F3,     KC_F4,     KC_F5,                               KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  COLEMAKDH,
   HYPERESC, KC_Q,     KC_L,   KC_Y,      KC_P,      KC_B,                                KC_Z,    KC_F,    KC_O,    KC_U,   KC_SCLN,  KC_BSPC,
   CO_TAB,   FN_C,     KC_R,   KC_S,      KC_T,      KC_G,                                KC_M,    KC_N,    KC_E,    KC_I,   KC_A,     MTRCTLQUO,
   KC_LSFT,  MTLALT_W, KC_J,   KC_V,      KC_D,      KC_K,   C(A(G(KC_M))),     ALT_GRV,  KC_X,    KC_H,    KC_COMM, KC_DOT, ALT_SLSH, MTRSFTBSLS,
-                              MTALT_TS, MTCMD_ENT, LOW_SPC, MTCTL_OSS,         MT_REP,   LOW_SPC, RSE_DEL, KC_MPLY // Toggle Microphone
+                              MTALT_TS, MTCMD_ENT, LOW_SPC, MTCTL_OSS,         QK_REP,   RSE_SPC, LOW_DEL, KC_MPLY // Toggle Microphone
 ),
-
 
 
 /* MIT Layout (LOWER) // couldn't get mod-tap to work with LPRN and RPRN
@@ -240,20 +242,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
 *  |  `   |  !   |  <   |  >   |  =   |  ^   |                                      |   *  |   7  |   8  |   9  |   :  | Bsp  |
  * |------+------+------+------+-------------|                                      |------+------+------+------+------+------|
- * |S(TAB)|  #   |  [Alt| ( Sft| ) Cmd| ] Ctl|-------.                      .-------|   &  |   4  |   5  |   6  |   -  |  +   |
+ * |S(TAB)|  #   |  [Alt| ( Sft| ) Cmd| ] Ctl|-------.                      .-------|   -  |   4  |   5  |   6  |   +  |  &   |
  * |------+------+------+------+------+------|Brightness|Haze(shift)        |       |------+------+------+------+------+------|
- * |SHIFT |  @   |  $   |  {   |  }   |  %   | DIAL1 |--> Press for         |   ~   |   0  |   1  |   2  |   3  |   /   |  |  |
+ * |SHIFT |  @   |  $   |  {   |  }   |  %   | DIAL1 |--> Press for         |   ~   |   .  |   1  |   2  |   3  |   /   |  |  |
  * .-----------------------------------------|-------|   haze On/Off        |-------|-----------------------------------------'
- *                      | ALT | CMD  | ADJUST/ LCTRL/                       \  Alt  \ ADJUST|     |ZOOM IN/OUT|
- *                      | APP | ENTER| ***** / OSSft/                         \Repeat\  .  |  0  | DIAL2|--> Next Song on Press
+ *                      | ALT | CMD  |++NAV++/ LCTRL/                        \  Alt \++NAV++| **** |ZOOM IN/OUT|
+ *                      | APP | ENTER| ***** / OSSft/                         \Repeat\   0  |  .  | DIAL2|--> Next Song on Press
  *                      `-------------------------'                            '-------------------------'
  */
   [_LOWER] = LAYOUT(
-  KC_NUHS,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                KC_6,      KC_7,   KC_8,  KC_9,  KC_0,    LLOCK,
-  KC_TILD,   KC_EXLM, KC_LABK, KC_RABK, KC_EQL,  KC_CIRC,                             KC_ASTR,   KC_7,   KC_8,  KC_9,  KC_COLN, KC_BSPC,
-  S(KC_TAB), KC_HASH, MTLALT_LRBC, MTLSFT_LPRN, MTLGUI_RPRN, MTLCTL_RBRC,             KC_AMPR,   KC_4,   KC_5,  KC_6,  KC_PMNS, KC_PPLS,
-  KC_LSFT,   KC_AT,   KC_DLR,  KC_LCBR, KC_RCBR, KC_PERC, C(A(KC_Q)),        KC_TILD, KC_0,      KC_1,   KC_2,  KC_3,  KC_PSLS, KC_PIPE,
-                               _____,   _____,   L_ADJ_SPC,   _____,           _____, L_ADJ_0, KC_0,   KC_MNXT // Next Song on press
+  KC_NUHS,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                KC_6,     KC_7,   KC_8,  KC_9,  KC_0,    LLOCK,
+  KC_TILD,   KC_EXLM, KC_LABK, KC_RABK, KC_EQL,  KC_CIRC,                             KC_ASTR,  KC_7,   KC_8,  KC_9,  KC_COLN, KC_BSPC,
+  S(KC_TAB), KC_HASH, MTLALT_LRBC, MTLSFT_LPRN, MTLGUI_RPRN, MTLCTL_RBRC,             KC_PMNS,  KC_4,   KC_5,  KC_6,  KC_PPLS, KC_AMPR,
+  KC_LSFT,   KC_AT,   KC_DLR,  KC_LCBR, KC_RCBR, KC_PERC, C(A(KC_Q)),        KC_TILD, KC_DOT,   KC_1,   KC_2,  KC_3,  KC_PSLS, KC_PIPE,
+                               _____,   _____,   L_NAV_SPC,   _____,         QK_AREP, L_NAV_0,  KC_DOT, KC_MNXT // Next Song on press
 ),
 /* MIT Layout (RAISE)
  * .-----------------------------------------.                                      .-----------------------------------------.
@@ -261,20 +263,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |CGSWAP|  Mb3 |  Mb2 | MsUp |  Mb1 |      |                                      | Mute |  Mb1 | Mb3 | Mb2  |  Mb3 | Bksp |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |      |      | MsLft| MDown|Mright|      |-------.                      .-------| Vol+ |SELPART|SELWORD|CMD'['|CMD']'|****|
+ * |      |      | MsLft|BRACES|BRACES2|      |-------.                      .-------| Vol+ |SELPART|SELWORD|CMD'['|CMD']'|****|
  * |------+------+------+------+------+------|Undo/Redo|                    |       |------+------+------+------+------+------|
- * |      |ScLeft| ScUp |ScDown|ScRight|     | DIAL1 |--> Press for         |       | Vol- |BRACES|BRACES2|ARROW|      |      |
+ * |      |ScLeft| ScUp |ScDown|ScRight|     | DIAL1 |--> Press for         |       | Vol- |SELWORD|SELPART|ARROW|      |      |
  * .-----------------------------------------|-------|  Next Track          |-------|-----------------------------------------'
- *                      | ALT | CMD  |  ADJUST  / LCTRL/                     \Repeat\       |******|Zoom in/out|
- *                      | APP | ENTER| ***** / OSSft/                         \ key  \      |******| DIAL2|--> //RESET ZOOM on Press
+ *                      | ALT | CMD  |  ADJUST  / LCTRL/                     \Repeat\ ******|      |Zoom in/out|
+ *                      | APP | ENTER| ***** / OSSft/                         \ key  \******|      | DIAL2|--> //RESET ZOOM on Press
  *                      `-------------------------'                            '--------------------------'
  */
   [_RAISE] = LAYOUT(
   CG_NORM, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                   KC_6,    KC_7,    KC_8,    KC_9,       KC_0,       LLOCK,
   CG_SWAP, KC_BTN3, KC_BTN2, KC_MS_U, KC_BTN1, _____,                                  KC_MUTE, KC_BTN1, KC_BTN3, KC_BTN2,    KC_BTN3,    KC_BSPC,
-  _____,   _____,   KC_MS_L, KC_MS_D, KC_MS_R, _____,                                  KC_VOLU, SELPART, SELWORD, G(KC_LBRC), G(KC_RBRC), _____,
-  _____,   KC_MS_L, KC_MS_U, KC_MS_D, KC_MS_R, _____,   ZOOM_RESET,           _____,   KC_VOLD, BRACES2, BRACES,  ARROW,      _____,      _____,
-                            _____, LGUI(KC_ENT), L_ADJ_SPC, _____,            _____, _____, _____,   ZOOM_RESET
+  _____,   _____,   KC_MS_L, BRACES, BRACES2, ARROW,                                   KC_VOLU, SELPART, SELWORD, G(KC_LBRC), G(KC_RBRC), _____,
+  _____,   KC_MS_L, KC_MS_U, KC_MS_D, KC_MS_R, _____,   ZOOM_RESET,           _____,   KC_VOLD, SELWORD, SELPART,  ARROW,      _____,      _____,
+                            _____, LGUI(KC_ENT), L_NAV_SPC, _____,            _____, _____, _____,   ZOOM_RESET
 ),
 
 /* MIT Layout (ADJUST)
@@ -283,7 +285,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |      |      |  F9  |  F10 | F11  |  F12 |                                      |TabDn | Home |  ↑  |  End |NumLck| Bksp |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |CAPSLK|******|Alt,F5|Sft,F6|Cmd,F7|Ctl,F8|--------.                     .-------|BackApp|  ←  |  ↓  |  →  |APP SWITCH|APPBACK|
+ * |CAPSLK|******|Alt,F5|Sft,F6|Cmd,F7|Ctl,F8|--------.                     .-------|BackApp|  ←  |  ↓  |  →   |APPBack|APP SWITCH|
  * |------+------+------+------+------+------| Program|                     |Back Tab|-----+------+------+------+------+------|
  * |      |      |  F1  |  F2  |  F3  |  F4  |Switcher|-->  Press For       |SWITCH |TAB SW|PageUp|C+A_Dn|PageDn|Forwrd|INSERT|
  * .-----------------------------------------|--------|                     |-------|-----------------------------------------'
@@ -294,10 +296,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_ADJUST] = LAYOUT(
   _____,   KC_F1, KC_F2,    KC_F3,     KC_F4,    KC_F5,                                C(KC_PGUP), BWSRLEFT, CRSR_UP, BWSRRHGT, KC_SCRL,  LLOCK,
   _____,   _____, KC_F9,    KC_F10,    KC_F11,   KC_F12,                               C(KC_PGDN), KC_HOME,  KC_UP,   KC_END,   KC_NUM,   KC_BSPC,
-  KC_CAPS, _____, MTALT_F5, MTLSFT_F6, MTGUI_F7, MTCTL_F8,                             CMD_S_TAB,  KC_LEFT,  KC_DOWN, KC_RGHT,  CMD_TAB,  CMD_S_TAB,
+  KC_CAPS, _____, MTALT_F5, MTLSFT_F6, MTGUI_F7, MTCTL_F8,                             CMD_S_TAB,  KC_LEFT,  KC_DOWN, KC_RGHT,  CMD_S_TAB,  CMD_TAB,
   _____,   _____, KC_F1,    KC_F2,     KC_F3,    KC_F4,    _____,          CTRL_S_TAB, CTRL_TAB,   KC_PGUP,  CRSR_DN, KC_PGDN,  BWSRRHGT, KC_INS,
                             _____,     LGUI(KC_ENT), _____, CTRL_TAB,         _____,   _____,      _____,    _____
 )
+
+/* MIT Layout (NAV) new layer, currently copied from raise
+ * .-----------------------------------------.                                      .-----------------------------------------.
+ * |CGNORM|  1   |  2   |  3   |  4   |  5   |                                      |  6   |  7   |  8   |  9   |  0   |LLOCK |
+ * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
+ * |CGSWAP|  Mb3 |  Mb2 | MsUp |  Mb1 |      |                                      | Mute |  Mb1 | M Up | Mb2  |  Mb3 | Bksp |
+ * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
+ * |      |      | MsLft| MDown|Mright|      |-------.                      .-------| Vol+ |M Left| MDown|Mright |CMD']'|****|
+ * |------+------+------+------+------+------|Undo/Redo|                    |       |------+------+------+------+------+------|
+ * |      |ScLeft| ScUp |ScDown|ScRight|     | DIAL1 |--> Press for         |       | Vol- |BRACES|BRACES2|ARROW|      |      |
+ * .-----------------------------------------|-------|  Next Track          |-------|-----------------------------------------'
+ *                      | ALT | CMD  |  ADJUST  / LCTRL/                     \Repeat\       |******|Zoom in/out|
+ *                      | APP | ENTER| ***** / OSSft/                         \ key  \      |******| DIAL2|--> //RESET ZOOM on Press
+ *                      `-------------------------'                            '--------------------------'
+ */
+  [_NAV] = LAYOUT(
+  CG_NORM, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                   KC_6,    KC_7,    KC_8,    KC_9,       KC_0,       LLOCK,
+  CG_SWAP, KC_BTN3, KC_BTN2, KC_MS_U, KC_BTN1, _____,                                  KC_MUTE, KC_BTN1, KC_MS_U, KC_BTN2,    KC_BTN3,    KC_BSPC,
+  _____,   _____,   KC_MS_L, KC_MS_D, KC_MS_R, _____,                                  KC_VOLU, KC_MS_L, KC_MS_D, KC_MS_R, G(KC_RBRC), _____,
+  _____,   KC_MS_L, KC_MS_U, KC_MS_D, KC_MS_R, _____,   ZOOM_RESET,           _____,   KC_VOLD, BRACES2, BRACES,  ARROW,      _____,      _____,
+                            _____, LGUI(KC_ENT), L_NAV_SPC, _____,            _____, _____, _____, ZOOM_RESET
+),
+
+
 };
 // clang-format on
 static fast_timer_t       last_encoding_time = 0;
@@ -711,7 +737,7 @@ combo_t key_combos[] = {[ARROW_FUNCTION]    = COMBO_ACTION(arrow_function_combo)
                         [REDO]              = COMBO_ACTION(redo_combo),
                         [CUT]               = COMBO_ACTION(cut_combo),
                         [COPY]              = COMBO_ACTION(copy_combo),
-                        [PASTE]             = COMBO_ACTION(paste_combo),
+                        [PASTE]             = COMBO_ACTION(paste_combo),//
                         [PASTECLIPBOARD]    = COMBO_ACTION(pasteclip_combo),
                         [PASTETEXT]         = COMBO_ACTION(pastetxt_combo),
                         [SELECTALL]         = COMBO_ACTION(selectall_combo),
@@ -956,10 +982,12 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         case CUT:
             if (pressed) {
 #ifdef MAC_HOTKEYS
-                register_code(KC_LGUI);
-                register_code(KC_X);
-                unregister_code(KC_LGUI);
-                unregister_code(KC_X);
+                // register_code(KC_LGUI);
+                // register_code(KC_X);
+                // unregister_code(KC_LGUI);
+                // unregister_code(KC_X);
+
+                tap_code16(KC_CUT);
 #else
                 register_code(KC_LCTL);
                 register_code(KC_X);
@@ -971,10 +999,11 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         case COPY:
             if (pressed) {
 #ifdef MAC_HOTKEYS
-                register_code(KC_LGUI);
-                register_code(KC_C);
-                unregister_code(KC_LGUI);
-                unregister_code(KC_C);
+                // register_code(KC_LGUI);
+                // register_code(KC_C);
+                // unregister_code(KC_LGUI);
+                // unregister_code(KC_C);
+                tap_code16(KC_COPY);
 #else
                 register_code(KC_LCTL);
                 register_code(KC_C);
@@ -986,10 +1015,12 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         case PASTE:
             if (pressed) {
 #ifdef MAC_HOTKEYS
-                register_code(KC_LGUI);
-                register_code(KC_V);
-                unregister_code(KC_LGUI);
-                unregister_code(KC_V);
+                // register_code(KC_LGUI);
+                // register_code(KC_V);
+                // unregister_code(KC_LGUI);
+                // unregister_code(KC_V);
+                // going to try the kc_paste instead and see if that works universally between all keylayouts on mac
+                tap_code16(KC_PASTE);
 #else
                 register_code(KC_LCTL);
                 register_code(KC_V);
@@ -1005,7 +1036,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
                 register_code(KC_LSFT);
                 register_code(KC_LGUI);
                 register_code(KC_SPC);
-                unregister_code(KC_LGUI);
+                unregister_code(KC_LALT);
                 unregister_code(KC_LSFT);
                 unregister_code(KC_LGUI);
                 unregister_code(KC_SPC);
