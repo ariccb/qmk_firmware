@@ -27,3 +27,7 @@
 [submodule "/d/github/ariccb_qmk_firmware/qmk_firmware/lib/chibios-contrib"]
 	path = /d/github/ariccb_qmk_firmware/qmk_firmware/lib/chibios-contrib
 	url = https://github.com/qmk/ChibiOS-Contrib.git
+[submodule "lib/lvgl"]
+	path = lib/lvgl
+	url = https://github.com/qmk/lvgl.git
+	branch = release/v8.2
