@@ -26,9 +26,8 @@
  * Pressing the button with shift selects the current line, and pressing the
  * button again extends the selection to the following line.
  *
- * @note Note for Mac users: Windows/Linux editing hotkeys are assumed by
- * default. Uncomment the `#define MAC_HOTKEYS` line in select_word.c for Mac
- * hotkeys. The Mac implementation is untested, let me know if it has problems.
+ * @note Word and line chords follow the keymap's Mac/Windows mode
+ * (is_mac() in features/os_mode.h): Option on Mac, Ctrl on Windows.
  *
  * For full documentation, see
  * <https://getreuer.info/posts/keyboards/select-word>
