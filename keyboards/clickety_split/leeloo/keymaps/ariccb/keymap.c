@@ -48,6 +48,16 @@
  * keycode_config(KC_LGUI) so it follows the same swap. Chords sent with
  * register_code / tap_code16 also skip mod_config, so each one branches on
  * is_mac() and emits the real Cmd or Ctrl chord.
+ *
+ * mod_config's Ctrl/GUI swap is if/else-if. A hold that sets both LCTL and
+ * LGUI hits the GUI test, clears GUI, and never runs the Ctrl test, so GUI
+ * is dropped instead of swapped. HYPERESC is the only hold that sets both.
+ * process_record_user registers MOD_HYPR (Ctrl+Alt+Shift+GUI) directly, in
+ * both modes, and returns false so the swapped mod-tap action does not run.
+ * CO_TAB is written as Cmd+Alt. Only GUI is set, so the swap turns it into
+ * Ctrl+Alt on Windows and leaves Alt. OS_LBRC / OS_RBRC / OS_ENT are the
+ * Raise bracket and Raise/Adjust Enter chords: Cmd on Mac, Ctrl on Windows.
+ * Matrix G() / LGUI() chords do not go through mod_config.
  */
 
 // #include "features/caps_word.h"
@@ -89,7 +99,10 @@ enum layer_names { _COLEMAKDH, _QWERTY, _CANARY, _LOWER, _RAISE, _ADJUST };
 
 #define XXXXX KC_NO
 #define _____ KC_TRNS
-#define HYPERESC MT(MOD_LCTL | MOD_LGUI | MOD_LALT | MOD_LSFT, KC_ESC) // Hyper on hold, Esc on tap
+// Esc on tap. Hold is registered in process_record_user as MOD_HYPR
+// (Ctrl+Alt+Shift+GUI) in both modes. Leaving it on the stock MT path runs
+// mod_config, which drops GUI when Ctrl is also set.
+#define HYPERESC MT(MOD_LCTL | MOD_LGUI | MOD_LALT | MOD_LSFT, KC_ESC)
 #define RSE_SPC LT(_RAISE, KC_SPC)                                     // Raise on hold, One Shot Shift on tap
 #define LOW_SPC LT(_LOWER, KC_SPC)                                     // lower on hold, One Shot Shift on tap
 #define RSE_DEL LT(_RAISE, KC_DEL)                                     // raise on hold, Delete on tap
@@ -99,15 +112,21 @@ enum layer_names { _COLEMAKDH, _QWERTY, _CANARY, _LOWER, _RAISE, _ADJUST };
 #define MTLGUI_STAB MT(MOD_LGUI, LSFT(KC_TAB))                         // GUI on hold, Shift Tab on tap
 #define MTRSFTBSLS MT(MOD_RSFT, KC_BSLS)                               // Shift on hold, \ on tap
 #define MTRCTLQUO MT(MOD_RCTL, KC_QUOT)                                // Ctrl on hold, " on tap
-#define CO_TAB MT(MOD_LCTL | MOD_LALT, KC_TAB)                        // Ctrl + Opt on hold, Tab on tap
+// Cmd+Alt on hold, Tab on tap. CG swap replaces GUI with Ctrl and keeps Alt,
+// so the Windows hold is Ctrl+Alt. Only one of Ctrl/GUI is set, so the
+// mod_config if/else-if does not drop a modifier. The thumb MTALT_TS is
+// Alt on hold and Ctrl+Tab on tap; it is not this chord.
+#define CO_TAB MT(MOD_LGUI | MOD_LALT, KC_TAB)
 #define FN_A LT(_ADJUST, KC_A)
 #define FN_C LT(_ADJUST, KC_C)
 #define FN_O LT(_ADJUST, KC_O)
 #define FN_SCLN LT(_ADJUST, KC_SCLN)
 
-// Holds are Mac-labeled. CG_SWAP turns GUI holds into Ctrl and Ctrl holds into
-// Win. Alt holds are not part of that swap. BWSRLEFT / BWSRRHGT / CRSR_UP /
-// CRSR_DN / ZOOM_RESET are custom keycodes handled in process_record_user.
+// Single-mod holds are Mac-labeled. CG_SWAP turns a GUI hold into Ctrl and a
+// Ctrl hold into Win. Alt holds are not part of that swap. CO_TAB is Cmd+Alt
+// so that same swap yields Ctrl+Alt on Windows. HYPERESC, OS_LBRC, OS_RBRC,
+// OS_ENT, BWSRLEFT, BWSRRHGT, CRSR_UP, CRSR_DN, and ZOOM_RESET are handled
+// in process_record_user.
 #define MTCMD_ENT MT(MOD_LGUI, KC_ENT)        // Cmd on hold, Enter on tap
 #define MTCTL_OSS MT(MOD_LCTL, KC_F24)        // Ctrl on hold, one-shot shift on tap
 #define MTLALT_Z MT(MOD_LALT, KC_Z)           // Alt on hold, Z on tap
@@ -150,6 +169,9 @@ enum planck_keycodes {
     CRSR_UP,     // Mac: Cmd+Opt+Up. Windows: Ctrl+Alt+Up.
     CRSR_DN,     // Mac: Cmd+Opt+Down. Windows: Ctrl+Alt+Down.
     ZOOM_RESET,  // Mac: Cmd+0. Windows: Ctrl+0.
+    OS_LBRC,     // Mac: Cmd+[ . Windows: Ctrl+[ .
+    OS_RBRC,     // Mac: Cmd+] . Windows: Ctrl+] .
+    OS_ENT,      // Mac: Cmd+Enter. Windows: Ctrl+Enter.
 };
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -247,21 +269,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * | WIN  |  Mb3 |  Mb2 | MsUp |  Mb1 |      |                                      | Mute |  Mb1 | Mb3 | Mb2  |  Mb3 | Bksp |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
- * |      |      | MsLft| MDown|Mright|      |-------.                      .-------| Vol+ |SELPART|SELWORD|CMD'['|CMD']'|****|
+ * |      |      | MsLft| MDown|Mright|      |-------.                      .-------| Vol+ |SELPART|SELWORD|OS '['|OS ']'|****|
  * |------+------+------+------+------+------|Undo/Redo|                    |       |------+------+------+------+------+------|
  * |      |ScLeft| ScUp |ScDown|ScRight|     | DIAL1 |--> Press for         |       | Vol- |BRACES|BRACES2|ARROW|      |      |
  * .-----------------------------------------|-------|  Next Track          |-------|-----------------------------------------'
- *                      | ALT | CMD  |  ADJUST  / LCTRL/                     \Repeat\       |******|Zoom in/out|
- *                      | APP | ENTER| ***** / OSSft/                         \ key  \      |******| DIAL2|--> //RESET ZOOM on Press
+ *                      | ALT | OS   |  ADJUST  / LCTRL/                     \Repeat\       |******|Zoom in/out|
+ *                      | APP | ENT  | ***** / OSSft/                         \ key  \      |******| DIAL2|--> //RESET ZOOM on Press
  *                      `-------------------------'                            '--------------------------'
  * MAC is CG_NORM (Cmd shortcuts, mods unswapped). WIN is CG_SWAP (Ctrl shortcuts).
+ * OS '[' / OS ']' / OS ENT are Cmd on Mac and Ctrl on Windows.
  */
   [_RAISE] = LAYOUT(
   CG_NORM, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                   KC_6,    KC_7,    KC_8,    KC_9,       KC_0,       LLOCK,
   CG_SWAP, KC_BTN3, KC_BTN2, KC_MS_U, KC_BTN1, _____,                                  KC_MUTE, KC_BTN1, KC_BTN3, KC_BTN2,    KC_BTN3,    KC_BSPC,
-  _____,   _____,   KC_MS_L, KC_MS_D, KC_MS_R, _____,                                  KC_VOLU, SELPART, SELWORD, G(KC_LBRC), G(KC_RBRC), _____,
+  _____,   _____,   KC_MS_L, KC_MS_D, KC_MS_R, _____,                                  KC_VOLU, SELPART, SELWORD, OS_LBRC,    OS_RBRC,    _____,
   _____,   KC_MS_L, KC_MS_U, KC_MS_D, KC_MS_R, _____,   ZOOM_RESET,           _____,   KC_VOLD, BRACES2, BRACES,  ARROW,      _____,      _____,
-                            _____, LGUI(KC_ENT), L_ADJ_SPC, _____,            _____, _____, _____,   ZOOM_RESET
+                            _____, OS_ENT, L_ADJ_SPC, _____,                  _____, _____, _____,   ZOOM_RESET
 ),
 
 /* MIT Layout (ADJUST)
@@ -274,8 +297,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------| Program|                     |Back Tab|-----+------+------+------+------+------|
  * |      |      |  F1  |  F2  |  F3  |  F4  |Switcher|-->  Press For       |SWITCH |TAB SW|PageUp|C+A_Dn|PageDn|Forwrd|INSERT|
  * .-----------------------------------------|--------|                     |-------|-----------------------------------------'
- *                      | ALT | CMD  | ***** / Tab    /                     \  Repeat\  *****|***** | Cursor Left/Right |
- *                      | APP | ENTER| ***** / Switcher /                     \  key  \*****|***** | DIAL2 |
+ *                      | ALT | OS   | ***** / Tab    /                     \  Repeat\  *****|***** | Cursor Left/Right |
+ *                      | APP | ENT  | ***** / Switcher /                     \  key  \*****|***** | DIAL2 |
  *                      `--------------------------'                           '----------------------------'
  */
   [_ADJUST] = LAYOUT(
@@ -283,7 +306,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _____,   _____, KC_F9,    KC_F10,    KC_F11,   KC_F12,                               C(KC_PGDN), KC_HOME,  KC_UP,   KC_END,   KC_NUM,   KC_BSPC,
   KC_CAPS, _____, MTALT_F5, MTLSFT_F6, MTGUI_F7, MTCTL_F8,                             CMD_S_TAB,  KC_LEFT,  KC_DOWN, KC_RGHT,  CMD_TAB,  CMD_S_TAB,
   _____,   _____, KC_F1,    KC_F2,     KC_F3,    KC_F4,    _____,          CTRL_S_TAB, CTRL_TAB,   KC_PGUP,  CRSR_DN, KC_PGDN,  BWSRRHGT, KC_INS,
-                            _____,     LGUI(KC_ENT), _____, CTRL_TAB,         _____,   _____,      _____,    _____
+                            _____,     OS_ENT, _____, CTRL_TAB,              _____,   _____,      _____,    _____
 )
 };
 // clang-format on
@@ -651,6 +674,41 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case CRSR_DN:
             if (record->event.pressed) {
                 tap_code16(is_mac() ? LGUI(LALT(KC_DOWN)) : LCTL(LALT(KC_DOWN)));
+            }
+            return false;
+            break;
+        case OS_LBRC: // Mac: Cmd+[ . Windows: Ctrl+[ . tap_primary skips mod_config.
+            if (record->event.pressed) {
+                tap_primary(KC_LBRC);
+            }
+            return false;
+            break;
+        case OS_RBRC:
+            if (record->event.pressed) {
+                tap_primary(KC_RBRC);
+            }
+            return false;
+            break;
+        case OS_ENT:
+            if (record->event.pressed) {
+                tap_primary(KC_ENT);
+            }
+            return false;
+            break;
+        case HYPERESC:
+            // mod_config swaps LCTL and LGUI with if/else-if. Both bits are
+            // set here, so the GUI test clears GUI and the Ctrl test never
+            // runs. Register the four mods directly. false skips that action.
+            if (record->tap.count > 0) {
+                if (record->event.pressed) {
+                    register_code(KC_ESC);
+                } else {
+                    unregister_code(KC_ESC);
+                }
+            } else if (record->event.pressed) {
+                register_mods(MOD_HYPR);
+            } else {
+                unregister_mods(MOD_HYPR);
             }
             return false;
             break;
