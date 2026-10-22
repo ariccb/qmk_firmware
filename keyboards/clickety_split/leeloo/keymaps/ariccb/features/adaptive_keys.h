@@ -1,14 +1,12 @@
 #include QMK_KEYBOARD_H
 #include "layer_lock.h"
-
-#if (host_os == OS_MACOS || host_os == OS_IOS)// if the os is iOS or MacOS
-#define MAC_HOTKEYS
-#endif
+#include "os_mode.h"
 
 static bool     tabbing      = false;
 static bool     ctrl_tabbing = false;
 static uint16_t tabtimer;
 static uint16_t ctrl_tabtimer;
+static uint8_t  tab_hold_mod = KC_NO; // Cmd on Mac, Alt on Windows. Set by CMD_TAB.
 #define TABBING_TIMER 800
 
 static uint8_t prior_saved_mods = 0;
@@ -137,11 +135,7 @@ void matrix_scan_user(void) {
     }
     if (tabbing) {
         if (timer_elapsed(tabtimer) > TABBING_TIMER) {
-#ifdef MAC_HOTKEYS
-            unregister_code(KC_LGUI);
-#else
-            unregister_code(KC_LALT);
-#endif // MAC_HOTKEYS
+            unregister_code(tab_hold_mod);
             tabbing = false;
         }
     }

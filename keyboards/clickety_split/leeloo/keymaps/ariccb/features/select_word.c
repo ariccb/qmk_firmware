@@ -17,17 +17,13 @@
 // https://getreuer.info/posts/keyboards/select-word
 
 #include "select_word.h"
-#include "guess_os.h"
-
-// Mac users, uncomment this line:
-#if (host_os == OS_MACOS || host_os == OS_IOS) // if the os is iOS or MacOS
-#    define MAC_HOTKEYS
-#endif
+#include "os_mode.h"
 
 enum { STATE_NONE, STATE_SELECTED, STATE_WORD, STATE_FIRST_LINE, STATE_LINE };
 
 bool process_select_word(uint16_t keycode, keyrecord_t* record, uint16_t sel_keycode) {
-    static uint8_t state = STATE_NONE;
+    static uint8_t state    = STATE_NONE;
+    static uint8_t word_mod = KC_NO; // Option on Mac, Ctrl on Windows.
 
     if (keycode == KC_LSFT || keycode == KC_RSFT) {
         return true;
@@ -41,11 +37,8 @@ bool process_select_word(uint16_t keycode, keyrecord_t* record, uint16_t sel_key
         const uint8_t all_mods = mods;
 #endif                                          // NO_ACTION_ONESHOT
         if ((all_mods & MOD_MASK_SHIFT) == 0) { // Select word.
-#ifdef MAC_HOTKEYS
-            register_code(KC_LALT);
-#else
-            register_code(KC_LCTL);
-#endif // MAC_HOTKEYS
+            word_mod = is_mac() ? KC_LALT : KC_LCTL;
+            register_code(word_mod);
             if (state == STATE_NONE) {
                 tap_code(KC_RGHT);
                 tap_code(KC_LEFT);
@@ -59,19 +52,19 @@ bool process_select_word(uint16_t keycode, keyrecord_t* record, uint16_t sel_key
 #ifndef NO_ACTION_ONESHOT
                 clear_oneshot_mods();
 #endif // NO_ACTION_ONESHOT
-#ifdef MAC_HOTKEYS
-                register_code16(LCTL(KC_A));
-                unregister_code16(LCTL(KC_A));
-                tap_code16(LSFT(KC_END));
-                tap_code(KC_HOME);
-                tap_code16(LSFT(KC_END));
-#else
-                register_code16(LCTL(KC_A));
-                tap_code16(LSFT(KC_E));
-                unregister_code16(LCTL(KC_A));
-                tap_code(KC_HOME);
-                tap_code16(LSFT(KC_END));
-#endif // MAC_HOTKEYS
+                if (is_mac()) {
+                    register_code16(LCTL(KC_A));
+                    unregister_code16(LCTL(KC_A));
+                    tap_code16(LSFT(KC_END));
+                    tap_code(KC_HOME);
+                    tap_code16(LSFT(KC_END));
+                } else {
+                    register_code16(LCTL(KC_A));
+                    tap_code16(LSFT(KC_E));
+                    unregister_code16(LCTL(KC_A));
+                    tap_code(KC_HOME);
+                    tap_code16(LSFT(KC_END));
+                }
                 set_mods(mods);
                 state = STATE_FIRST_LINE;
             } else {
@@ -87,11 +80,7 @@ bool process_select_word(uint16_t keycode, keyrecord_t* record, uint16_t sel_key
         case STATE_WORD:
             unregister_code(KC_RGHT);
             unregister_code(KC_LSFT);
-#ifdef MAC_HOTKEYS
-            unregister_code(KC_LALT);
-#else
-            unregister_code(KC_LCTL);
-#endif // MAC_HOTKEYS
+            unregister_code(word_mod);
             state = STATE_SELECTED;
             break;
 
