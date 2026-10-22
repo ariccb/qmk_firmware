@@ -1,0 +1,34 @@
+// Last enabled Leeloo rules (2025-07-24), same set as the Totem adaptive.dtsi.
+// AK_SND_ONLY: the first key is sent immediately; the second is replaced.
+AK_SND_ONLY_START(KC_L)  // LJ -> LK
+    R_SND(KC_J, KC_K)
+AK_SND_ONLY_START(KC_J)  // JL -> JU
+    R_SND(KC_L, KC_U)
+AK_SND_ONLY_START(KC_S)  // SV -> SC
+    R_SND(KC_V, KC_C)
+AK_SND_ONLY_START(KC_C)  // CX -> CS
+    R_SND(KC_X, KC_S)
+AK_SND_ONLY_START(KC_P)  // PF -> PT
+    R_SND(KC_F, KC_T)
+AK_SND_ONLY_START(KC_F)  // FW -> FS
+    R_SND(KC_W, KC_S)
+AK_SND_ONLY_START(KC_E)  // E/ -> E,
+    R_SND(KC_SLSH, KC_COMM)
+AK_SND_ONLY_START(KC_W)  // WP -> WR
+    R_SND(KC_P, KC_R)
+AK_SND_ONLY_START(KC_B)  // BW -> BD
+    R_SND(KC_W, KC_D)
+AK_SND_ONLY_START(KC_U)  // UY -> UE
+    R_SND(KC_Y, KC_E)
+AK_SND_ONLY_START(KC_D)  // DX -> DG
+    R_SND(KC_X, KC_G)
+AK_SND_ONLY_START(KC_PMNS)  // keypad minus, then 0 -> space
+    R_SND(KC_0, KC_SPC)
+AK_SND_ONLY_START(KC_EQL)
+    R_SND(KC_0, KC_SPC)
+AK_SND_ONLY_START(KC_PPLS)
+    R_SND(KC_0, KC_SPC)
+AK_SND_ONLY_START(KC_PSLS)
+    R_SND(KC_0, KC_SPC)
+AK_SND_ONLY_START(KC_PAST)  // dormant: Num's star is KC_ASTR, not keypad star
+    R_SND(KC_0, KC_SPC)
