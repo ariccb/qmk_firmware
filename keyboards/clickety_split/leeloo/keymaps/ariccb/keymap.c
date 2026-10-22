@@ -93,7 +93,7 @@ enum layer_names { _COLEMAKDH, _QWERTY, _CANARY, _LOWER, _RAISE, _ADJUST };
 #define RSE_SPC LT(_RAISE, KC_SPC)                                     // Raise on hold, One Shot Shift on tap
 #define LOW_SPC LT(_LOWER, KC_SPC)                                     // lower on hold, One Shot Shift on tap
 #define RSE_DEL LT(_RAISE, KC_DEL)                                     // raise on hold, Delete on tap
-#define L_ADJ_0 LT(_ADJUST, KC_0)                                  // Adjust Layer on hold, Dot on tap
+#define L_ADJ_0 LT(_ADJUST, KC_0)                                  // Adjust Layer on hold, 0 on tap
 #define L_ADJ_SPC LT(_ADJUST, KC_SPC)                                  // Adjust Layer on hold, Space on tap
 #define ALT_GRV MT(MOD_LALT, KC_GRV)                                   // alt on hold, grave ` on tap
 #define MTLGUI_STAB MT(MOD_LGUI, LSFT(KC_TAB))                         // GUI on hold, Shift Tab on tap
