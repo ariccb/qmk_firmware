@@ -61,7 +61,9 @@
  */
 
 // #include "features/caps_word.h"
-// #include "features/autocorrection.h"
+#ifdef CONVERT_TO_KB2040
+#    include "features/autocorrection.h"
+#endif
 
 // Variables for repeat key functionality
 static uint16_t last_keycode = KC_NO;
@@ -470,6 +472,11 @@ void super_app_tab_stop(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+#ifdef CONVERT_TO_KB2040
+    if (!process_autocorrection(keycode, record)) {
+        return false;
+    }
+#endif
     if (!process_layer_lock(keycode, record, LLOCK)) {
         return false;
     }
@@ -1181,3 +1188,41 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             break;
     }
 }
+
+#ifdef OLED_ENABLE
+// Stock leeloo.c names layers 0-3. This keymap's layers are not those numbers.
+bool oled_task_user(void) {
+    oled_write_P(PSTR("KB2040 "), false);
+    oled_write_P(is_keyboard_left() ? PSTR("Left ") : PSTR("Right"), false);
+    oled_write_ln_P(is_keyboard_master() ? PSTR(" USB") : PSTR(" link"), false);
+
+    switch (get_highest_layer(default_layer_state)) {
+        case _QWERTY:
+            oled_write_ln_P(PSTR("QWERTY"), false);
+            break;
+        case _CANARY:
+            oled_write_ln_P(PSTR("Canary"), false);
+            break;
+        default:
+            oled_write_ln_P(PSTR("Colemak-DH"), false);
+            break;
+    }
+
+    switch (get_highest_layer(layer_state)) {
+        case _LOWER:
+            oled_write_P(PSTR("Lower "), false);
+            break;
+        case _RAISE:
+            oled_write_P(PSTR("Raise "), false);
+            break;
+        case _ADJUST:
+            oled_write_P(PSTR("Adjust "), false);
+            break;
+        default:
+            oled_write_P(PSTR("Base "), false);
+            break;
+    }
+    oled_write_ln_P(is_mac() ? PSTR("Mac") : PSTR("Win"), false);
+    return false;
+}
+#endif

@@ -636,3 +636,46 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
+
+#ifdef OLED_ENABLE
+bool oled_task_user(void) {
+    oled_write_P(PSTR("KB2040 "), false);
+    oled_write_P(is_keyboard_left() ? PSTR("Left ") : PSTR("Right"), false);
+    oled_write_ln_P(is_keyboard_master() ? PSTR(" USB") : PSTR(" link"), false);
+
+    switch (get_highest_layer(default_layer_state)) {
+        case L_QWERTY:
+            oled_write_ln_P(PSTR("QWERTY"), false);
+            break;
+        case L_CANARY:
+            oled_write_ln_P(PSTR("Canary"), false);
+            break;
+        default:
+            oled_write_ln_P(PSTR("Colemak"), false);
+            break;
+    }
+
+    switch (get_highest_layer(layer_state)) {
+        case L_NUM:
+            oled_write_P(PSTR("Num "), false);
+            break;
+        case L_NAV:
+            oled_write_P(PSTR("Nav "), false);
+            break;
+        case L_SYM:
+            oled_write_P(PSTR("Sym "), false);
+            break;
+        case L_ADJ:
+            oled_write_P(PSTR("Adjust "), false);
+            break;
+        case L_SYS:
+            oled_write_P(PSTR("System "), false);
+            break;
+        default:
+            oled_write_P(PSTR("Base "), false);
+            break;
+    }
+    oled_write_ln_P(is_mac() ? PSTR("Mac") : PSTR("Win"), false);
+    return false;
+}
+#endif

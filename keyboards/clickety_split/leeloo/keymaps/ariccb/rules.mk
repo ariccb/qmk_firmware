@@ -37,3 +37,14 @@ EXTRAFLAGS += -flto
 
 # Making Apple Globe (Fn) Key work
 KEYBOARD_SHARED_EP = yes
+
+# Adafruit KB2040 in the Pro Micro sockets. Omit CONVERT_TO for the Pro Micro.
+# qmk compile -kb clickety_split/leeloo -km ariccb -e CONVERT_TO=kb2040
+# The converter, included after this file, sets the RP2040, its UF2 bootloader,
+# and the PIO serial driver (half-duplex on D2).
+ifeq ($(strip $(CONVERT_TO)), kb2040)
+    SERIAL_DRIVER = vendor
+    OLED_ENABLE = yes
+    # Autocorrect did not fit in the ATmega32U4 image.
+    SRC += features/autocorrection.c
+endif

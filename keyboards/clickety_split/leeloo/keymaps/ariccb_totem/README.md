@@ -119,3 +119,27 @@ small engine in this folder:
 - Paste-without-formatting is Cmd/Ctrl+Shift+V only.
 - Cmd-Tab follows the Ctrl/Cmd swap, so Windows mode sends Ctrl-Tab.
   Ctrl-Tab sends Win-Tab. There is no Alt-Tab app switcher.
+
+## KB2040
+
+The Pro Micro build above is unchanged. KB2040 controllers use a separate image. Put them in the Pro Micro sockets face-down, the same orientation as the Pro Micros.
+
+```
+qmk compile -kb clickety_split/leeloo -km ariccb_totem -e CONVERT_TO=kb2040
+```
+
+Flash `clickety_split_leeloo_rev1_ariccb_totem_kb2040.uf2` to both halves. One file covers both. USB makes that half the left (`MASTER_LEFT`); the other half is the right and uses the single TRRS data wire. Do not mix a Pro Micro half with a KB2040 half.
+
+This image also enables the 128x32 OLEDs. Settings live in RP2040 flash instead of EEPROM and start empty, so a new controller boots in Windows mode. Mac and Windows are still the System-layer keys, and they persist across reboot.
+
+### First flash
+
+1. Hold the KB2040 **BOOT** button.
+2. Plug in USB while holding BOOT, then release BOOT.
+3. Copy the UF2 onto the `RPI-RP2` drive.
+
+### Bootloader once it is socketed face-down
+
+The BOOT button faces the PCB. Plug USB into the half you want to flash and double-tap that half's Leeloo reset button within half a second. That reset is the RP2040 RUN pin, and a double tap opens the UF2 bootloader.
+
+`QK_BOOT` on Adjust and on System does the same thing while the firmware is running, and it only resets the half that has the USB cable. Move the cable to flash the other half.
