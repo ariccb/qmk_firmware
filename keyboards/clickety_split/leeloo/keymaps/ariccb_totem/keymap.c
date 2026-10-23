@@ -128,7 +128,73 @@ combo_t key_combos[] = {
 #define XXX KC_NO
 #define ___ KC_TRNS
 
+#ifdef CONVERT_TO_KB2040
+// Momentary thumbs. Release returns to the base layer. Tapping term is 200 ms.
+#    define TH_ENT MT(MOD_LGUI, KC_ENT)              // Enter, hold Cmd
+#    define TH_SPC LT(L_LOWER, KC_SPC)               // Space, hold Lower
+#    define TH_TAB MT(MOD_LGUI | MOD_LALT, KC_TAB)   // Tab, hold Cmd+Alt
+#    define TH_GRV MT(MOD_LSFT, KC_GRV)              // `, hold Shift
+#    define TH_DEL LT(L_RAISE, KC_DEL)               // Delete, hold Raise
+#endif
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+#ifdef CONVERT_TO_KB2040
+    /* Thumbs, left to right: Enter/Cmd, Space/Lower, Tab/Cmd+Alt,
+     * `/Shift, Space/Lower, Delete/Raise.
+     * L45 (beside V) and R41 (outermost right thumb) are the encoders.
+     * R45 (beside K) types Enter and does not hold a layer. */
+    [L_BASE] = LAYOUT(
+        XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
+        XXX, KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_SCLN, XXX,
+        XXX, TH_KC_PINKY, TH_KC_LRING, TH_KC_LMID, TH_KC_LIDX, TH_KC_LIN, TH_KC_RIN, TH_KC_RIDX, TH_KC_RMID, TH_KC_RRING, KC_O, XXX,
+        TH_KC_HESC, KC_Z, KC_X, KC_C, KC_D, KC_V, XXX, KC_ENT, KC_K, KC_H, KC_COMM, KC_DOT, KC_SLSH, TH_KC_HBSP,
+        XXX, TH_ENT, TH_SPC, TH_TAB, TH_GRV, TH_SPC, TH_DEL, XXX),
+
+    [L_QWERTY] = LAYOUT(
+        XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
+        XXX, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, XXX,
+        XXX, TH_KC_PINKY, TH_KC_LRING, TH_KC_LMID, TH_KC_LIDX, TH_KC_LIN, TH_KC_RIN, TH_KC_RIDX, TH_KC_RMID, TH_KC_RRING, KC_SCLN, XXX,
+        TH_KC_HESC, KC_Z, KC_X, KC_C, KC_V, KC_B, XXX, KC_ENT, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, TH_KC_HBSP,
+        XXX, TH_ENT, TH_SPC, TH_TAB, TH_GRV, TH_SPC, TH_DEL, XXX),
+
+    [L_CANARY] = LAYOUT(
+        XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
+        XXX, KC_Q, KC_L, KC_Y, KC_P, KC_B, KC_Z, KC_F, KC_O, KC_U, KC_SCLN, XXX,
+        XXX, TH_KC_PINKY, TH_KC_LRING, TH_KC_LMID, TH_KC_LIDX, TH_KC_LIN, TH_KC_RIN, TH_KC_RIDX, TH_KC_RMID, TH_KC_RRING, KC_A, XXX,
+        TH_KC_HESC, KC_W, KC_J, KC_V, KC_D, KC_K, XXX, KC_ENT, KC_X, KC_H, KC_COMM, KC_DOT, KC_SLSH, TH_KC_HBSP,
+        XXX, TH_ENT, TH_SPC, TH_TAB, TH_GRV, TH_SPC, TH_DEL, XXX),
+
+    [L_LOWER] = LAYOUT(
+        XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
+        XXX, KC_WH_U, KC_BTN2, KC_MS_U, KC_BTN1, KC_BTN3, KC_7, KC_8, KC_9, KC_PMNS, KC_PSLS, XXX,
+        XXX, ___, ___, ___, ___, ___, KC_4, KC_5, KC_6, KC_ASTR, KC_EQL, XXX,
+        KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, ___, ___, XXX, KC_ENT, KC_1, KC_2, KC_3, KC_DOT, KC_0, KC_PPLS,
+        XXX, ___, ___, ___, ___, ___, ___, XXX),
+
+    [L_NAV] = LAYOUT(
+        XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
+        XXX, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, OS_PGUP, KC_HOME, KC_UP, KC_END, XXX, XXX,
+        XXX, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, CMD_STAB_K, KC_LEFT, KC_DOWN, KC_RGHT, CMD_TAB_K, XXX,
+        ___, KC_F11, KC_F12, OS_ZOUT, OS_ZIN, OS_ZRST, XXX, KC_ENT, CTRL_TAB_K, KC_PGUP, OS_ADDCUR, KC_PGDN, OS_FWD, KC_LGUI,
+        XXX, ___, ___, ___, ___, ___, ___, XXX),
+
+    [L_RAISE] = LAYOUT(
+        XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
+        XXX, KC_LCBR, KC_RCBR, KC_LABK, KC_RABK, KC_PIPE, KC_VOLU, KC_MUTE, C(A(G(KC_M))), KC_MPLY, KC_MNXT, XXX,
+        XXX, KC_LPRN, KC_RPRN, KC_LBRC, KC_RBRC, KC_BSLS, ___, ___, ___, ___, ___, XXX,
+        KC_EQL, KC_PLUS, KC_MINS, KC_UNDS, KC_ASTR, KC_SLSH, XXX, ___, KC_VOLD, LALT(LSFT(KC_RGHT)), OS_SELPART, OS_SELLINE, OS_BACK, OS_FWDBR,
+        XXX, ___, ___, ___, ___, ___, ___, XXX),
+
+    /* Adjust merged into System. System's key wins when both had one.
+     * QK_BOOT is the A key. Reboot is the R key (Adjust's Q-key reboot
+     * lost to Mac). Colemak / QWERTY / Canary still set the base layout. */
+    [L_SYS] = LAYOUT(
+        XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
+        XXX, CG_NORM, CG_SWAP, XXX, XXX, XXX, TO_BASE, TO_QWERTY, TO_CANARY, BRACE_K, XXX, XXX,
+        XXX, QK_BOOT, QK_RBT, XXX, XXX, XXX, XXX, XXX, XXX, KC_GRV, KC_SLEP, XXX,
+        ___, XXX, KC_BRIU, KC_BRID, REPEAT_K, KC_CAPS, XXX, KC_ENT, KC_INS, KC_PSCR, ARROW_K, BRACE2_K, CW_TOGG, ___,
+        XXX, ___, ___, KC_TAB, ___, ___, ___, XXX),
+#else
     [L_BASE] = LAYOUT(
         XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
         XXX, KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_SCLN, XXX,
@@ -184,6 +250,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXX, QK_BOOT, QK_RBT, XXX, XXX, XXX, XXX, XXX, XXX, XXX, KC_SLEP, XXX,
         XXX, XXX, XXX, XXX, XXX, XXX, ___, ___, XXX, XXX, XXX, XXX, XXX, XXX,
         XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX),
+#endif
 };
 
 static uint8_t tab_mod;
@@ -383,7 +450,11 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     (void)keycode;
     (void)record;
     if (combo_index >= CMB_TERM_OPEN) {
+#ifdef CONVERT_TO_KB2040
+        return get_highest_layer(layer_state) == L_LOWER;
+#else
         return get_highest_layer(layer_state) == L_NUM;
+#endif
     }
     return get_highest_layer(layer_state) <= L_CANARY;
 }
@@ -407,8 +478,28 @@ void eeconfig_init_user(void) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+#ifdef CONVERT_TO_KB2040
+    return update_tri_layer_state(state, L_LOWER, L_RAISE, L_SYS);
+#else
     return update_tri_layer_state(state, L_NUM, L_SYM, L_SYS);
+#endif
 }
+
+#ifdef CONVERT_TO_KB2040
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    (void)record;
+    switch (keycode) {
+        case TH_ENT:
+        case TH_SPC:
+        case TH_TAB:
+        case TH_GRV:
+        case TH_DEL:
+            return 200;
+        default:
+            return TAPPING_TERM;
+    }
+}
+#endif
 
 bool caps_word_press_user(uint16_t keycode) {
     switch (keycode) {
@@ -656,17 +747,14 @@ bool oled_task_user(void) {
     }
 
     switch (get_highest_layer(layer_state)) {
-        case L_NUM:
-            oled_write_P(PSTR("Num "), false);
+        case L_LOWER:
+            oled_write_P(PSTR("Lower "), false);
             break;
         case L_NAV:
             oled_write_P(PSTR("Nav "), false);
             break;
-        case L_SYM:
-            oled_write_P(PSTR("Sym "), false);
-            break;
-        case L_ADJ:
-            oled_write_P(PSTR("Adjust "), false);
+        case L_RAISE:
+            oled_write_P(PSTR("Raise "), false);
             break;
         case L_SYS:
             oled_write_P(PSTR("System "), false);

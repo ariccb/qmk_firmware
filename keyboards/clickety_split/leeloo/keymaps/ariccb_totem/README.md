@@ -132,6 +132,19 @@ Flash `clickety_split_leeloo_rev1_ariccb_totem_kb2040.uf2` to both halves. One f
 
 This image also enables the 128x32 OLEDs. Settings live in RP2040 flash instead of EEPROM and start empty, so a new controller boots in Windows mode. Mac and Windows are still the System-layer keys, and they persist across reboot.
 
+The KB2040 image is not the diagram above. Num is Lower, Sym is Raise, and Adjust is merged into System. System is on only while Lower and Raise are both held. Layer keys are momentary. The encoders are the key beside V and the outermost right thumb; those positions are blank.
+
+Thumbs, left to right, tap / hold:
+
+- Enter / Cmd
+- Space / Lower
+- Tab / Cmd+Alt
+- ` / Shift
+- Space / Lower
+- Delete / Raise
+
+`QK_BOOT` is the A key on System (hold both Lower and Raise, then A). It only resets the half that has the USB cable. Colemak, QWERTY, and Canary on that same layer still change the saved base layout.
+
 ### First flash
 
 1. Hold the KB2040 **BOOT** button.
@@ -142,4 +155,4 @@ This image also enables the 128x32 OLEDs. Settings live in RP2040 flash instead 
 
 The BOOT button faces the PCB. Plug USB into the half you want to flash and double-tap that half's Leeloo reset button within half a second. That reset is the RP2040 RUN pin, and a double tap opens the UF2 bootloader.
 
-`QK_BOOT` on Adjust and on System does the same thing while the firmware is running, and it only resets the half that has the USB cable. Move the cable to flash the other half.
+`QK_BOOT` is the A key while Lower and Raise are both held, and it only resets the half that has the USB cable. Move the cable to flash the other half. Flash both halves: the OLEDs on each half show the layer name.
