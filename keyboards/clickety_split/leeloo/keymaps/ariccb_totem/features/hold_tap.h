@@ -2,6 +2,23 @@
 
 #include "quantum.h"
 
+#ifdef CONVERT_TO_KB2040
+// Lower and Raise replace Num and Sym. Adjust is merged into System, which
+// is the tri-layer above them. hold_tap.c still names the old layers; those
+// thumb keycodes are not on the KB2040 matrix.
+enum totem_layers {
+    L_BASE = 0,
+    L_QWERTY,
+    L_CANARY,
+    L_LOWER,
+    L_NAV,
+    L_RAISE,
+    L_SYS
+};
+#    define L_NUM L_LOWER
+#    define L_SYM L_RAISE
+#    define L_ADJ L_SYS
+#else
 // Layer numbers shared with keymap.c. SYS sits above NUM and SYM so the
 // tri-layer covers both while the inner thumbs are held.
 enum totem_layers {
@@ -14,6 +31,7 @@ enum totem_layers {
     L_ADJ,
     L_SYS
 };
+#endif
 
 // Contiguous from TH_KC_PINKY. hold_tap.c maps keycode - TH_KC_PINKY to the id.
 enum totem_keycodes {

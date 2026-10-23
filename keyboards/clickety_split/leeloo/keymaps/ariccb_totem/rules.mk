@@ -19,3 +19,11 @@ LTO_ENABLE = yes
 
 SRC += features/adaptive_keys.c
 SRC += features/hold_tap.c
+
+# Adafruit KB2040 in the Pro Micro sockets. Omit CONVERT_TO for the Pro Micro.
+# qmk compile -kb clickety_split/leeloo -km ariccb_totem -e CONVERT_TO=kb2040
+ifeq ($(strip $(CONVERT_TO)), kb2040)
+    SERIAL_DRIVER = vendor
+    OLED_ENABLE = yes
+    OLED_DRIVER = SSD1306
+endif

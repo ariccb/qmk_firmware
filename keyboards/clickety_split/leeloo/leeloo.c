@@ -17,6 +17,16 @@
 
 #include "leeloo.h"
 
+#ifdef CONVERT_TO_KB2040
+// Pro Micro names must be the KB2040 GPIO at that socket position.
+// platforms/chibios/converters/promicro_to_kb2040/_pin_defs.h
+_Static_assert(C6 == 5 && D7 == 6 && E6 == 7 && B4 == 8 && B5 == 9, "KB2040 row pins");
+_Static_assert(F6 == 27 && F7 == 26 && B1 == 18 && B3 == 20 && B2 == 19 && B6 == 10, "KB2040 column pins");
+_Static_assert(D2 == 1, "KB2040 split serial pin");
+_Static_assert(D1 == 2 && D0 == 3, "KB2040 OLED I2C pins");
+_Static_assert(F5 == 28 && F4 == 29, "KB2040 encoder pins");
+#endif
+
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_kb(oled_rotation_t rotation) {
     if (!is_keyboard_master()) {
