@@ -179,7 +179,7 @@ enum planck_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* MIT Layout (COLEMAKH-DH)
  * .-----------------------------------------.                                      .-----------------------------------------.
- * |NON-US#| F1 -F12- F2 |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  |  F10  |QWERTY|
+ * |NON-US#|  1   |  2   |  3   |  4   |  5   |                                      |  6   |  7   |  8   |  9   |  0    |QWERTY|
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |HYP,ESC| Q   |  W   |  F   |  P   |  B   |                                      |  J   |  L   |  U   |  Y   |  ;   | BSPC |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
@@ -192,7 +192,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                      `-------------------------'                            '--------------------------'
  */
   [_COLEMAKDH] = LAYOUT(
-  KC_NUHS,  KC_F1,    KC_F2,  KC_F3,     KC_F4,     KC_F5,                               KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,   QWERTY,
+  KC_NUHS,  KC_1,     KC_2,   KC_3,      KC_4,      KC_5,                                KC_6,    KC_7,    KC_8,    KC_9,   KC_0,     QWERTY,
   HYPERESC, KC_Q,     KC_W,   KC_F,      KC_P,      KC_B,                                KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN,  KC_BSPC,
   CO_TAB,   FN_A,     KC_R,   KC_S,      KC_T,      KC_G,                                KC_M,    KC_N,    KC_E,    KC_I,   KC_O,     MTRCTLQUO,
   KC_LSFT,  MTLALT_Z, KC_X,   KC_C,      KC_D,      KC_V,   C(A(G(KC_M))),     ALT_GRV, KC_K,    KC_H,    KC_COMM, KC_DOT, ALT_SLSH, MTRSFTBSLS,
@@ -201,7 +201,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* MIT Layout (QWERTY)
  * .-----------------------------------------.                                      .-----------------------------------------.
- * |NON-US#| F1 -F12- F2 |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  |  F10  |CANARY|
+ * |NON-US#|  1   |  2   |  3   |  4   |  5   |                                      |  6   |  7   |  8   |  9   |  0    |CANARY|
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |HYP,ESC| Q   |  W   |  E   |  R   |  T   |                                      |  Y   |  U   |  I   |  O   |  P   | BSPC |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
@@ -214,7 +214,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                      `-------------------------'                           '-------------------------'
  */
   [_QWERTY] = LAYOUT(
-  KC_NUHS,  KC_F1,    KC_F2,  KC_F3,     KC_F4,     KC_F5,                                KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  CANARY,
+  KC_NUHS,  KC_1,     KC_2,   KC_3,      KC_4,      KC_5,                                 KC_6,    KC_7,    KC_8,    KC_9,   KC_0,    CANARY,
   HYPERESC, KC_Q,     KC_W,   KC_E,      KC_R,      KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,     KC_BSPC,
   CO_TAB,   FN_A,     KC_S,   KC_D,      KC_F,      KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN,  MTRCTLQUO,
   KC_LSFT,  MTLALT_Z, KC_X,   KC_C,      KC_V,      KC_B,   C(A(G(KC_M))),     ALT_GRV,  KC_N,    KC_M,    KC_COMM, KC_DOT, ALT_SLSH, MTRSFTBSLS,
@@ -222,7 +222,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 /* MIT Layout (CANARY)
  * .-----------------------------------------.                                      .-----------------------------------------.          Slightly modified: Q and W swap
- * |NON-US#| F1 -F12- F2 |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  |  F10  |COLEMAKDH|
+ * |NON-US#|  1   |  2   |  3   |  4   |  5   |                                      |  6   |  7   |  8   |  9   |  0    |COLEMAKDH|
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * |HYP,ESC|  Q   |  L   |  Y   |  P   |  B   |                                      |  Z   |  F   |  O   |  U   |  ;   | BSPC |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
@@ -235,7 +235,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                      `-------------------------'                           '-------------------------'
  */
   [_CANARY] = LAYOUT(
-  KC_NUHS,  KC_F1,    KC_F2,  KC_F3,     KC_F4,     KC_F5,                                KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  COLEMAKDH,
+  KC_NUHS,  KC_1,     KC_2,   KC_3,      KC_4,      KC_5,                                 KC_6,    KC_7,    KC_8,    KC_9,   KC_0,    COLEMAKDH,
   HYPERESC, KC_Q,     KC_L,   KC_Y,      KC_P,      KC_B,                                KC_Z,    KC_F,    KC_O,    KC_U,   KC_SCLN,  KC_BSPC,
   CO_TAB,   FN_C,     KC_R,   KC_S,      KC_T,      KC_G,                                KC_M,    KC_N,    KC_E,    KC_I,   KC_A,     MTRCTLQUO,
   KC_LSFT,  MTLALT_W, KC_J,   KC_V,      KC_D,      KC_K,   C(A(G(KC_M))),     ALT_GRV,  KC_X,    KC_H,    KC_COMM, KC_DOT, ALT_SLSH, MTRSFTBSLS,
@@ -246,7 +246,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* MIT Layout (LOWER) // couldn't get mod-tap to work with LPRN and RPRN
  * .-----------------------------------------.                                      .-----------------------------------------.
- * |NON-US#|  1  |  2   |  3   |  4   |  5   |                                      |  6   |  7   |  8   |  9   |  0   |LLOCK |
+ * |NON-US#|  F1 |  F2  |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  |  F10 |LLOCK |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
 *  |  `   |  !   |  <   |  >   |  =   |  ^   |                                      |   *  |   7  |   8  |   9  |   :  | Bsp  |
  * |------+------+------+------+-------------|                                      |------+------+------+------+------+------|
@@ -259,7 +259,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                      `-------------------------'                            '-------------------------'
  */
   [_LOWER] = LAYOUT(
-  KC_NUHS,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                KC_6,      KC_7,   KC_8,  KC_9,  KC_0,    LLOCK,
+  KC_NUHS,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                               KC_F6,     KC_F7,  KC_F8, KC_F9, KC_F10,  LLOCK,
   KC_TILD,   KC_EXLM, KC_LABK, KC_RABK, KC_EQL,  KC_CIRC,                             KC_ASTR,   KC_7,   KC_8,  KC_9,  KC_COLN, KC_BSPC,
   S(KC_TAB), KC_HASH, MTLALT_LRBC, MTLSFT_LPRN, MTLGUI_RPRN, MTLCTL_RBRC,             KC_AMPR,   KC_4,   KC_5,  KC_6,  KC_PMNS, KC_PPLS,
   KC_LSFT,   KC_AT,   KC_DLR,  KC_LCBR, KC_RCBR, KC_PERC, C(A(KC_Q)),        KC_TILD, KC_0,      KC_1,   KC_2,  KC_3,  KC_PSLS, KC_PIPE,
@@ -267,7 +267,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 /* MIT Layout (RAISE)
  * .-----------------------------------------.                                      .-----------------------------------------.
- * | MAC  |  1   |  2   |  3   |  4   |  5   |                                      |  6   |  7   |  8   |  9   |  0   |LLOCK |
+ * | MAC  |  F1  |  F2  |  F3  |  F4  |  F5  |                                      |  F6  |  F7  |  F8  |  F9  |  F10 |LLOCK |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
  * | WIN  |  Mb3 |  Mb2 | MsUp |  Mb1 |      |                                      | Mute |  Mb1 | Mb3 | Mb2  |  Mb3 | Bksp |
  * |------+------+------+------+------+------|                                      |------+------+------+------+------+------|
@@ -282,7 +282,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * OS '[' / OS ']' / OS ENT are Cmd on Mac and Ctrl on Windows.
  */
   [_RAISE] = LAYOUT(
-  CG_NORM, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                   KC_6,    KC_7,    KC_8,    KC_9,       KC_0,       LLOCK,
+  CG_NORM, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                  KC_F6,   KC_F7,   KC_F8,   KC_F9,      KC_F10,     LLOCK,
   CG_SWAP, KC_BTN3, KC_BTN2, KC_MS_U, KC_BTN1, _____,                                  KC_MUTE, KC_BTN1, KC_BTN3, KC_BTN2,    KC_BTN3,    KC_BSPC,
   _____,   _____,   KC_MS_L, KC_MS_D, KC_MS_R, _____,                                  KC_VOLU, SELPART, SELWORD, OS_LBRC,    OS_RBRC,    _____,
   _____,   KC_MS_L, KC_MS_U, KC_MS_D, KC_MS_R, _____,   ZOOM_RESET,           _____,   KC_VOLD, BRACES2, BRACES,  ARROW,      _____,      _____,
