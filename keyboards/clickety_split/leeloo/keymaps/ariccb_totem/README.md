@@ -1,6 +1,6 @@
 # ariccb_totem
 
-Firmware size: 27796 / 28672 bytes (876 free) on the Pro Micro.
+Firmware size: 27876 / 28672 bytes (796 free) on the Pro Micro.
 
 Totem layout on the Leeloo, so the Totem can be practiced before it arrives.
 Source is `ariccb/zmk-config-totem` master (Colemak port and the Raise

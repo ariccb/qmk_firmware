@@ -30,6 +30,7 @@ LTO_ENABLE = yes			# Enable help with smaller firmware size
 
 SRC += features/select_word.c
 SRC += features/layer_lock.c
+SRC += chatter_guard.c
 
 EXTRAFLAGS += -flto
 # SRC += features/caps_word.c

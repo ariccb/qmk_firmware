@@ -12,6 +12,7 @@
 
 #include QMK_KEYBOARD_H
 #include "send_string.h"
+#include "chatter_guard.h"
 
 #include "features/adaptive_keys.h"
 #include "features/hold_tap.h"
@@ -557,6 +558,10 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // W is a plain key. S is a hold-tap and is checked in emit_tap.
+    if (record->event.pressed && chatter_should_drop(keycode, record->event.time)) {
+        return false;
+    }
     if (hold_tap_process(keycode, record)) {
         return false;
     }

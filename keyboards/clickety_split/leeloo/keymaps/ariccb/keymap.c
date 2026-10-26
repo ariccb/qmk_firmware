@@ -16,6 +16,7 @@
  */
 
 #include QMK_KEYBOARD_H
+#include "chatter_guard.h"
 #include <stdio.h>
 
 // #include "ps2_mouse.h"
@@ -478,19 +479,9 @@ void super_app_tab_stop(void) {
     }
 }
 
-// S is a plain key. Chatter longer than DEBOUNCE (5 ms) was a second press,
-// which showed up as a trailing "ss". A deliberate same-finger ss is slower.
-static uint16_t last_s_press;
-static bool     have_s_press;
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (keycode == KC_S && record->event.pressed) {
-        if (have_s_press && TIMER_DIFF_16(record->event.time, last_s_press) < 40) {
-            last_s_press = record->event.time;
-            return false;
-        }
-        have_s_press = true;
-        last_s_press = record->event.time;
+    if (record->event.pressed && chatter_should_drop(keycode, record->event.time)) {
+        return false;
     }
 #ifdef OLED_ENABLE
     navi_process_record(keycode, record);

@@ -19,6 +19,7 @@ LTO_ENABLE = yes
 
 SRC += features/adaptive_keys.c
 SRC += features/hold_tap.c
+SRC += chatter_guard.c
 
 # Adafruit KB2040 in the Pro Micro sockets. Omit CONVERT_TO for the Pro Micro.
 # qmk compile -kb clickety_split/leeloo -km ariccb_totem -e CONVERT_TO=kb2040
