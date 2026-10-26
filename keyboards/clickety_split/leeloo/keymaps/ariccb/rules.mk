@@ -47,4 +47,14 @@ ifeq ($(strip $(CONVERT_TO)), kb2040)
     OLED_ENABLE = yes
     # Autocorrect did not fit in the ATmega32U4 image.
     SRC += features/autocorrection.c
+    # HELL0 NAVI (druotoni). navi_font.c is pulled in by OLED_FONT_H.
+    SRC += navi/boot.c
+    SRC += navi/burst.c
+    SRC += navi/draw_helper.c
+    SRC += navi/fast_random.c
+    SRC += navi/gui_state.c
+    SRC += navi/layer_frame.c
+    SRC += navi/navi_logo.c
+    SRC += navi/ring.c
+    SRC += navi/oled_navi.c
 endif

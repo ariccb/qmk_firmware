@@ -10,6 +10,8 @@ The UF2 is `clickety_split_leeloo_rev1_ariccb_kb2040.uf2`. Flash that same file 
 
 Compared with the Pro Micro image, this build also turns on autocorrect and the 128x32 OLEDs. Those were left off the Pro Micro because of flash size. A fresh KB2040 has empty flash storage, so it boots in Windows mode until you pick Mac or Windows on the keyboard. It does not copy the Pro Micro's EEPROM.
 
+The OLEDs run the HELL0 NAVI animation by Nicolas Druoton (druotoni), from the Lily58 keymap, drawn vertically on the 0.91" panels. One UF2 covers both halves. The left half (the one with USB, `MASTER_LEFT`) shows the scope: burst, WPM, and a three-letter layer name (`CDH`, `QWE`, `CAN`, `LOW`, `RSE`, `ADJ`). The right half shows the ring for the last basic key. Esc, Space, and Enter play a short center animation. Each half draws its own screen, and the USB half sends the keycode across the TRRS link, so both halves need this UF2 or the right ring stays on its boot animation. On power-up each screen plays the boot sequence (about seven seconds, cancelled by a key). After a few seconds idle the art glitches, then runs the shutdown animation and the panel turns off. The next key wakes it, boot sequence included.
+
 ## First flash
 
 1. Hold the KB2040 **BOOT** button.

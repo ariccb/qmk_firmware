@@ -25,6 +25,9 @@
 #include "features/adaptive_keys.h"
 #include "features/layer_lock.h"
 #include "features/os_mode.h"
+#ifdef OLED_ENABLE
+#include "navi/oled_navi.h"
+#endif
 
 /*
  * Mac / Windows mode follows the Raise-layer Ctrl/Cmd swap and persists in
@@ -98,6 +101,10 @@ void lgui_rprn_reset(qk_tap_dance_state_t *state, void *user_data);
 // Layer names don't all need to be of the same length, obviously, and you can also skiep them
 // entirely and just use numbers.
 enum layer_names { _COLEMAKDH, _QWERTY, _CANARY, _LOWER, _RAISE, _ADJUST };
+#ifdef OLED_ENABLE
+// navi/layer_frame.c labels these numbers CDH QWE CAN LOW RSE ADJ.
+_Static_assert(_COLEMAKDH == 0 && _QWERTY == 1 && _CANARY == 2 && _LOWER == 3 && _RAISE == 4 && _ADJUST == 5, "navi layer map");
+#endif
 
 #define XXXXX KC_NO
 #define _____ KC_TRNS
@@ -472,6 +479,9 @@ void super_app_tab_stop(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+#ifdef OLED_ENABLE
+    navi_process_record(keycode, record);
+#endif
 #ifdef CONVERT_TO_KB2040
     if (!process_autocorrection(keycode, record)) {
         return false;
@@ -1189,40 +1199,3 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     }
 }
 
-#ifdef OLED_ENABLE
-// Stock leeloo.c names layers 0-3. This keymap's layers are not those numbers.
-bool oled_task_user(void) {
-    oled_write_P(PSTR("KB2040 "), false);
-    oled_write_P(is_keyboard_left() ? PSTR("Left ") : PSTR("Right"), false);
-    oled_write_ln_P(is_keyboard_master() ? PSTR(" USB") : PSTR(" link"), false);
-
-    switch (get_highest_layer(default_layer_state)) {
-        case _QWERTY:
-            oled_write_ln_P(PSTR("QWERTY"), false);
-            break;
-        case _CANARY:
-            oled_write_ln_P(PSTR("Canary"), false);
-            break;
-        default:
-            oled_write_ln_P(PSTR("Colemak-DH"), false);
-            break;
-    }
-
-    switch (get_highest_layer(layer_state)) {
-        case _LOWER:
-            oled_write_P(PSTR("Lower "), false);
-            break;
-        case _RAISE:
-            oled_write_P(PSTR("Raise "), false);
-            break;
-        case _ADJUST:
-            oled_write_P(PSTR("Adjust "), false);
-            break;
-        default:
-            oled_write_P(PSTR("Base "), false);
-            break;
-    }
-    oled_write_ln_P(is_mac() ? PSTR("Mac") : PSTR("Win"), false);
-    return false;
-}
-#endif
