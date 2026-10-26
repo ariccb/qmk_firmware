@@ -50,8 +50,8 @@
 #endif //!NO_PRINT
 
 #define LAYER_LOCK_IDLE_TIMEOUT 120000 // Turn off layer lock after 120 seconds
+// Chord both Shift keys. Double-tap Shift was turning Caps Word on by accident.
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
-#define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
 
 //for standard non-kinetic mouse-keys mode
 //#define MOUSEKEY_INTERVAL 8                     //Time between cursor movements in milliseconds.

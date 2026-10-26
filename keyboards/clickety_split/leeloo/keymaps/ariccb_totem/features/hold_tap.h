@@ -74,7 +74,13 @@ enum totem_keycodes {
     TO_BASE,
     TO_QWERTY,
     TO_CANARY,
-    REPEAT_K
+    REPEAT_K,
+    OS_TAB_PREV,
+    OS_TAB_NEXT,
+    OS_APPS,
+    OS_SWITCH,
+    OS_ENT,
+    NEXT_SENTENCE
 };
 
 #define TH_COUNT (TH_KC_TADJ - TH_KC_PINKY + 1)

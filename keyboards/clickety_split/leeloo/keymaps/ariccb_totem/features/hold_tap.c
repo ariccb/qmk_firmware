@@ -240,8 +240,25 @@ void hold_tap_repeat(void) {
     }
 }
 
+// S is a home-row hold-tap, so a bounce never arrives as KC_S in
+// process_record_user. Drop a second tap inside 40 ms. Intentional ss
+// (pass, miss) is a slower second stroke. Adaptive rules that replace
+// some other letter with one S do not come through here as the S key.
+static uint16_t last_s_tap;
+static bool     have_s_tap;
+
 static void emit_tap(uint8_t id) {
     uint16_t kc = tap_keycode(id);
+    if (kc == KC_S) {
+        uint16_t now = timer_read();
+        if (have_s_tap && TIMER_DIFF_16(now, last_s_tap) < 40) {
+            last_s_tap   = now;
+            st[id].phase = st[id].down ? PH_GHOST : PH_IDLE;
+            return;
+        }
+        have_s_tap = true;
+        last_s_tap = now;
+    }
     st[id].was_tap = true;
     st[id].tap_kc  = kc;
 

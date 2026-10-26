@@ -30,6 +30,8 @@
 #endif
 
 #define CAPS_WORD_IDLE_TIMEOUT 5000
+// Same chord as the daily ariccb keymap. S+E remains as the Totem combo.
+#define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 
 // Same kinetic mouse as the Leeloo ariccb keymap.
 #define MK_KINETIC_SPEED
