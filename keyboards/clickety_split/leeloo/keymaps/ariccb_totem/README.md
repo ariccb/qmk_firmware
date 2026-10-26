@@ -138,7 +138,7 @@ The KB2040 image is not the diagram above. It follows current Totem: Lower, Rais
 Thumbs, left to right, tap / hold:
 
 - Enter / Cmd
-- Backspace / Lower
+- next sentence / Lower (period, space, one-shot Shift)
 - Tab / Cmd+Alt
 - grave (no hold)
 - Space / Lower
@@ -146,11 +146,11 @@ Thumbs, left to right, tap / hold:
 
 Colemak Y and semicolon, held together, send Backspace and keep deleting until either key is released. U+Y is still dash.
 
-Lower's right hand is `*789+`, `&456-`, `~123/|`. Its right thumbs are next sentence (period, space, one-shot Shift), period, and 0. The left hand is Totem's symbol block, not the old mouse block.
+Lower's right hand is `*789+`, `&456-`, `0123/|`. Tilde sits on the inner right thumb. The other two right thumbs are transparent. The left hand is Totem's symbol block, not the old mouse block.
 
 Raise's left hand is the mouse (scroll and buttons on the top row, move keys on the bottom). The right hand is volume on J and L, speaker mute on U, and Y does nothing. The home row is mic mute, previous track, play/pause, next track. The far-left thumb is Cmd+Enter on Mac and Ctrl+Enter on Windows.
 
-Nav shifts F1–F4 one key right (Z is empty, X–V are F1–F4, F5–F8 and F9–F12 fill the rows above). Previous and next tab sit beside the arrows and send Ctrl+Shift+Tab and Ctrl+Tab on both Mac and Windows, so Windows mode does not turn them into Win+Tab. Back and Forward are under those tab keys. The left thumbs are app windows, Space, and the app switcher (Cmd+Tab held on Mac, Alt+Tab held on Windows). L+U+Y latches Nav. Releasing the pinky's Nav hold can also clear that latch, because QMK layers are not refcounted.
+Nav shifts F1–F4 one key right (Z is empty, X–V are F1–F4, F5–F8 and F9–F12 fill the rows above). Previous and next tab sit beside the arrows and send Ctrl+Shift+Tab and Ctrl+Tab on both Mac and Windows, so Windows mode does not turn them into Win+Tab. Back and Forward are under those tab keys. The left thumbs are app windows, Space, and the app switcher (Cmd+Tab held on Mac, Alt+Tab held on Windows). The right thumbs are Enter, Backspace, and period. L+U+Y latches Nav. Releasing the pinky's Nav hold can also clear that latch, because QMK layers are not refcounted.
 
 Caps Word is both Shift keys held together, same as the daily keymap. S+E still toggles it, which is the Totem combo. Double-tap Shift does not.
 
