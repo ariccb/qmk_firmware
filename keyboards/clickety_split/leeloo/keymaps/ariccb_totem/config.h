@@ -6,6 +6,11 @@
 
 #define MASTER_LEFT
 
+// rev1 sets DEBOUNCE 5. sym_defer_g waits this long for a stable matrix.
+// First step in the 6–10 ms band for double strikes. The S/W chatter guard stays.
+#undef DEBOUNCE
+#define DEBOUNCE 8
+
 // Combos are positional on the Colemak layer, including while QWERTY or
 // Canary is the default layer. Alpha combos are gated in combo_should_trigger.
 #define COMBO_ONLY_FROM_LAYER 0

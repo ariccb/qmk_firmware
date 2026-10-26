@@ -22,6 +22,11 @@
 // #define MASTER_RIGHT
 // #define EE_HANDS
 
+// rev1 sets DEBOUNCE 5. sym_defer_g waits this long for a stable matrix.
+// First step in the 6–10 ms band for double strikes. The S/W chatter guard stays.
+#undef DEBOUNCE
+#define DEBOUNCE 8
+
 #define COMBO_ONLY_FROM_LAYER 0  // Commented out to allow combos on all layers
 #define COMBO_TERM (TAPPING_TERM/5)
 #define ADAPTIVE_TERM 350
