@@ -1,6 +1,6 @@
 # ariccb_totem
 
-Firmware size: 27876 / 28672 bytes (796 free) on the Pro Micro.
+Firmware size: 27892 / 28672 bytes (780 free) on the Pro Micro.
 
 Totem layout on the Leeloo, so the Totem can be practiced before it arrives.
 Source is `ariccb/zmk-config-totem` master (Colemak port and the Raise
@@ -138,11 +138,13 @@ The KB2040 image is not the diagram above. It follows current Totem: Lower, Rais
 Thumbs, left to right, tap / hold:
 
 - Enter / Cmd
-- Space / Lower
+- Backspace / Lower
 - Tab / Cmd+Alt
 - grave (no hold)
-- Backspace / Lower
+- Space / Lower
 - Delete / Raise
+
+Colemak Y and semicolon, held together, send Backspace and keep deleting until either key is released. U+Y is still dash.
 
 Lower's right hand is `*789+`, `&456-`, `~123/|`. Its right thumbs are next sentence (period, space, one-shot Shift), period, and 0. The left hand is Totem's symbol block, not the old mouse block.
 

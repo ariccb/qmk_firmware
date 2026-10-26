@@ -37,6 +37,7 @@ enum combo_events {
     CMB_QUES,
     CMB_UNDS,
     CMB_DASH,
+    CMB_BSPC,
     CMB_EQL,
     CMB_AT,
     CMB_QUOTES,
@@ -75,6 +76,7 @@ const uint16_t PROGMEM c_selall[]   = {KC_Z, KC_D, COMBO_END};
 const uint16_t PROGMEM c_ques[]     = {KC_DOT, KC_SLSH, COMBO_END};
 const uint16_t PROGMEM c_unds[]     = {KC_COMM, KC_DOT, COMBO_END};
 const uint16_t PROGMEM c_dash[]     = {KC_U, KC_Y, COMBO_END};
+const uint16_t PROGMEM c_bspc[]     = {KC_Y, KC_SCLN, COMBO_END};
 const uint16_t PROGMEM c_eql[]      = {TH_KC_RMID, TH_KC_RRING, COMBO_END};
 const uint16_t PROGMEM c_at[]       = {TH_KC_LIDX, TH_KC_LIN, COMBO_END};
 const uint16_t PROGMEM c_quotes[]   = {KC_H, KC_COMM, COMBO_END};
@@ -110,6 +112,7 @@ combo_t key_combos[] = {
     [CMB_QUES]        = COMBO(c_ques, KC_QUES),
     [CMB_UNDS]        = COMBO(c_unds, KC_UNDS),
     [CMB_DASH]        = COMBO(c_dash, KC_MINS),
+    [CMB_BSPC]        = COMBO(c_bspc, KC_BSPC),
     [CMB_EQL]         = COMBO(c_eql, KC_EQL),
     [CMB_AT]          = COMBO(c_at, KC_AT),
     [CMB_QUOTES]      = COMBO_ACTION(c_quotes),
@@ -139,11 +142,11 @@ combo_t key_combos[] = {
 
 #ifdef CONVERT_TO_KB2040
 // Momentary thumbs. Release returns to the base layer. Tapping term is 200 ms.
-// Right side matches Totem: plain grave, Backspace/Lower, Delete/Raise.
+// Space is the right middle thumb. Backspace is the left middle thumb.
 #    define TH_ENT MT(MOD_LGUI, KC_ENT)              // Enter, hold Cmd
-#    define TH_SPC LT(L_LOWER, KC_SPC)               // Space, hold Lower
-#    define TH_TAB MT(MOD_LGUI | MOD_LALT, KC_TAB)   // Tab, hold Cmd+Alt
 #    define TH_BSPC LT(L_LOWER, KC_BSPC)             // Backspace, hold Lower
+#    define TH_TAB MT(MOD_LGUI | MOD_LALT, KC_TAB)   // Tab, hold Cmd+Alt
+#    define TH_SPC LT(L_LOWER, KC_SPC)               // Space, hold Lower
 #    define TH_DEL LT(L_RAISE, KC_DEL)               // Delete, hold Raise
 #endif
 
@@ -152,28 +155,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Totem master (Colemak port + Raise mouse/media). Keys the Totem
      * does not have stay KC_NO: the encoder beside V, the outer right
      * thumb, and the outer columns. The key beside K stays Enter.
-     * Thumbs, left to right: Enter/Cmd, Space/Lower, Tab/Cmd+Alt,
-     * grave, Backspace/Lower, Delete/Raise. */
+     * Thumbs, left to right: Enter/Cmd, Backspace/Lower, Tab/Cmd+Alt,
+     * grave, Space/Lower, Delete/Raise. */
     [L_BASE] = LAYOUT(
         XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
         XXX, KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_SCLN, XXX,
         XXX, TH_KC_PINKY, TH_KC_LRING, TH_KC_LMID, TH_KC_LIDX, TH_KC_LIN, TH_KC_RIN, TH_KC_RIDX, TH_KC_RMID, TH_KC_RRING, KC_O, XXX,
         TH_KC_HESC, KC_Z, KC_X, KC_C, KC_D, KC_V, XXX, KC_ENT, KC_K, KC_H, KC_COMM, KC_DOT, KC_SLSH, TH_KC_HBSP,
-        XXX, TH_ENT, TH_SPC, TH_TAB, KC_GRV, TH_BSPC, TH_DEL, XXX),
+        XXX, TH_ENT, TH_BSPC, TH_TAB, KC_GRV, TH_SPC, TH_DEL, XXX),
 
     [L_QWERTY] = LAYOUT(
         XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
         XXX, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, XXX,
         XXX, TH_KC_PINKY, TH_KC_LRING, TH_KC_LMID, TH_KC_LIDX, TH_KC_LIN, TH_KC_RIN, TH_KC_RIDX, TH_KC_RMID, TH_KC_RRING, KC_SCLN, XXX,
         TH_KC_HESC, KC_Z, KC_X, KC_C, KC_V, KC_B, XXX, KC_ENT, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, TH_KC_HBSP,
-        XXX, TH_ENT, TH_SPC, TH_TAB, KC_GRV, TH_BSPC, TH_DEL, XXX),
+        XXX, TH_ENT, TH_BSPC, TH_TAB, KC_GRV, TH_SPC, TH_DEL, XXX),
 
     [L_CANARY] = LAYOUT(
         XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
         XXX, KC_Q, KC_L, KC_Y, KC_P, KC_B, KC_Z, KC_F, KC_O, KC_U, KC_SCLN, XXX,
         XXX, TH_KC_PINKY, TH_KC_LRING, TH_KC_LMID, TH_KC_LIDX, TH_KC_LIN, TH_KC_RIN, TH_KC_RIDX, TH_KC_RMID, TH_KC_RRING, KC_A, XXX,
         TH_KC_HESC, KC_W, KC_J, KC_V, KC_D, KC_K, XXX, KC_ENT, KC_X, KC_H, KC_COMM, KC_DOT, KC_SLSH, TH_KC_HBSP,
-        XXX, TH_ENT, TH_SPC, TH_TAB, KC_GRV, TH_BSPC, TH_DEL, XXX),
+        XXX, TH_ENT, TH_BSPC, TH_TAB, KC_GRV, TH_SPC, TH_DEL, XXX),
 
     /* Left symbols keep Totem's inner-column order. Right hand is
      * *789+ / &456- / ~123/|. Thumbs: grave, Shift-Tab, transparent,
