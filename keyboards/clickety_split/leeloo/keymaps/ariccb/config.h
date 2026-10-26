@@ -22,6 +22,11 @@
 // #define MASTER_RIGHT
 // #define EE_HANDS
 
+// rev1 sets DEBOUNCE 5. sym_defer_g waits this long for a stable matrix.
+// First step in the 6–10 ms band for double strikes. The S/W chatter guard stays.
+#undef DEBOUNCE
+#define DEBOUNCE 8
+
 #define COMBO_ONLY_FROM_LAYER 0  // Commented out to allow combos on all layers
 #define COMBO_TERM (TAPPING_TERM/5)
 #define ADAPTIVE_TERM 350
@@ -50,8 +55,8 @@
 #endif //!NO_PRINT
 
 #define LAYER_LOCK_IDLE_TIMEOUT 120000 // Turn off layer lock after 120 seconds
+// Chord both Shift keys. Double-tap Shift was turning Caps Word on by accident.
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
-#define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
 
 //for standard non-kinetic mouse-keys mode
 //#define MOUSEKEY_INTERVAL 8                     //Time between cursor movements in milliseconds.
@@ -79,3 +84,14 @@
 
 #define ENCODER_RESOLUTIONS {2}
 #define DISABLE_LEADER
+
+#ifdef OLED_ENABLE
+// HELL0 NAVI, KB2040 only. Nicolas Druoton (druotoni), Lily58 keymap.
+#define WITH_GLITCH
+#define WITH_BOOT
+#define SPLIT_TRANSACTION_IDS_USER USER_SYNC_A
+#undef OLED_FONT_H
+#define OLED_FONT_H "navi/navi_font.c"
+#undef OLED_FONT_END
+#define OLED_FONT_END 125
+#endif

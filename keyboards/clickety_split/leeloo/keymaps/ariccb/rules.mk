@@ -30,6 +30,7 @@ LTO_ENABLE = yes			# Enable help with smaller firmware size
 
 SRC += features/select_word.c
 SRC += features/layer_lock.c
+SRC += chatter_guard.c
 
 EXTRAFLAGS += -flto
 # SRC += features/caps_word.c
@@ -37,3 +38,24 @@ EXTRAFLAGS += -flto
 
 # Making Apple Globe (Fn) Key work
 KEYBOARD_SHARED_EP = yes
+
+# Adafruit KB2040 in the Pro Micro sockets. Omit CONVERT_TO for the Pro Micro.
+# qmk compile -kb clickety_split/leeloo -km ariccb -e CONVERT_TO=kb2040
+# The converter, included after this file, sets the RP2040, its UF2 bootloader,
+# and the PIO serial driver (half-duplex on D2).
+ifeq ($(strip $(CONVERT_TO)), kb2040)
+    SERIAL_DRIVER = vendor
+    OLED_ENABLE = yes
+    # Autocorrect did not fit in the ATmega32U4 image.
+    SRC += features/autocorrection.c
+    # HELL0 NAVI (druotoni). navi_font.c is pulled in by OLED_FONT_H.
+    SRC += navi/boot.c
+    SRC += navi/burst.c
+    SRC += navi/draw_helper.c
+    SRC += navi/fast_random.c
+    SRC += navi/gui_state.c
+    SRC += navi/layer_frame.c
+    SRC += navi/navi_logo.c
+    SRC += navi/ring.c
+    SRC += navi/oled_navi.c
+endif

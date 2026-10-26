@@ -6,6 +6,11 @@
 
 #define MASTER_LEFT
 
+// rev1 sets DEBOUNCE 5. sym_defer_g waits this long for a stable matrix.
+// First step in the 6–10 ms band for double strikes. The S/W chatter guard stays.
+#undef DEBOUNCE
+#define DEBOUNCE 8
+
 // Combos are positional on the Colemak layer, including while QWERTY or
 // Canary is the default layer. Alpha combos are gated in combo_should_trigger.
 #define COMBO_ONLY_FROM_LAYER 0
@@ -30,6 +35,8 @@
 #endif
 
 #define CAPS_WORD_IDLE_TIMEOUT 5000
+// Same chord as the daily ariccb keymap. S+E remains as the Totem combo.
+#define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 
 // Same kinetic mouse as the Leeloo ariccb keymap.
 #define MK_KINETIC_SPEED
@@ -46,3 +53,14 @@
 #define MOUSEKEY_WHEEL_DECELERATED_MOVEMENTS 8
 
 #define ENCODER_RESOLUTIONS {2}
+
+#ifdef OLED_ENABLE
+// HELL0 NAVI, KB2040 only. Nicolas Druoton (druotoni), via the ariccb port.
+#define WITH_GLITCH
+#define WITH_BOOT
+#define SPLIT_TRANSACTION_IDS_USER USER_SYNC_A
+#undef OLED_FONT_H
+#define OLED_FONT_H "navi/navi_font.c"
+#undef OLED_FONT_END
+#define OLED_FONT_END 125
+#endif

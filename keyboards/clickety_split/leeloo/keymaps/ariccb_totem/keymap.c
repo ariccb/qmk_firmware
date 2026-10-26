@@ -6,15 +6,24 @@
  *
  * Combos are positional on Colemak (COMBO_ONLY_FROM_LAYER 0) and are
  * suppressed while a momentary layer is up, except the terminal combos,
- * which fire only on Num.
+ * which fire only on Lower (Num on the Pro Micro). On the KB2040 image,
+ * L+U+Y latches Nav on every layer.
  */
 
 #include QMK_KEYBOARD_H
 #include "send_string.h"
+#include "chatter_guard.h"
 
 #include "features/adaptive_keys.h"
 #include "features/hold_tap.h"
 #include "features/os_mode.h"
+
+#ifdef OLED_ENABLE
+#    include "navi/oled_navi.h"
+#    include "navi/layer_frame.h"
+// navi/layer_frame.c labels these COL QWE CAN LOW NAV RSE SYS.
+_Static_assert(L_BASE == 0 && L_QWERTY == 1 && L_CANARY == 2 && L_LOWER == 3 && L_NAV == 4 && L_RAISE == 5 && L_SYS == 6, "navi layer map");
+#endif
 
 enum combo_events {
     CMB_UNDO,
@@ -28,6 +37,7 @@ enum combo_events {
     CMB_QUES,
     CMB_UNDS,
     CMB_DASH,
+    CMB_BSPC,
     CMB_EQL,
     CMB_AT,
     CMB_QUOTES,
@@ -66,6 +76,7 @@ const uint16_t PROGMEM c_selall[]   = {KC_Z, KC_D, COMBO_END};
 const uint16_t PROGMEM c_ques[]     = {KC_DOT, KC_SLSH, COMBO_END};
 const uint16_t PROGMEM c_unds[]     = {KC_COMM, KC_DOT, COMBO_END};
 const uint16_t PROGMEM c_dash[]     = {KC_U, KC_Y, COMBO_END};
+const uint16_t PROGMEM c_bspc[]     = {KC_Y, KC_SCLN, COMBO_END};
 const uint16_t PROGMEM c_eql[]      = {TH_KC_RMID, TH_KC_RRING, COMBO_END};
 const uint16_t PROGMEM c_at[]       = {TH_KC_LIDX, TH_KC_LIN, COMBO_END};
 const uint16_t PROGMEM c_quotes[]   = {KC_H, KC_COMM, COMBO_END};
@@ -101,11 +112,12 @@ combo_t key_combos[] = {
     [CMB_QUES]        = COMBO(c_ques, KC_QUES),
     [CMB_UNDS]        = COMBO(c_unds, KC_UNDS),
     [CMB_DASH]        = COMBO(c_dash, KC_MINS),
+    [CMB_BSPC]        = COMBO(c_bspc, KC_BSPC),
     [CMB_EQL]         = COMBO(c_eql, KC_EQL),
     [CMB_AT]          = COMBO(c_at, KC_AT),
     [CMB_QUOTES]      = COMBO_ACTION(c_quotes),
     [CMB_CAPS]        = COMBO(c_caps, CW_TOGG),
-    [CMB_NUM]         = COMBO(c_num, KC_NUM),
+    [CMB_NUM]         = COMBO_ACTION(c_num),
     [CMB_ARROW]       = COMBO_ACTION(c_arrow),
     [CMB_CONSOLE]     = COMBO_ACTION(c_console),
     [CMB_HTML_P]      = COMBO_ACTION(c_hp),
@@ -128,7 +140,84 @@ combo_t key_combos[] = {
 #define XXX KC_NO
 #define ___ KC_TRNS
 
+#ifdef CONVERT_TO_KB2040
+// Momentary thumbs. Release returns to the base layer. Tapping term is 200 ms.
+// Space is the right middle thumb. The left middle thumb taps next sentence.
+// KC_F24 is only the layer-tap slot; the tap handler sends period, space, Shift.
+#    define TH_ENT MT(MOD_LGUI, KC_ENT)              // Enter, hold Cmd
+#    define TH_SENT LT(L_LOWER, KC_F24)              // next sentence, hold Lower
+#    define TH_TAB MT(MOD_LGUI | MOD_LALT, KC_TAB)   // Tab, hold Cmd+Alt
+#    define TH_SPC LT(L_LOWER, KC_SPC)               // Space, hold Lower
+#    define TH_DEL LT(L_RAISE, KC_DEL)               // Delete, hold Raise
+#endif
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+#ifdef CONVERT_TO_KB2040
+    /* Totem master (Colemak port + Raise mouse/media). Keys the Totem
+     * does not have stay KC_NO: the encoder beside V, the outer right
+     * thumb, and the outer columns. The key beside K stays Enter.
+     * Thumbs, left to right: Enter/Cmd, next sentence/Lower, Tab/Cmd+Alt,
+     * grave, Space/Lower, Delete/Raise. */
+    [L_BASE] = LAYOUT(
+        XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
+        XXX, KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_SCLN, XXX,
+        XXX, TH_KC_PINKY, TH_KC_LRING, TH_KC_LMID, TH_KC_LIDX, TH_KC_LIN, TH_KC_RIN, TH_KC_RIDX, TH_KC_RMID, TH_KC_RRING, KC_O, XXX,
+        TH_KC_HESC, KC_Z, KC_X, KC_C, KC_D, KC_V, XXX, KC_ENT, KC_K, KC_H, KC_COMM, KC_DOT, KC_SLSH, TH_KC_HBSP,
+        XXX, TH_ENT, TH_SENT, TH_TAB, KC_GRV, TH_SPC, TH_DEL, XXX),
+
+    [L_QWERTY] = LAYOUT(
+        XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
+        XXX, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, XXX,
+        XXX, TH_KC_PINKY, TH_KC_LRING, TH_KC_LMID, TH_KC_LIDX, TH_KC_LIN, TH_KC_RIN, TH_KC_RIDX, TH_KC_RMID, TH_KC_RRING, KC_SCLN, XXX,
+        TH_KC_HESC, KC_Z, KC_X, KC_C, KC_V, KC_B, XXX, KC_ENT, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, TH_KC_HBSP,
+        XXX, TH_ENT, TH_SENT, TH_TAB, KC_GRV, TH_SPC, TH_DEL, XXX),
+
+    [L_CANARY] = LAYOUT(
+        XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
+        XXX, KC_Q, KC_L, KC_Y, KC_P, KC_B, KC_Z, KC_F, KC_O, KC_U, KC_SCLN, XXX,
+        XXX, TH_KC_PINKY, TH_KC_LRING, TH_KC_LMID, TH_KC_LIDX, TH_KC_LIN, TH_KC_RIN, TH_KC_RIDX, TH_KC_RMID, TH_KC_RRING, KC_A, XXX,
+        TH_KC_HESC, KC_W, KC_J, KC_V, KC_D, KC_K, XXX, KC_ENT, KC_X, KC_H, KC_COMM, KC_DOT, KC_SLSH, TH_KC_HBSP,
+        XXX, TH_ENT, TH_SENT, TH_TAB, KC_GRV, TH_SPC, TH_DEL, XXX),
+
+    /* Left symbols keep Totem's inner-column order. Right hand is
+     * *789+ / &456- / 0123/|. Thumbs: grave, Shift-Tab, transparent,
+     * tilde, transparent, transparent. */
+    [L_LOWER] = LAYOUT(
+        XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
+        XXX, KC_EXLM, KC_LABK, KC_RABK, KC_EQL, KC_CIRC, KC_ASTR, KC_7, KC_8, KC_9, KC_PLUS, XXX,
+        XXX, KC_HASH, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC, KC_AMPR, KC_4, KC_5, KC_6, KC_MINS, XXX,
+        KC_LSFT, KC_AT, KC_DLR, KC_LCBR, KC_RCBR, KC_PERC, XXX, KC_ENT, KC_0, KC_1, KC_2, KC_3, KC_SLSH, KC_PIPE,
+        XXX, KC_GRV, S(KC_TAB), ___, KC_TILD, ___, ___, XXX),
+
+    /* F9-F12 on the inner top columns. F1-F4 sit one key to the right
+     * of the outer pinky, so Z is blank. Prev/next tab are raw Ctrl+Tab
+     * on either OS. Outer right thumb is period. L+U+Y latches this layer. */
+    [L_NAV] = LAYOUT(
+        XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
+        XXX, XXX, KC_F9, KC_F10, KC_F11, KC_F12, C(KC_PGUP), KC_HOME, KC_UP, KC_END, XXX, XXX,
+        XXX, ___, KC_F5, KC_F6, KC_F7, KC_F8, OS_TAB_PREV, KC_LEFT, KC_DOWN, KC_RGHT, OS_TAB_NEXT, XXX,
+        ___, XXX, KC_F1, KC_F2, KC_F3, KC_F4, XXX, KC_ENT, OS_BACK, KC_PGUP, G(A(KC_DOWN)), KC_PGDN, OS_FWD, XXX,
+        XXX, OS_APPS, KC_SPC, OS_SWITCH, KC_ENT, KC_BSPC, KC_DOT, XXX),
+
+    /* Left hand is the mouse block. Y is unused. J/L/U are volume,
+     * semicolon is next track. Home row is mic mute, previous, play,
+     * next. Far-left thumb is Cmd+Enter / Ctrl+Enter. */
+    [L_RAISE] = LAYOUT(
+        XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
+        XXX, KC_WH_U, KC_BTN2, KC_MS_U, KC_BTN1, KC_BTN3, KC_VOLD, KC_VOLU, KC_MUTE, ___, KC_MNXT, XXX,
+        XXX, ___, ___, ___, ___, ___, C(A(G(KC_M))), KC_MPRV, KC_MPLY, KC_MNXT, ___, XXX,
+        KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, ___, ___, XXX, KC_ENT, XXX, OS_SELWORD, A(C(S(KC_RGHT))), OS_SELLINE, OS_BACK, OS_FWDBR,
+        XXX, OS_ENT, ___, ___, ___, KC_BSPC, KC_DEL, XXX),
+
+    /* Mac on Q, Windows on A, bootloader on the outer left pinky.
+     * Bluetooth, output toggle, and the autocorrect key are absent. */
+    [L_SYS] = LAYOUT(
+        XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
+        XXX, CG_NORM, XXX, XXX, XXX, XXX, TO_BASE, TO_QWERTY, TO_CANARY, XXX, XXX, XXX,
+        XXX, CG_SWAP, QK_RBT, XXX, XXX, XXX, OS_SAVE, OS_FIND, XXX, XXX, KC_SLEP, XXX,
+        QK_BOOT, XXX, XXX, XXX, XXX, XXX, XXX, KC_ENT, XXX, XXX, XXX, XXX, XXX, ___,
+        XXX, XXX, XXX, ___, ___, XXX, XXX, XXX),
+#else
     [L_BASE] = LAYOUT(
         XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX,
         XXX, KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_SCLN, XXX,
@@ -184,9 +273,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXX, QK_BOOT, QK_RBT, XXX, XXX, XXX, XXX, XXX, XXX, XXX, KC_SLEP, XXX,
         XXX, XXX, XXX, XXX, XXX, XXX, ___, ___, XXX, XXX, XXX, XXX, XXX, XXX,
         XXX, XXX, XXX, XXX, XXX, XXX, XXX, XXX),
+#endif
 };
 
 static uint8_t tab_mod;
+static uint8_t switch_mod;
 
 static void tap_mod(uint16_t mod, uint16_t key) {
     uint16_t swapped = keycode_config(mod);
@@ -219,6 +310,12 @@ static void tab_drop(void) {
         unregister_code(tab_mod);
         tab_mod = 0;
     }
+}
+
+static void send_next_sentence(void) {
+    tap_code(KC_DOT);
+    tap_code(KC_SPC);
+    add_oneshot_mods(MOD_LSFT);
 }
 
 /* Drop shift while a brace or snippet is typed, then put held Shift back.
@@ -375,6 +472,15 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         case CMB_TERM_NEW:
             tap_mod_shift(KC_LCTL, KC_GRV);
             break;
+        case CMB_NUM:
+#ifdef CONVERT_TO_KB2040
+            // L+U+Y latches Nav. A layer-tap release of Nav can clear it,
+            // because QMK layers are not refcounted.
+            layer_invert(L_NAV);
+#else
+            tap_code(KC_NUM);
+#endif
+            break;
     }
 }
 
@@ -383,8 +489,17 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     (void)keycode;
     (void)record;
     if (combo_index >= CMB_TERM_OPEN) {
+#ifdef CONVERT_TO_KB2040
+        return get_highest_layer(layer_state) == L_LOWER;
+#else
         return get_highest_layer(layer_state) == L_NUM;
+#endif
     }
+#ifdef CONVERT_TO_KB2040
+    if (combo_index == CMB_NUM) {
+        return true;
+    }
+#endif
     return get_highest_layer(layer_state) <= L_CANARY;
 }
 
@@ -407,8 +522,32 @@ void eeconfig_init_user(void) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+#ifdef CONVERT_TO_KB2040
+    state = update_tri_layer_state(state, L_LOWER, L_RAISE, L_SYS);
+#    ifdef OLED_ENABLE
+    update_layer_frame(state, default_layer_state);
+#    endif
+    return state;
+#else
     return update_tri_layer_state(state, L_NUM, L_SYM, L_SYS);
+#endif
 }
+
+#ifdef CONVERT_TO_KB2040
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    (void)record;
+    switch (keycode) {
+        case TH_ENT:
+        case TH_SPC:
+        case TH_TAB:
+        case TH_SENT:
+        case TH_DEL:
+            return 200;
+        default:
+            return TAPPING_TERM;
+    }
+}
+#endif
 
 bool caps_word_press_user(uint16_t keycode) {
     switch (keycode) {
@@ -440,9 +579,29 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // W is a plain key. S is a hold-tap and is checked in emit_tap.
+    if (record->event.pressed && chatter_should_drop(keycode, record->event.time)) {
+        return false;
+    }
+#ifdef OLED_ENABLE
+    navi_process_record(keycode, record);
+#endif
     if (hold_tap_process(keycode, record)) {
         return false;
     }
+#ifdef CONVERT_TO_KB2040
+    // Same 200 ms layer-tap as Space/Lower. The tap is not a basic keycode,
+    // so QMK's LT slot is KC_F24 and this handler replaces that tap.
+    if (keycode == TH_SENT) {
+        if (record->tap.count) {
+            if (record->event.pressed) {
+                send_next_sentence();
+            }
+            return false;
+        }
+        return true;
+    }
+#endif
     if (record->event.pressed) {
         hold_tap_note(keycode);
     }
@@ -538,7 +697,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case OS_SELWORD:
             if (record->event.pressed) {
-                tap_code16(A(S(KC_RGHT)));
+                if (is_mac()) {
+                    tap_code16(A(S(KC_RGHT)));
+                } else {
+                    tap_code16(C(S(KC_RGHT)));
+                }
             }
             return false;
         case OS_SELLINE:
@@ -580,6 +743,46 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tab_hold(KC_LCTL, false);
             } else {
                 tab_drop();
+            }
+            return false;
+        case OS_TAB_NEXT:
+            // Raw Ctrl. keycode_config would turn this into Win+Tab.
+            if (record->event.pressed) {
+                tap_code16(C(KC_TAB));
+            }
+            return false;
+        case OS_TAB_PREV:
+            if (record->event.pressed) {
+                tap_code16(C(S(KC_TAB)));
+            }
+            return false;
+        case OS_APPS:
+            if (record->event.pressed) {
+                if (is_mac()) {
+                    tap_code16(C(KC_DOWN));
+                } else {
+                    tap_code16(A(KC_GRV));
+                }
+            }
+            return false;
+        case OS_SWITCH:
+            if (record->event.pressed) {
+                switch_mod = is_mac() ? KC_LGUI : KC_LALT;
+                register_code(switch_mod);
+                tap_code(KC_TAB);
+            } else if (switch_mod) {
+                unregister_code(switch_mod);
+                switch_mod = 0;
+            }
+            return false;
+        case OS_ENT:
+            if (record->event.pressed) {
+                tap_mod(KC_LGUI, KC_ENT);
+            }
+            return false;
+        case NEXT_SENTENCE:
+            if (record->event.pressed) {
+                send_next_sentence();
             }
             return false;
         case BRACE_K:

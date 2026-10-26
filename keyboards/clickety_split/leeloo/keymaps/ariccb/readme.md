@@ -1,3 +1,29 @@
+# KB2040 (Adafruit RP2040)
+
+The Pro Micro build is unchanged. This image is an extra build for KB2040 controllers in the same sockets, mounted face-down the same way.
+
+```
+qmk compile -kb clickety_split/leeloo -km ariccb -e CONVERT_TO=kb2040
+```
+
+The UF2 is `clickety_split_leeloo_rev1_ariccb_kb2040.uf2`. Flash that same file to both halves. The half you plug USB into is the left half (`MASTER_LEFT`), which is how this keymap already works. The other half is the right and uses the TRRS wire. A Pro Micro and a KB2040 will not talk to each other; both halves need this UF2.
+
+Compared with the Pro Micro image, this build also turns on autocorrect and the 128x32 OLEDs. Those were left off the Pro Micro because of flash size. A fresh KB2040 has empty flash storage, so it boots in Windows mode until you pick Mac or Windows on the keyboard. It does not copy the Pro Micro's EEPROM.
+
+The OLEDs run the HELL0 NAVI animation by Nicolas Druoton (druotoni), from the Lily58 keymap, drawn vertically on the 0.91" panels. One UF2 covers both halves. The left half (the one with USB, `MASTER_LEFT`) shows the scope: burst, WPM, and a three-letter layer name (`CDH`, `QWE`, `CAN`, `LOW`, `RSE`, `ADJ`). The right half shows the ring for the last basic key. Esc, Space, and Enter play a short center animation. Each half draws its own screen, and the USB half sends the keycode across the TRRS link, so both halves need this UF2 or the right ring stays on its boot animation. On power-up each screen plays the boot sequence (about seven seconds, cancelled by a key). After a few seconds idle the art glitches, then runs the shutdown animation and the panel turns off. The next key wakes it, boot sequence included.
+
+## First flash
+
+1. Hold the KB2040 **BOOT** button.
+2. Plug in USB while holding BOOT, then release BOOT.
+3. A drive named `RPI-RP2` appears. Copy the UF2 onto it. The board reboots into the keymap.
+
+## Bootloader once it is socketed face-down
+
+BOOT faces the PCB, so use the Leeloo reset button instead. Plug USB into the half you want to flash and double-tap that half's reset button within half a second. The reset pin is the RP2040 RUN pin, and this build enters the UF2 bootloader on that double tap.
+
+If the firmware is already running, the reset combo (Backspace + the quote key + the backslash key) also opens the bootloader, but only on the half that has USB plugged in. Move the cable to flash the other half. You can leave the TRRS cable unplugged while flashing.
+
 # Clickety Split | Leeloo
 
 ![Leeloo](https://cdn.shopify.com/s/files/1/0599/3460/5491/files/Leeloo-rev1.0-w.jpg?v=1646798726)
