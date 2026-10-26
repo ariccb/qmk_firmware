@@ -18,6 +18,13 @@
 #include "features/hold_tap.h"
 #include "features/os_mode.h"
 
+#ifdef OLED_ENABLE
+#    include "navi/oled_navi.h"
+#    include "navi/layer_frame.h"
+// navi/layer_frame.c labels these COL QWE CAN LOW NAV RSE SYS.
+_Static_assert(L_BASE == 0 && L_QWERTY == 1 && L_CANARY == 2 && L_LOWER == 3 && L_NAV == 4 && L_RAISE == 5 && L_SYS == 6, "navi layer map");
+#endif
+
 enum combo_events {
     CMB_UNDO,
     CMB_REDO,
@@ -506,7 +513,11 @@ void eeconfig_init_user(void) {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
 #ifdef CONVERT_TO_KB2040
-    return update_tri_layer_state(state, L_LOWER, L_RAISE, L_SYS);
+    state = update_tri_layer_state(state, L_LOWER, L_RAISE, L_SYS);
+#    ifdef OLED_ENABLE
+    update_layer_frame(state, default_layer_state);
+#    endif
+    return state;
 #else
     return update_tri_layer_state(state, L_NUM, L_SYM, L_SYS);
 #endif
@@ -562,6 +573,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed && chatter_should_drop(keycode, record->event.time)) {
         return false;
     }
+#ifdef OLED_ENABLE
+    navi_process_record(keycode, record);
+#endif
     if (hold_tap_process(keycode, record)) {
         return false;
     }
@@ -804,43 +818,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
-
-#ifdef OLED_ENABLE
-bool oled_task_user(void) {
-    oled_write_P(PSTR("KB2040 "), false);
-    oled_write_P(is_keyboard_left() ? PSTR("Left ") : PSTR("Right"), false);
-    oled_write_ln_P(is_keyboard_master() ? PSTR(" USB") : PSTR(" link"), false);
-
-    switch (get_highest_layer(default_layer_state)) {
-        case L_QWERTY:
-            oled_write_ln_P(PSTR("QWERTY"), false);
-            break;
-        case L_CANARY:
-            oled_write_ln_P(PSTR("Canary"), false);
-            break;
-        default:
-            oled_write_ln_P(PSTR("Colemak"), false);
-            break;
-    }
-
-    switch (get_highest_layer(layer_state)) {
-        case L_LOWER:
-            oled_write_P(PSTR("Lower "), false);
-            break;
-        case L_NAV:
-            oled_write_P(PSTR("Nav "), false);
-            break;
-        case L_RAISE:
-            oled_write_P(PSTR("Raise "), false);
-            break;
-        case L_SYS:
-            oled_write_P(PSTR("System "), false);
-            break;
-        default:
-            oled_write_P(PSTR("Base "), false);
-            break;
-    }
-    oled_write_ln_P(is_mac() ? PSTR("Mac") : PSTR("Win"), false);
-    return false;
-}
-#endif

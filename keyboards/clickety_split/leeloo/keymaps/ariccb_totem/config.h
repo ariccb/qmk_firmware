@@ -53,3 +53,14 @@
 #define MOUSEKEY_WHEEL_DECELERATED_MOVEMENTS 8
 
 #define ENCODER_RESOLUTIONS {2}
+
+#ifdef OLED_ENABLE
+// HELL0 NAVI, KB2040 only. Nicolas Druoton (druotoni), via the ariccb port.
+#define WITH_GLITCH
+#define WITH_BOOT
+#define SPLIT_TRANSACTION_IDS_USER USER_SYNC_A
+#undef OLED_FONT_H
+#define OLED_FONT_H "navi/navi_font.c"
+#undef OLED_FONT_END
+#define OLED_FONT_END 125
+#endif
